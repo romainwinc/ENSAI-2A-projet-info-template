@@ -10,6 +10,7 @@ class Recette:
     """
     def __init__(self, idMeal: str, strMeal: str, strCategory: str, 
                  strArea: str, strInstructions: str, strTags: str | None,
+                 listIngredient: list[Ingredient],
                  strIngredient1: str | None, 
                  strIngredient2: str | None, 
                  strIngredient3: str | None, 
