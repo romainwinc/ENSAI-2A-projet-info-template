@@ -48,18 +48,15 @@ class Recette:
                  strMeasure16: str | None, 
                  strMeasure17: str | None, 
                  strMeasure18: str | None, 
-                 strMeasure19: str | None, 
+                 strMeasure19: str | None,
                  strMeasure20: str | None) -> None:
         
         self.idMeal = idMeal
         self.strMeal = strMeal
-        self.strDrinkAlternate = strDrinkAlternate
         self.strCategory = strCategory
         self.strArea = strArea
         self.strInstructions = strInstructions
-        self.strMealThumb = strMealThumb
         self.strTags = strTags
-        self.strYoutube = strYoutube
         self.strIngredient1 = strIngredient1
         self.strIngredient2 = strIngredient2
         self.strIngredient3 = strIngredient3
