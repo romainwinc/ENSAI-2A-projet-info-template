@@ -38,7 +38,7 @@ class Connecte(Non_connecte):
         prenom: str,
         username: str,
         password: str,
-        ingredient_favori: List[Ingredient],
+        ingredient_favori: list[Ingredient],
         recette_favorite: List[Recette],
         liste_course: List[Ingredient],
         liste_ingredient_favori: List[Ingredient],
