@@ -14,5 +14,12 @@ class Connecte(Non_connecte):
 
     def __init__(self, nom: str, password: str) -> None:
         self.nom = nom
+        prenom
+        username 
         self.password = password
+        ingredient favorfavori list
+        recette favorifavorite list
+        liste de courcours list 
+        list ingredient fav 
+        liste ingredinet non désiré  
         self.grade = 1
