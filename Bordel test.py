@@ -48,7 +48,7 @@ if response.status_code == 200:
                 """
                 CREATE TABLE IF NOT EXISTS {}.ingredients (
                     id_ingredient SERIAL PRIMARY KEY,
-                    str_ingredient TEXT UNIQUE,  -- Ajouter la contrainte UNIQUE ici
+                    str_ingredient TEXT,
                     str_description TEXT,
                     str_type TEXT
                 );
@@ -63,7 +63,7 @@ if response.status_code == 200:
                     """
                     INSERT INTO {}.ingredients (str_ingredient, str_description, str_type)
                     VALUES (%s, %s, %s)
-                    ON CONFLICT (str_ingredient) DO NOTHING;  -- Corriger ici en précisant le champ UNIQUE
+                    ON CONFLICT (str_ingredient) DO NOTHING;
                 """
                 ).format(sql.Identifier(POSTGRES_SCHEMA)),
                 (row.get("str_ingredient"), row.get("str_description"), row.get("str_type")),
