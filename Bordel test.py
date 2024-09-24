@@ -28,6 +28,7 @@ if response.status_code == 200:
     df = pd.DataFrame(ingredients)
 
     # Connexion à la base de données PostgreSQL
+    # Connexion à la base de données PostgreSQL
     try:
         conn = psycopg2.connect(
             dbname=POSTGRES_DATABASE,
@@ -41,15 +42,15 @@ if response.status_code == 200:
         # S'assurer que le schéma est correctement sélectionné
         cursor.execute(sql.SQL("SET search_path TO {};").format(sql.Identifier(POSTGRES_SCHEMA)))
 
-        # Création de la table ingredients dans le schéma spécifié
+        # Création de la table ingredients avec contrainte UNIQUE sur str_ingredient
         cursor.execute(
             sql.SQL(
                 """
                 CREATE TABLE IF NOT EXISTS {}.ingredients (
-                    idIngredient SERIAL PRIMARY KEY,
-                    strIngredient TEXT,
-                    strDescription TEXT,
-                    strType TEXT
+                    id_ingredient SERIAL PRIMARY KEY,
+                    str_ingredient TEXT UNIQUE,  -- Ajouter la contrainte UNIQUE ici
+                    str_description TEXT,
+                    str_type TEXT
                 );
             """
             ).format(sql.Identifier(POSTGRES_SCHEMA))
@@ -60,12 +61,12 @@ if response.status_code == 200:
             cursor.execute(
                 sql.SQL(
                     """
-                    INSERT INTO {}.ingredients (strIngredient, strDescription, strType)
+                    INSERT INTO {}.ingredients (str_ingredient, str_description, str_type)
                     VALUES (%s, %s, %s)
-                    ON CONFLICT DO NOTHING;
+                    ON CONFLICT (str_ingredient) DO NOTHING;  -- Corriger ici en précisant le champ UNIQUE
                 """
                 ).format(sql.Identifier(POSTGRES_SCHEMA)),
-                (row.get("strIngredient"), row.get("strDescription"), row.get("strType")),
+                (row.get("str_ingredient"), row.get("str_description"), row.get("str_type")),
             )
 
         # Valider les modifications
