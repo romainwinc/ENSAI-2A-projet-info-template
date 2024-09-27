@@ -2,13 +2,12 @@ import os
 import dotenv
 import requests
 import pandas as pd
+from datetime import date
 import psycopg2
 from psycopg2 import sql
 
-# Variables d'environnement
-
+# Charger les variables d'environnement
 dotenv.load_dotenv()
-WEBSERVICE_HOST = os.getenv("WEBSERVICE_HOST")
 POSTGRES_HOST = os.getenv("POSTGRES_HOST")
 POSTGRES_PORT = os.getenv("POSTGRES_PORT")
 POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE")
@@ -16,27 +15,19 @@ POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 POSTGRES_SCHEMA = os.getenv("POSTGRES_SCHEMA")
 
-# URL de l'API
-url = "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
-response = requests.get(url)
+# Récupération des ingrédients
+url_ingredients = "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
+response_ingredients = requests.get(url_ingredients)
 
-# Vérification si la requête a réussi
-if response.status_code == 200:
-    data = response.json()
+if response_ingredients.status_code == 200:
+    data_ingredients = response_ingredients.json()
+    ingredients = data_ingredients.get("meals", [])
 
-    # Extraire les informations des ingrédients
-    ingredients = data.get("meals", [])
-
-    # Créer une DataFrame avec les informations importantes
-    df = pd.DataFrame(ingredients)
-
-    # Connexion à la base de données PostgreSQL
-    # Connexion à la base de données PostgreSQL
-
-    cursor = None
+    # Créer une DataFrame avec les informations des ingrédients
+    df_ingredients = pd.DataFrame(ingredients)
 
     try:
-
+        # Connexion à la base de données PostgreSQL
         conn = psycopg2.connect(
             dbname=POSTGRES_DATABASE,
             user=POSTGRES_USER,
@@ -49,8 +40,8 @@ if response.status_code == 200:
         # S'assurer que le schéma est correctement sélectionné
         cursor.execute(sql.SQL("SET search_path TO {};").format(sql.Identifier(POSTGRES_SCHEMA)))
 
-        # Insérer les données dans la table en précisant le schéma
-        for _, row in df.iterrows():
+        # Insérer les données dans la table des ingrédients
+        for _, row in df_ingredients.iterrows():
             cursor.execute(
                 sql.SQL(
                     """
@@ -65,14 +56,103 @@ if response.status_code == 200:
         conn.commit()
 
     except Exception as e:
-        print(f"Erreur lors de la connexion ou de l'exécution des requêtes : {e}")
+        print(
+            f"Erreur lors de la connexion ou de l'exécution des requêtes pour les ingrédients : {e}"
+        )
 
     finally:
-        # Fermer la connexion
         if cursor:
             cursor.close()
         if conn:
             conn.close()
 
 else:
-    print("Erreur lors de la récupération des données depuis l'API")
+    print("Erreur lors de la récupération des données depuis l'API des ingrédients")
+
+# Récupération des recettes
+try:
+    conn = psycopg2.connect(
+        dbname=POSTGRES_DATABASE,
+        user=POSTGRES_USER,
+        password=POSTGRES_PASSWORD,
+        host=POSTGRES_HOST,
+        port=POSTGRES_PORT,
+    )
+    cursor = conn.cursor()
+
+    # S'assurer que le schéma est correctement sélectionné
+    cursor.execute(sql.SQL("SET search_path TO {};").format(sql.Identifier(POSTGRES_SCHEMA)))
+
+    # Boucle sur toutes les lettres de l'alphabet
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    for letter in alphabet:
+        url_recette = f"https://www.themealdb.com/api/json/v1/1/search.php?f={letter}"
+        response_recette = requests.get(url_recette)
+
+        if response_recette.status_code == 200:
+            data_recette = response_recette.json()
+            recettes = data_recette.get("meals", [])
+
+            if not recettes:
+                print(f"Aucune recette trouvée pour la lettre {letter}")
+                continue
+
+            # Créer une DataFrame avec les informations des recettes
+            df_recettes = pd.DataFrame(recettes)
+
+            # Insérer les données dans la table recette
+            for _, row in df_recettes.iterrows():
+                ingredients = []
+                measures = []
+
+                for i in range(1, 21):
+                    ingredient = row.get(f"strIngredient{i}")
+                    measure = row.get(f"strMeasure{i}")
+
+                    if ingredient:
+                        ingredients.append(ingredient)
+                    if measure:
+                        measures.append(measure)
+
+                cursor.execute(
+                    sql.SQL(
+                        """
+                        INSERT INTO {}.recette (
+                            nom_recette, categorie, origine, instructions, mots_cles,
+                            url_image, liste_ingredients, liste_mesures, nombre_avis,
+                            note_moyenne, date_derniere_modif
+                        )
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        """
+                    ).format(sql.Identifier(POSTGRES_SCHEMA)),
+                    (
+                        row.get("strMeal"),
+                        row.get("strCategory"),
+                        row.get("strArea"),
+                        row.get("strInstructions"),
+                        row.get("strTags"),
+                        row.get("strMealThumb"),
+                        ingredients,
+                        measures,
+                        0,
+                        None,
+                        date.today(),
+                    ),
+                )
+
+            # Valider les modifications pour cette lettre
+            conn.commit()
+
+        else:
+            print(
+                f"Erreur lors de la récupération des données depuis l'API pour la lettre {letter}"
+            )
+
+except Exception as e:
+    print(f"Erreur lors de la connexion ou de l'exécution des requêtes pour les recettes : {e}")
+
+finally:
+    if cursor:
+        cursor.close()
+    if conn:
+        conn.close()
