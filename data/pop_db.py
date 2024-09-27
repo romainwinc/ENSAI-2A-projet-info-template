@@ -16,9 +16,6 @@ POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 POSTGRES_SCHEMA = os.getenv("POSTGRES_SCHEMA")
 
-# URL de l'API
-url = "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
-response = requests.get(url)
 
 # Vérification si la requête a réussi
 if response.status_code == 200:
@@ -32,8 +29,11 @@ if response.status_code == 200:
 
     # Connexion à la base de données PostgreSQL
     # Connexion à la base de données PostgreSQL
+
     cursor = None
+
     try:
+
         conn = psycopg2.connect(
             dbname=POSTGRES_DATABASE,
             user=POSTGRES_USER,
@@ -42,23 +42,6 @@ if response.status_code == 200:
             port=POSTGRES_PORT,
         )
         cursor = conn.cursor()
-
-        # S'assurer que le schéma est correctement sélectionné
-        cursor.execute(sql.SQL("SET search_path TO {};").format(sql.Identifier(POSTGRES_SCHEMA)))
-
-        # Création de la table ingredients avec contrainte UNIQUE sur str_ingredient
-        cursor.execute(
-            sql.SQL(
-                """
-                CREATE TABLE IF NOT EXISTS {}.ingredients (
-                    id_ingredient SERIAL PRIMARY KEY,
-                    str_ingredient TEXT,
-                    str_description TEXT,
-                    str_type TEXT
-                    );
-                 """
-            ).format(sql.Identifier(POSTGRES_SCHEMA))
-        )
 
         # Insérer les données dans la table en précisant le schéma
         for _, row in df.iterrows():
