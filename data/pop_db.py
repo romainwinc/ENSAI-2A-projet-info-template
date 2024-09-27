@@ -16,6 +16,9 @@ POSTGRES_USER = os.getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 POSTGRES_SCHEMA = os.getenv("POSTGRES_SCHEMA")
 
+# URL de l'API
+url = "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
+response = requests.get(url)
 
 # Vérification si la requête a réussi
 if response.status_code == 200:
@@ -43,21 +46,19 @@ if response.status_code == 200:
         )
         cursor = conn.cursor()
 
+        # S'assurer que le schéma est correctement sélectionné
+        cursor.execute(sql.SQL("SET search_path TO {};").format(sql.Identifier(POSTGRES_SCHEMA)))
+
         # Insérer les données dans la table en précisant le schéma
         for _, row in df.iterrows():
             cursor.execute(
                 sql.SQL(
                     """
-                    INSERT INTO {}.ingredients (id_ingredient, str_ingredient, str_description, str_type)
-                    VALUES (%s, %s, %s, %s)
+                    INSERT INTO {}.ingredients (id_ingredient, nom_ingredient, description_ingredient)
+                    VALUES (%s, %s, %s)
                     """
                 ).format(sql.Identifier(POSTGRES_SCHEMA)),
-                (
-                    row.get("idIngredient"),
-                    row.get("strIngredient"),
-                    row.get("strDescription"),
-                    row.get("strType"),
-                ),
+                (row.get("idIngredient"), row.get("strIngredient"), row.get("strDescription")),
             )
 
         # Valider les modifications

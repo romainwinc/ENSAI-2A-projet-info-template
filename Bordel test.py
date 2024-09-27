@@ -92,3 +92,6 @@ if response.status_code == 200:
 
 else:
     print("Erreur lors de la récupération des données depuis l'API")
+
+
+[{"ingredient": Ingredient(), "quantite": "3 cuilleres"}, {}, {}]
