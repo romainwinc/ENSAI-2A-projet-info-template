@@ -1,9 +1,8 @@
 import os
 import dotenv
-import requests
-import pandas as pd
 import psycopg2
 from psycopg2 import sql
+import json  # Import nécessaire pour manipuler les données JSON
 
 # Variables d'environnement
 
@@ -17,7 +16,6 @@ POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
 POSTGRES_SCHEMA = os.getenv("POSTGRES_SCHEMA")
 
 try:
-
     conn = psycopg2.connect(
         dbname=POSTGRES_DATABASE,
         user=POSTGRES_USER,
@@ -28,21 +26,22 @@ try:
 
     cursor = conn.cursor()
 
-    # Suppression si elle existe et Création de la table ingredients avec contrainte UNIQUE sur str_ingredient
+    # Suppression de la table "ingredient" si elle existe
+    # et création avec une contrainte UNIQUE sur str_ingredient
     cursor.execute(
         sql.SQL(
             """
             DROP TABLE IF EXISTS {}.ingredient CASCADE;
             CREATE TABLE {}.ingredient (
                 id_ingredient SERIAL PRIMARY KEY,
-                str_ingredient TEXT,
+                str_ingredient TEXT UNIQUE,
                 str_description TEXT
-                );
+            );
             """
-        ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
+        ).format(sql.Identifier(POSTGRES_SCHEMA))
     )
 
-    # Suppression si elle existe et Création de la table recettes avec contrainte UNIQUE sur str_ingredient
+    # Suppression de la table "recette" si elle existe et création
     cursor.execute(
         sql.SQL(
             """
@@ -55,70 +54,130 @@ try:
                 instructions TEXT,
                 mots_cles TEXT,
                 url_image TEXT,
-                liste_ingredients TEXT[],
+                liste_ingredients INT[] REFERENCES {}.ingredient(id_ingredient),
                 liste_mesures TEXT[],
                 nombre_avis INT,
                 note_moyenne FLOAT,
                 date_derniere_modif DATE
             );
             """
+        ).format(sql.Identifier(POSTGRES_SCHEMA))
+    )
+
+    # Suppression de la table "utilisateur" si elle existe
+    # et création avec un champ historique de type JSONB
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.utilisateur CASCADE;
+            CREATE TABLE {}.utilisateur (
+                id_utilisateur SERIAL PRIMARY KEY,
+                nom_utilisateur TEXT,
+                mot_de_passe TEXT,
+                date_inscription DATE,
+                historique JSONB,  -- Stocker l'historique des consultations sous forme JSONB
+                recettes_favorites INT[] REFERENCES {}.recette(id_recette),
+                ingredients_favoris INT[] REFERENCES {}.ingredient(id_ingredient),
+                ingredients_non_desires INT[] REFERENCES {}.ingredient(id_ingredient),
+                liste_de_courses INT[] REFERENCES {}.ingredient(id_ingredient)
+            );
+            """
+        ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+        )
+    )
+
+    # Suppression de la table "avis" si elle existe et création
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.avis CASCADE;
+            CREATE TABLE {}.avis (
+                id_avis SERIAL PRIMARY KEY,
+                titre_avis TEXT,
+                nom_auteur TEXT,
+                date_publication DATE,
+                commentaire TEXT,
+                note INT
+            );
+            """
+        ).format(sql.Identifier(POSTGRES_SCHEMA))
+    )
+
+    # Suppression de la table "utilisateur_avis" si elle existe
+    # et création (relation utilisateur-avis)
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.utilisateur_avis CASCADE;
+            CREATE TABLE {}.utilisateur_avis (
+                id_utilisateur INT REFERENCES {}.utilisateur(id_utilisateur),
+                id_avis INT REFERENCES {}.avis(id_avis),
+                PRIMARY KEY (id_utilisateur, id_avis)
+            );
+            """
         ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
     )
 
-    # Valider les modifications
+    # Suppression de la table "recette_avis" si elle existe
+    #  et création (relation recette-avis)
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.recette_avis CASCADE;
+            CREATE TABLE {}.recette_avis (
+                id_recette INT REFERENCES {}.recette(id_recette),
+                id_avis INT REFERENCES {}.avis(id_avis),
+                PRIMARY KEY (id_recette, id_avis)
+            );
+            """
+        ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
+    )
+
+    # Suppression de la table "recette_ingredient" si elle existe
+    #  et création (relation recette-ingredient)
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.recette_ingredient CASCADE;
+            CREATE TABLE {}.recette_ingredient (
+                id_recette INT REFERENCES {}.recette(id_recette),
+                id_ingredient INT REFERENCES {}.avis(id_ingredient),
+                quantite TEXT,
+                PRIMARY KEY (id_recette, id_ingredient)
+            );
+            """
+        ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
+    )
+
+    # Suppression de la table "consultation" si elle existe
+    # et création pour stocker l'historique des consultations
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.consultation CASCADE;
+            CREATE TABLE {}.consultation (
+                id_recette INT REFERENCES {}.recette(id_recette),
+                id_utilisateur INT REFERENCES {}.utilisateur(id_utilisateur),
+                date_consultation DATE,
+                PRIMARY KEY (id_recette, id_utilisateur, date_consultation)
+            );
+            """
+        ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
+    )
+
+    # Valider les modifications dans la base de données
     conn.commit()
 
 except Exception as e:
     print(f"Erreur lors de la connexion ou de l'exécution des requêtes : {e}")
 
 finally:
-    # Fermer la connexion
+    # Fermer le curseur et la connexion
     if cursor:
         cursor.close()
     if conn:
         conn.close()
-
-# faire une table avec les id recettes et ingredients mesures
-# faire une table avec idd recette et l 'idee de l'avias
-# faire une table avec idée de l'avis et id de l'utilisateur
-
-# ingredient1 TEXT,
-# ingredient2 TEXT,
-# ingredient3 TEXT,
-# ingredient4 TEXT,
-# ingredient5 TEXT,
-# ingredient6 TEXT,
-# ingredient7 TEXT,
-# ingredient8 TEXT,
-# ingredient9 TEXT,
-# ingredient10 TEXT,
-# ingredient11 TEXT,
-# ingredient12 TEXT,
-# ingredient13 TEXT,
-# ingredient14 TEXT,
-# ingredient15 TEXT,
-# ingredient16 TEXT,
-# ingredient17 TEXT,
-# ingredient18 TEXT,
-# ingredient19 TEXT,
-# ingredient20 TEXT,
-# mesure1 TEXT,
-# mesure2 TEXT,
-# mesure3 TEXT,
-# mesure4 TEXT,
-# mesure5 TEXT,
-# mesure6 TEXT,
-# mesure7 TEXT,
-# mesure8 TEXT,
-# mesure9 TEXT,
-# mesure10 TEXT,
-# mesure11 TEXT,
-# mesure12 TEXT,
-# mesure13 TEXT,
-# mesure14 TEXT,
-# mesure15 TEXT,
-# mesure16 TEXT,
-# mesure17 TEXT,
-# mesure18 TEXT,
-# mesure19 TEXT,
-# mesure20 TEXT,
