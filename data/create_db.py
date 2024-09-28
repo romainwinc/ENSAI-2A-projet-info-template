@@ -26,36 +26,35 @@ try:
 
     cursor = conn.cursor()
 
-    # Suppression de la table "ingredient" si elle existe
-    # et création avec une contrainte UNIQUE sur str_ingredient
+    # Suppression si elle existe et Création de la table ingredients
+    # avec contrainte UNIQUE sur str_ingredient
     cursor.execute(
         sql.SQL(
             """
             DROP TABLE IF EXISTS {}.ingredient CASCADE;
             CREATE TABLE {}.ingredient (
                 id_ingredient SERIAL PRIMARY KEY,
-                str_ingredient TEXT UNIQUE,
-                str_description TEXT
+                str_ingredient VARCHAR(255) UNIQUE,
+                str_description VARCHAR(255)
             );
             """
         ).format(sql.Identifier(POSTGRES_SCHEMA))
     )
 
-    # Suppression de la table "recette" si elle existe et création
+    # Suppression si elle existe et Création de la table recettes
     cursor.execute(
         sql.SQL(
             """
             DROP TABLE IF EXISTS {}.recette CASCADE;
             CREATE TABLE {}.recette (
                 id_recette SERIAL PRIMARY KEY,
-                nom_recette TEXT NOT NULL,
-                categorie TEXT,
-                origine TEXT,
-                instructions TEXT,
-                mots_cles TEXT,
-                url_image TEXT,
-                liste_ingredients INT[] REFERENCES {}.ingredient(id_ingredient),
-                liste_mesures TEXT[],
+                nom_recette VARCHAR(255) NOT NULL,
+                categorie VARCHAR(255),
+                origine VARCHAR(255),
+                instructions TEXT,  -- Texte complet pour les instructions
+                mots_cles VARCHAR(255),
+                url_image VARCHAR(255),
+                liste_ingredients JSONB,  -- Stocker une liste de dictionnaires en JSONB
                 nombre_avis INT,
                 note_moyenne FLOAT,
                 date_derniere_modif DATE
@@ -64,18 +63,17 @@ try:
         ).format(sql.Identifier(POSTGRES_SCHEMA))
     )
 
-    # Suppression de la table "utilisateur" si elle existe
-    # et création avec un champ historique de type JSONB
+    # Suppression si elle existe et Création de la table utilisateur avec historique en JSONB
     cursor.execute(
         sql.SQL(
             """
             DROP TABLE IF EXISTS {}.utilisateur CASCADE;
             CREATE TABLE {}.utilisateur (
                 id_utilisateur SERIAL PRIMARY KEY,
-                nom_utilisateur TEXT,
-                mot_de_passe TEXT,
+                nom_utilisateur VARCHAR(255),
+                mot_de_passe VARCHAR(255),
                 date_inscription DATE,
-                historique JSONB,  -- Stocker l'historique des consultations sous forme JSONB
+                historique JSONB,  -- Stocker une liste de consultations en JSONB
                 recettes_favorites INT[] REFERENCES {}.recette(id_recette),
                 ingredients_favoris INT[] REFERENCES {}.ingredient(id_ingredient),
                 ingredients_non_desires INT[] REFERENCES {}.ingredient(id_ingredient),
@@ -90,25 +88,41 @@ try:
         )
     )
 
-    # Suppression de la table "avis" si elle existe et création
+    # Suppression si elle existe et Création de la table avis
     cursor.execute(
         sql.SQL(
             """
             DROP TABLE IF EXISTS {}.avis CASCADE;
             CREATE TABLE {}.avis (
                 id_avis SERIAL PRIMARY KEY,
-                titre_avis TEXT,
-                nom_auteur TEXT,
+                titre_avis VARCHAR(255),
+                nom_auteur VARCHAR(255),
                 date_publication DATE,
-                commentaire TEXT,
+                commentaire TEXT,  -- Texte complet pour le commentaire
                 note INT
             );
             """
         ).format(sql.Identifier(POSTGRES_SCHEMA))
     )
 
-    # Suppression de la table "utilisateur_avis" si elle existe
-    # et création (relation utilisateur-avis)
+    # Suppression si elle existe et Création de la table demande
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.demande CASCADE;
+            CREATE TABLE {}.demande (
+                id_demande SERIAL PRIMARY KEY,
+                id_utilisateur INT,
+                type_demande VARCHAR(255), -- Modification ou Suppression
+                attribut_modifie VARCHAR(255),
+                attribut_corrige VARCHAR(255),
+                commentaire_demande TEXT  -- Texte complet pour le commentaire de la demande
+            );
+            """
+        ).format(sql.Identifier(POSTGRES_SCHEMA))
+    )
+
+    # Suppression si elle existe et Création de la table utilisateur_avis (relation utilisateur-avis)
     cursor.execute(
         sql.SQL(
             """
@@ -122,8 +136,7 @@ try:
         ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
     )
 
-    # Suppression de la table "recette_avis" si elle existe
-    #  et création (relation recette-avis)
+    # Suppression si elle existe et Création de la table recette_avis (relation recette-avis)
     cursor.execute(
         sql.SQL(
             """
@@ -137,24 +150,7 @@ try:
         ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
     )
 
-    # Suppression de la table "recette_ingredient" si elle existe
-    #  et création (relation recette-ingredient)
-    cursor.execute(
-        sql.SQL(
-            """
-            DROP TABLE IF EXISTS {}.recette_ingredient CASCADE;
-            CREATE TABLE {}.recette_ingredient (
-                id_recette INT REFERENCES {}.recette(id_recette),
-                id_ingredient INT REFERENCES {}.avis(id_ingredient),
-                quantite TEXT,
-                PRIMARY KEY (id_recette, id_ingredient)
-            );
-            """
-        ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
-    )
-
-    # Suppression de la table "consultation" si elle existe
-    # et création pour stocker l'historique des consultations
+    # Suppression si elle existe et Création de la table consultation (historique des consultations)
     cursor.execute(
         sql.SQL(
             """
@@ -163,20 +159,20 @@ try:
                 id_recette INT REFERENCES {}.recette(id_recette),
                 id_utilisateur INT REFERENCES {}.utilisateur(id_utilisateur),
                 date_consultation DATE,
-                PRIMARY KEY (id_recette, id_utilisateur, date_consultation)
+                PRIMARY KEY (id_recette, id_utilisateur)
             );
             """
         ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
     )
 
-    # Valider les modifications dans la base de données
+    # Valider les modifications
     conn.commit()
 
 except Exception as e:
     print(f"Erreur lors de la connexion ou de l'exécution des requêtes : {e}")
 
 finally:
-    # Fermer le curseur et la connexion
+    # Fermer la connexion
     if cursor:
         cursor.close()
     if conn:
