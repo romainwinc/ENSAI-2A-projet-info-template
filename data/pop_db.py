@@ -45,7 +45,7 @@ if response_ingredients.status_code == 200:
             cursor.execute(
                 sql.SQL(
                     """
-                    INSERT INTO {}.ingredients (id_ingredient, nom_ingredient, description_ingredient)
+                    INSERT INTO {}.ingredient (id_ingredient, nom_ingredient, description_ingredient)
                     VALUES (%s, %s, %s)
                     """
                 ).format(sql.Identifier(POSTGRES_SCHEMA)),
@@ -119,10 +119,10 @@ try:
                         """
                         INSERT INTO {}.recette (
                             nom_recette, categorie, origine, instructions, mots_cles,
-                            url_image, liste_ingredients, liste_mesures, nombre_avis,
+                            url_image, liste_ingredients, nombre_avis,
                             note_moyenne, date_derniere_modif
                         )
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                         """
                     ).format(sql.Identifier(POSTGRES_SCHEMA)),
                     (
@@ -133,7 +133,6 @@ try:
                         row.get("strTags"),
                         row.get("strMealThumb"),
                         ingredients,
-                        measures,
                         0,
                         None,
                         date.today(),
