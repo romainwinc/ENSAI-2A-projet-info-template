@@ -70,6 +70,7 @@ else:
     print("Erreur lors de la récupération des données depuis l'API des ingrédients")
 
 # Récupération des recettes
+
 try:
     conn = psycopg2.connect(
         dbname=POSTGRES_DATABASE,
@@ -103,16 +104,19 @@ try:
             # Insérer les données dans la table recette
             for _, row in df_recettes.iterrows():
                 ingredients = []
-                measures = []
 
+                # Extraire les ingrédients et les quantités
                 for i in range(1, 21):
                     ingredient = row.get(f"strIngredient{i}")
                     measure = row.get(f"strMeasure{i}")
 
-                    if ingredient:
-                        ingredients.append(ingredient)
-                    if measure:
-                        measures.append(measure)
+                    if ingredient:  # Si l'ingrédient est présent
+                        ingredients.append(
+                            {
+                                f"ingredient{i}": ingredient,  # Clef ingredient1, ingredient2, etc.
+                                f"quantite{i}": measure,  # Clef quantite1, quantite2, etc.
+                            }
+                        )
 
                 cursor.execute(
                     sql.SQL(
@@ -126,16 +130,16 @@ try:
                         """
                     ).format(sql.Identifier(POSTGRES_SCHEMA)),
                     (
-                        row.get("strMeal"),
-                        row.get("strCategory"),
-                        row.get("strArea"),
-                        row.get("strInstructions"),
-                        row.get("strTags"),
-                        row.get("strMealThumb"),
-                        ingredients,
-                        0,
-                        None,
-                        date.today(),
+                        row.get("strMeal"),  # nom_recette
+                        row.get("strCategory"),  # categorie
+                        row.get("strArea"),  # origine
+                        row.get("strInstructions"),  # instructions
+                        row.get("strTags"),  # mots_cles
+                        row.get("strMealThumb"),  # url_image
+                        ingredients,  # liste_ingredients en JSON
+                        0,  # nombre_avis (initialisé à 0)
+                        None,  # note_moyenne (aucune note pour l'instant)
+                        date.today(),  # date_derniere_modif
                     ),
                 )
 
