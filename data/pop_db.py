@@ -111,12 +111,7 @@ try:
                     measure = row.get(f"strMeasure{i}")
 
                     if ingredient:  # Si l'ingrédient est présent
-                        ingredients.append(
-                            {
-                                f"ingredient{i}": ingredient,  # Clef ingredient1, ingredient2, etc.
-                                f"quantite{i}": measure,  # Clef quantite1, quantite2, etc.
-                            }
-                        )
+                        ingredients.append({ingredient: measure})
 
                 cursor.execute(
                     sql.SQL(
