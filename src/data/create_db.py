@@ -100,8 +100,7 @@ try:
                 recettes_favorites INT[], -- Stocker les id_recette
                 ingredients_favoris INT[], -- Stocker les id_ingredient
                 ingredients_non_desires INT[], -- Stocker les id_ingredient
-                liste_de_courses INT[], -- Stocker les id_ingredient
-                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
+                liste_de_courses INT[] -- Stocker les id_ingredient
             );
             """
         ).format(
