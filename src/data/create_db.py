@@ -5,7 +5,6 @@ from psycopg2 import sql
 import json  # Import nécessaire pour manipuler les données JSON
 
 # Variables d'environnement
-
 dotenv.load_dotenv()
 WEBSERVICE_HOST = os.getenv("WEBSERVICE_HOST")
 POSTGRES_HOST = os.getenv("POSTGRES_HOST")
@@ -27,7 +26,6 @@ try:
     cursor = conn.cursor()
 
     # Suppression si elle existe et Création de la table ingredients
-    # avec contrainte UNIQUE sur str_ingredient
     cursor.execute(
         sql.SQL(
             """
@@ -51,10 +49,10 @@ try:
                 nom_recette VARCHAR(255) NOT NULL,
                 categorie VARCHAR(255),
                 origine VARCHAR(255),
-                instructions TEXT,  -- Texte complet pour les instructions
+                instructions TEXT,
                 mots_cles VARCHAR(255),
                 url_image VARCHAR(255),
-                liste_ingredients JSONB,  -- Stocker une liste de dictionnaires en JSONB
+                liste_ingredients VARCHAR(255)[],
                 nombre_avis INT,
                 note_moyenne FLOAT,
                 date_derniere_modif DATE
@@ -98,14 +96,19 @@ try:
                 nom_utilisateur VARCHAR(255),
                 mot_de_passe VARCHAR(255),
                 date_inscription DATE,
-                historique JSONB,  -- Stocker une liste de consultations en JSONB
+                historique JSONB,
                 recettes_favorites INT[], -- Stocker les id_recette
                 ingredients_favoris INT[], -- Stocker les id_ingredient
                 ingredients_non_desires INT[], -- Stocker les id_ingredient
-                liste_de_courses INT[] -- Stocker les id_ingredient
+                liste_de_courses INT[], -- Stocker les id_ingredient
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
             );
             """
-        ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
+        ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+        )
     )
 
     # Suppression si elle existe et Création de la table avis
@@ -118,7 +121,7 @@ try:
                 titre_avis VARCHAR(255),
                 nom_auteur VARCHAR(255),
                 date_publication DATE,
-                commentaire TEXT,  -- Texte complet pour le commentaire
+                commentaire TEXT,
                 note INT
             );
             """
@@ -133,13 +136,18 @@ try:
             CREATE TABLE {}.demande (
                 id_demande SERIAL PRIMARY KEY,
                 id_utilisateur INT,
-                type_demande VARCHAR(255), -- Modification ou Suppression
+                type_demande VARCHAR(255),
                 attribut_modifie VARCHAR(255),
                 attribut_corrige VARCHAR(255),
-                commentaire_demande TEXT  -- Texte complet pour le commentaire de la demande
+                commentaire_demande TEXT,
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
             );
             """
-        ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
+        ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+        )
     )
 
     # Suppression si elle existe et Création de la table utilisateur_avis (relation utilisateur-avis)
@@ -150,10 +158,14 @@ try:
             CREATE TABLE {}.utilisateur_avis (
                 id_utilisateur INT,
                 id_avis INT,
-                PRIMARY KEY (id_utilisateur, id_avis)
+                PRIMARY KEY (id_utilisateur, id_avis),
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE,
+                FOREIGN KEY (id_avis) REFERENCES {}.avis(id_avis) ON DELETE CASCADE
             );
             """
         ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
             sql.Identifier(POSTGRES_SCHEMA),
             sql.Identifier(POSTGRES_SCHEMA),
         )
@@ -167,10 +179,14 @@ try:
             CREATE TABLE {}.recette_avis (
                 id_recette INT,
                 id_avis INT,
-                PRIMARY KEY (id_recette, id_avis)
+                PRIMARY KEY (id_recette, id_avis),
+                FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
+                FOREIGN KEY (id_avis) REFERENCES {}.avis(id_avis) ON DELETE CASCADE
             );
             """
         ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
             sql.Identifier(POSTGRES_SCHEMA),
             sql.Identifier(POSTGRES_SCHEMA),
         )
@@ -185,10 +201,36 @@ try:
                 id_recette INT,
                 id_utilisateur INT,
                 date_consultation DATE,
-                PRIMARY KEY (id_recette, id_utilisateur)
+                PRIMARY KEY (id_recette, id_utilisateur),
+                FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
             );
             """
         ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+        )
+    )
+
+    # Suppression si elle existe et Création de la recette_ingredient
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.recette_ingredient CASCADE;
+            CREATE TABLE {}.recette_ingredient (
+                id_recette INT,
+                id_ingredient INT,
+                mesure VARCHAR(255),
+                PRIMARY KEY (id_recette, id_ingredient),
+                FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
+                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE
+            );
+            """
+        ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
             sql.Identifier(POSTGRES_SCHEMA),
             sql.Identifier(POSTGRES_SCHEMA),
         )
