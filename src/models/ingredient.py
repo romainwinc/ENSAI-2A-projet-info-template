@@ -1,53 +1,35 @@
 class Ingredient:
     """
-    Classe représentant un ingrédient avec ses attributs et sa description.
+    Classe représentant un ingrédient.
 
-    Attributs :
-    -----------
-    idIngredient : str
-        Identifiant unique de l'ingrédient.
-    strIngredient : str
-        Nom de l'ingrédient.
-    strDescription : str
-        Description détaillée de l'ingrédient, y compris son origine et son utilisation.
-    strType : Optional[str]
-        Type ou catégorie de l'ingrédient (peut être None si non défini).
+    Attributes:
+        id_ingredient (int): L'identifiant unique de l'ingrédient.
+        nom_ingredient (str): Le nom de l'ingrédient.
+        description_ingredient (str): La description de l'ingrédient.
     """
 
-    def __init__(
-        self, idIngredient: str, strIngredient: str, strDescription: str, strType: str = None
-    ):
+    def __init__(self, id_ingredient: int, nom_ingredient: str, description_ingredient: str):
         """
-        Initialise un objet Ingredient.
+        Initialise un nouvel ingrédient.
 
-        Paramètres :
-        ------------
-        idIngredient : str
-            Identifiant unique de l'ingrédient.
-        strIngredient : str
-            Nom de l'ingrédient.
-        strDescription : str
-            Description détaillée de l'ingrédient.
-        strType : Optional[str]
-            Type ou catégorie de l'ingrédient (valeur par défaut : None).
+        Parameters:
+            id_ingredient (int): L'identifiant unique de l'ingrédient.
+            nom_ingredient (str): Le nom de l'ingrédient.
+            description_ingredient (str): La description de l'ingrédient.
         """
-        self.idIngredient = idIngredient
-        self.strIngredient = strIngredient
-        self.strDescription = strDescription
-        self.strType = strType
+        self.id_ingredient = id_ingredient
+        self.nom_ingredient = nom_ingredient
+        self.description_ingredient = description_ingredient
 
-    def __repr__(self) -> str:
+    def __str__(self):
         """
-        Retourne une représentation lisible de l'objet Ingredient.
+        Retourne une représentation sous forme de chaîne de l'ingrédient.
 
-        Retour :
-        --------
-        str
-            Représentation de l'ingrédient sous forme de chaîne de caractères.
+        Returns:
+            str: Une chaîne contenant les détails de l'ingrédient.
         """
         return (
-            f"Ingredient(idIngredient={self.idIngredient}, "
-            f"strIngredient='{self.strIngredient}', "
-            f"strDescription='{self.strDescription}', "
-            f"strType='{self.strType}')"
+            f"ID Ingrédient: {self.id_ingredient}\n"
+            f"Nom de l'ingrédient: {self.nom_ingredient}\n"
+            f"Description: {self.description_ingredient}"
         )
