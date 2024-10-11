@@ -96,11 +96,7 @@ try:
                 nom_utilisateur VARCHAR(255),
                 mot_de_passe VARCHAR(255),
                 date_inscription DATE,
-                historique JSONB,
-                recettes_favorites INT[], -- Stocker les id_recette
-                ingredients_favoris INT[], -- Stocker les id_ingredient
-                ingredients_non_desires INT[], -- Stocker les id_ingredient
-                liste_de_courses INT[] -- Stocker les id_ingredient
+                historique JSONB
             );
             """
         ).format(
@@ -230,6 +226,47 @@ try:
                 id_utilisateur INT,
                 PRIMARY KEY (id_ingredient, id_utilisateur),
                 FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE,
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
+            );
+            """
+        ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+        )
+    )
+
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.ingredients_non_desires CASCADE;
+            CREATE TABLE {}.ingredients_non_desires (
+                id_ingredient INT,
+                id_utilisateur INT,
+                PRIMARY KEY (id_ingredient, id_utilisateur),
+                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE,
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
+            );
+            """
+        ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+        )
+    )
+
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.liste_de_courses CASCADE;
+            CREATE TABLE {}.liste_de_courses (
+                id_ingredient INT,
+                id_recette INT,
+                id_utilisateur INT,
+                PRIMARY KEY (id_ingredient, id_recette, id_utilisateur),
+                FOREIGN KEY (id_ingredient, id_recette) REFERENCES {}.recette_ingredient(id_ingredient, id_recette) ON DELETE CASCADE,
                 FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
             );
             """
