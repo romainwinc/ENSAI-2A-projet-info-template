@@ -14,9 +14,3 @@ class Consultation:
         print(
             f"Recette ID: {self.id_recette}, Utilisateur ID: {self.id_utilisateur}, Date de consultation: {self.date_consultation}"
         )
-
-
-# Exemple d'utilisation :
-consultation = Consultation(id_recette=123, id_utilisateur=456, date_consultation=date.today())
-print(consultation)
-consultation.afficher_consultation()
