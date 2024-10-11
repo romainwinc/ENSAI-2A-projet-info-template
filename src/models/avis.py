@@ -2,28 +2,62 @@ from datetime import datetime
 
 
 class Avis:
+    """
+    Classe représentant un avis d'utilisateur.
+
+    Attributes:
+        id_avis (int): L'identifiant unique de l'avis.
+        titre_avis (str): Le titre de l'avis.
+        id_utilisateur (int): L'identifiant de l'utilisateur qui a publié l'avis.
+        nom_auteur (str): Le nom de l'auteur de l'avis.
+        date_publication (datetime): La date de publication de l'avis.
+        commentaire (str): Le commentaire de l'avis.
+        note (int or None): La note donnée à l'avis (peut être None si non noté).
+    """
+
     def __init__(
         self,
         id_avis: int,
         titre_avis: str,
-        commentaire: str,
+        id_utilisateur: int,
         nom_auteur: str,
-        date_publication: datetime,
+        date_publication: datetime = datetime.now(),
+        commentaire: str = "",
         note: int = None,
     ):
+        """
+        Initialise un nouvel avis.
+
+        Parameters:
+            id_avis (int): L'identifiant unique de l'avis.
+            titre_avis (str): Le titre de l'avis.
+            id_utilisateur (int): L'identifiant de l'utilisateur.
+            nom_auteur (str): Le nom de l'auteur de l'avis.
+            date_publication (datetime, optional): La date de publication. Par défaut, c'est la date et l'heure actuelles.
+            commentaire (str, optional): Le commentaire de l'avis. Par défaut, c'est une chaîne vide.
+            note (int or None, optional): La note donnée à l'avis. Par défaut, c'est None.
+        """
         self.id_avis = id_avis
-        self.titre = titre_avis
-        self.commentaire = commentaire
+        self.titre_avis = titre_avis
+        self.id_utilisateur = id_utilisateur
         self.nom_auteur = nom_auteur
-        self.prenom_auteur = prenom_auteur
-        self.note = note if note is None or 1 <= note <= 5 else None
-        self.date_publication = date_publication or datetime.now()
+        self.date_publication = date_publication
+        self.commentaire = commentaire
+        self.note = note
 
     def __str__(self):
+        """
+        Retourne une représentation sous forme de chaîne de l'avis.
+
+        Returns:
+            str: Une chaîne contenant les détails de l'avis.
+        """
         return (
-            f"Auteur: {self.prenom_auteur} {self.nom_auteur}\n"
-            f"Titre: {self.titre}\n"
+            f"Auteur: {self.nom_auteur}\n"
+            f"Titre: {self.titre_avis}\n"
             f"Commentaire: {self.commentaire}\n"
             f"Note: {self.note or 'Non noté'}\n"
-            f"Date de publication: {self.date_publication.strftime('%d/%m/%Y')}"
+            f"Date de publication: {self.date_publication.strftime('%d/%m/%Y')}\n"
+            f"ID Avis: {self.id_avis}\n"  # Affichage de l'ID de l'avis
+            f"ID Utilisateur: {self.id_utilisateur}"  # Affichage de l'ID de l'utilisateur
         )
