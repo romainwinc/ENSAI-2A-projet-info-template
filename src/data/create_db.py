@@ -95,8 +95,8 @@ try:
                 id_utilisateur SERIAL PRIMARY KEY,
                 nom_utilisateur VARCHAR(255),
                 mot_de_passe VARCHAR(255),
-                date_inscription DATE,
-                historique JSONB
+                role VARCHAR(255),
+                date_inscription DATE
             );
             """
         ).format(

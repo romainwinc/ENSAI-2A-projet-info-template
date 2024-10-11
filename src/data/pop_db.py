@@ -156,27 +156,6 @@ finally:
     if conn:
         conn.close()
 
-# Création de la table de jointure entre recettes et ingrédients
-cursor.execute(
-    sql.SQL(
-        """
-        DROP TABLE IF EXISTS {}.recette_ingredient CASCADE;
-        CREATE TABLE {}.recette_ingredient (
-            id_recette INT,
-            id_ingredient INT,
-            mesure VARCHAR(255),
-            PRIMARY KEY (id_recette, id_ingredient),
-            FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
-            FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE
-        );
-        """
-    ).format(
-        sql.Identifier(POSTGRES_SCHEMA),
-        sql.Identifier(POSTGRES_SCHEMA),
-        sql.Identifier(POSTGRES_SCHEMA),
-        sql.Identifier(POSTGRES_SCHEMA),
-    )
-)
 
 # Insérer les données dans la table de jointure recette_ingredient
 try:
