@@ -37,8 +37,7 @@ class Utilisateur:
         id_utilisateur: str,
         nom_utilisateur: str,
         mot_de_passe: str,
-        role: int = 1,
-        date_inscription: datetime, 
+        role: str = "Non connecté", 
         ingredients_favoris: list[Ingredient],
         recette_favorite: List[Recette],
         liste_course: List[Ingredient],
@@ -46,24 +45,23 @@ class Utilisateur:
         liste_ingredient_non_desires: List[Ingredient],
         
     ) -> None:
-        self.nom = nom
-        self.prenom = prenom
-        self.username = username
-        self.password = password
+        self.id_utilisateur = id_utilisateur
+        self.nom_utilisateur = nom_utilisateur
+        self.mot_de_passe = mot_de_passe
+        self.role = role
         self.ingredient_favori = ingredient_favori
         self.recette_favorite = recette_favorite
         self.liste_course = liste_course
         self.liste_ingredient_favori = liste_ingredient_favori
         self.liste_ingredient_non_desires = liste_ingredient_non_desires
-        self.grade = grade
 
     def __repr__(self) -> str:
         """
         Renvoie une représentation lisible de l'utilisateur connecté.
         """
         return (
-            f"Connecte(nom={self.nom}, prenom={self.prenom}, username={self.username}, "
+            f"Connecte(identifiant={self.id_utilisateur}, nom d'utilisateur={self.mot_de_passe}, "
             f"ingredient_favori={self.ingredient_favori}, recette_favorite={self.recette_favorite}, "
             f"liste_course={self.liste_course}, liste_ingredient_favori={self.liste_ingredient_favori}, "
-            f"liste_ingredient_non_desires={self.liste_ingredient_non_desires}, grade={self.grade})"
+            f"liste_ingredient_non_desires={self.liste_ingredient_non_desires}, role={self.grade})"
         )
