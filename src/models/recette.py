@@ -1,131 +1,90 @@
+from src/models/ingredient.py import Ingredient
+from src/models/avis.py import Avis
+
+
 class Recette:
-    """Un carburant est caractérisé par son nom et sa composition chimique.
+    """Une recette est caractérisée par son id, elle possède un nom,
+    une catégorie, une origine, des instructions, des ingrédients, des avis
+    une note et la date de sa dernière modification.
 
     Parameters
     ----------
-    nom : str
-        nom du carburant
-    composition_chimique : dict[SubstanceChimique, float]
-        composition chimique du carburant
+    id_recette: int
+        identifiant de la recette
+    nom_recette: str
+        nom de la recette
+    categorie: str
+        categorie de la recette (entrée, plat, dessert, végétarien, type de
+        viande, ...)
+    origine: str
+        pays d'origine de la recette
+    instruction: str
+        Instructions sur les étapes de la recette
+    mots_cles: str | None
+        mots clés de la recette
+    url_image: str | None
+        URL vers l'image représenatnt la recette
+    liste_ingredient: list[dict]
+        Liste des ingrédients de la recette avec pour chaque ingrédient,
+        la quantité nécéssaire pour la recette
+    liste_avis: list[Avis] | None
+        liste des avis laissés pour cette recette par les utilisateurs
+    nombre_avis: int
+        nombre d'avis de la recette
+    note_moyenne: float | None
+        moyenne des notes laissé par les utilisateurs
+    date_derniere_modif: date
+        date de la dernière modification de la recette
     """
 
     def __init__(
         self,
-        idMeal: str,
-        strMeal: str,
-        strCategory: str,
-        strArea: str,
-        strInstructions: str,
-        strTags: str | None,
-        listIngredient: list[Ingredient],
-        strIngredient1: str | None,
-        strIngredient2: str | None,
-        strIngredient3: str | None,
-        strIngredient4: str | None,
-        strIngredient5: str | None,
-        strIngredient6: str | None,
-        strIngredient7: str | None,
-        strIngredient8: str | None,
-        strIngredient9: str | None,
-        strIngredient10: str | None,
-        strIngredient11: str | None,
-        strIngredient12: str | None,
-        strIngredient13: str | None,
-        strIngredient14: str | None,
-        strIngredient15: str | None,
-        strIngredient16: str | None,
-        strIngredient17: str | None,
-        strIngredient18: str | None,
-        strIngredient19: str | None,
-        strIngredient20: str | None,
-        strMeasure1: str | None,
-        strMeasure2: str | None,
-        strMeasure3: str | None,
-        strMeasure4: str | None,
-        strMeasure5: str | None,
-        strMeasure6: str | None,
-        strMeasure7: str | None,
-        strMeasure8: str | None,
-        strMeasure9: str | None,
-        strMeasure10: str | None,
-        strMeasure11: str | None,
-        strMeasure12: str | None,
-        strMeasure13: str | None,
-        strMeasure14: str | None,
-        strMeasure15: str | None,
-        strMeasure16: str | None,
-        strMeasure17: str | None,
-        strMeasure18: str | None,
-        strMeasure19: str | None,
-        strMeasure20: str | None,
+        id_recette: int,
+        nom_recette: str,
+        categorie: str,
+        origine: str,
+        instruction: str,
+        mots_cles: str | None,
+        url_image: str | None,
+        liste_ingredient: list[dict],
+        liste_avis: list[Avis] | None,
+        nombre_avis: int,
+        note_moyenne: float | None,
+        date_derniere_modif: date,
     ) -> None:
 
-        self.idMeal = idMeal
-        self.strMeal = strMeal
-        self.strCategory = strCategory
-        self.strArea = strArea
-        self.strInstructions = strInstructions
-        self.strTags = strTags
-        self.strIngredient1 = strIngredient1
-        self.strIngredient2 = strIngredient2
-        self.strIngredient3 = strIngredient3
-        self.strIngredient4 = strIngredient4
-        self.strIngredient5 = strIngredient5
-        self.strIngredient6 = strIngredient6
-        self.strIngredient7 = strIngredient7
-        self.strIngredient8 = strIngredient8
-        self.strIngredient9 = strIngredient9
-        self.strIngredient10 = strIngredient10
-        self.strIngredient11 = strIngredient11
-        self.strIngredient12 = strIngredient12
-        self.strIngredient13 = strIngredient13
-        self.strIngredient14 = strIngredient14
-        self.strIngredient15 = strIngredient15
-        self.strIngredient16 = strIngredient16
-        self.strIngredient17 = strIngredient17
-        self.strIngredient18 = strIngredient18
-        self.strIngredient19 = strIngredient19
-        self.strIngredient20 = strIngredient20
-        self.strMeasure1 = strMeasure1
-        self.strMeasure2 = strMeasure2
-        self.strMeasure3 = strMeasure3
-        self.strMeasure4 = strMeasure4
-        self.strMeasure5 = strMeasure5
-        self.strMeasure6 = strMeasure6
-        self.strMeasure7 = strMeasure7
-        self.strMeasure8 = strMeasure8
-        self.strMeasure9 = strMeasure9
-        self.strMeasure10 = strMeasure10
-        self.strMeasure11 = strMeasure11
-        self.strMeasure12 = strMeasure12
-        self.strMeasure13 = strMeasure13
-        self.strMeasure14 = strMeasure14
-        self.strMeasure15 = strMeasure15
-        self.strMeasure16 = strMeasure16
-        self.strMeasure17 = strMeasure17
-        self.strMeasure18 = strMeasure18
-        self.strMeasure19 = strMeasure19
-        self.strMeasure20 = strMeasure20
+        self.id_recette = id_recette
+        self.nom_recette = nom_recette
+        self.categorie = categorie
+        self.origine = origine
+        self.instruction = instruction
+        self.mots_cles = mots_cles
+        self.url_image = url_image
+        self.liste_ingredient = liste_ingredient
+        self.liste_avis = liste_avis
+        self.nombre_avis = len(liste_avis) if liste_avis else 0
+        self.note_moyenne = note_moyenne
+        self.date_derniere_modif = date_derniere_modif
 
     def __repr__(self) -> str:
         ingredients = []
-        measures = []
 
-        for i in range(1, 21):
-            ingredient = getattr(self, f"strIngredient{i}")
-            measure = getattr(self, f"strMeasure{i}")
-            if ingredient and measure:
-                ingredients.append(f"{measure} {ingredient}")
-            elif ingredient:
-                ingredients.append(ingredient)
+        ingredients_str = ', '.join(
+            [f"{ingredient['nom']}: {ingredient['quantite']}" for ingredient in self.liste_ingredient]
+        )
 
-        ingredients_str = "\n".join(ingredients)
+        avis_str = ', '.join(
+            [f"{avis.auteur}: {avis.note}/5 - {avis.commentaire}" for avis in self.liste_avis]
+        )
 
         return (
-            f"Recette: {self.strMeal}\n"
-            f"Catégorie: {self.strCategory}\n"
-            f"Région: {self.strArea}\n"
-            f"Instructions: {self.strInstructions}\n"
-            f"Ingrédients:\n{ingredients_str}\n"
-            f'Tags: {self.strTags if self.strTags else "Aucun"}'
+            f"Recette: {self.nom_recette}\n"
+            f"Catégorie: {self.categorie}\n"
+            f"Origine: {self.origine}\n"
+            f"Instructions: {self.instruction}\n"
+            f'Mots-clés: {self.mots_cles if self.mots_cles else "Aucun"}\n'
+            f"Ingrédients:\n{self.ingredients_str}\n"
+            f"Note:{self.note_moyenne}/5\n"
+            f'Avis: [{avis_str}]\n'
+            f"Date de la dernière modification:{date_derniere_modif}"
         )
