@@ -1,17 +1,20 @@
 import os
+import dotenv
 import requests
 import pandas as pd
 import psycopg2
 from psycopg2 import sql
 
 # Variables d'environnement
-WEBSERVICE_HOST = os.getenv("WEBSERVICE_HOST", "https://pokeapi.co/api/v2")
-POSTGRES_HOST = os.getenv("POSTGRES_HOST", "sgbd-eleves.domensai.ecole")
-POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
-POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE", "id2501")
-POSTGRES_USER = os.getenv("POSTGRES_USER", "id2501")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "id2501")
-POSTGRES_SCHEMA = os.getenv("POSTGRES_SCHEMA", "projet")
+
+dotenv.load_dotenv()
+WEBSERVICE_HOST = os.getenv("WEBSERVICE_HOST")
+POSTGRES_HOST = os.getenv("POSTGRES_HOST")
+POSTGRES_PORT = os.getenv("POSTGRES_PORT")
+POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE")
+POSTGRES_USER = os.getenv("POSTGRES_USER")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+POSTGRES_SCHEMA = os.getenv("POSTGRES_SCHEMA")
 
 # URL de l'API
 url = "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
@@ -29,6 +32,7 @@ if response.status_code == 200:
 
     # Connexion à la base de données PostgreSQL
     # Connexion à la base de données PostgreSQL
+    cursor = None
     try:
         conn = psycopg2.connect(
             dbname=POSTGRES_DATABASE,
@@ -51,8 +55,8 @@ if response.status_code == 200:
                     str_ingredient TEXT,
                     str_description TEXT,
                     str_type TEXT
-                );
-            """
+                    );
+                 """
             ).format(sql.Identifier(POSTGRES_SCHEMA))
         )
 
@@ -61,12 +65,16 @@ if response.status_code == 200:
             cursor.execute(
                 sql.SQL(
                     """
-                    INSERT INTO {}.ingredients (str_ingredient, str_description, str_type)
-                    VALUES (%s, %s, %s)
-                    ON CONFLICT (str_ingredient) DO NOTHING;
-                """
+                    INSERT INTO {}.ingredients (id_ingredient, str_ingredient, str_description, str_type)
+                    VALUES (%s, %s, %s, %s)
+                    """
                 ).format(sql.Identifier(POSTGRES_SCHEMA)),
-                (row.get("str_ingredient"), row.get("str_description"), row.get("str_type")),
+                (
+                    row.get("idIngredient"),
+                    row.get("strIngredient"),
+                    row.get("strDescription"),
+                    row.get("strType"),
+                ),
             )
 
         # Valider les modifications
@@ -84,3 +92,6 @@ if response.status_code == 200:
 
 else:
     print("Erreur lors de la récupération des données depuis l'API")
+
+
+[{"ingredient": Ingredient(), "quantite": "3 cuilleres"}, {}, {}]

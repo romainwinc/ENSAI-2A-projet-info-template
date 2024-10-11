@@ -3,7 +3,7 @@ from ingredient import Ingredient
 from recette import Recette
 
 
-class Connecte(Non_connecte):
+class Utilisateur:
     """
     Représente un utilisateur connecté avec des informations personnelles,
     des préférences alimentaires et une liste de courses.
@@ -34,16 +34,17 @@ class Connecte(Non_connecte):
 
     def __init__(
         self,
-        nom: str,
-        prenom: str,
-        username: str,
-        password: str,
-        ingredient_favori: list[Ingredient],
+        id_utilisateur: str,
+        nom_utilisateur: str,
+        mot_de_passe: str,
+        role: int = 1,
+        date_inscription: datetime, 
+        ingredients_favoris: list[Ingredient],
         recette_favorite: List[Recette],
         liste_course: List[Ingredient],
         liste_ingredient_favori: List[Ingredient],
         liste_ingredient_non_desires: List[Ingredient],
-        grade: int = 1,
+        
     ) -> None:
         self.nom = nom
         self.prenom = prenom
