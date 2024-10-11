@@ -33,8 +33,10 @@ class Avis:
             titre_avis (str): Le titre de l'avis.
             id_utilisateur (int): L'identifiant de l'utilisateur.
             nom_auteur (str): Le nom de l'auteur de l'avis.
-            date_publication (datetime, optional): La date de publication. Par défaut, c'est la date et l'heure actuelles.
-            commentaire (str, optional): Le commentaire de l'avis. Par défaut, c'est une chaîne vide.
+            date_publication (datetime, optional): La date de publication. Par défaut,
+                         c'est la date et l'heure actuelles.
+            commentaire (str, optional): Le commentaire de l'avis. Par défaut,
+                        c'est une chaîne vide.
             note (int or None, optional): La note donnée à l'avis. Par défaut, c'est None.
         """
         self.id_avis = id_avis
@@ -53,11 +55,12 @@ class Avis:
             str: Une chaîne contenant les détails de l'avis.
         """
         return (
-            f"Auteur: {self.nom_auteur}\n"
-            f"Titre: {self.titre_avis}\n"
-            f"Commentaire: {self.commentaire}\n"
-            f"Note: {self.note or 'Non noté'}\n"
-            f"Date de publication: {self.date_publication.strftime('%d/%m/%Y')}\n"
             f"ID Avis: {self.id_avis}\n"  # Affichage de l'ID de l'avis
+            f"Titre: {self.titre_avis}\n"  # Affichage du titre de l'avis
+            f"Auteur: {self.nom_auteur}\n"  # Affichage du nom de l'auteur
+            f"Commentaire: {self.commentaire}\n"  # Affichage du commentaire
+            f"Note: {self.note or 'Non noté'}\n"  # Affichage de la note
+            f"Date de publication: {self.date_publication.strftime('%d/%m/%Y')}\n"
+            # Affichage de la date
             f"ID Utilisateur: {self.id_utilisateur}"  # Affichage de l'ID de l'utilisateur
         )
