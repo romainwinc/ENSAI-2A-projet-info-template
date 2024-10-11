@@ -1,0 +1,57 @@
+from utils.singleton import Singleton
+from dao.db_connection import DBConnection
+from models.utilisateur import Utilisateur
+
+
+class UtilisateurDao(metaclass=Singleton):
+    def add_user(self, utilisateur: Utilisateur) -> bool:
+        """
+        Ajout d'un utilisateur
+        """
+        created = False
+
+        # Get the id user
+        id_utilisateur = UtilisateurDao().find_id_user(utilisateur.id_utilisateur)
+        if id_utilisateur is None:
+            return created
+
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "INSERT INTO utilisateur (id_utilisateur, nom_utilsateur,       "
+                    " mot_de_passe, role, date_inscription)             "
+                    "VALUES                                                     "
+                    "(%(id_utilisateur)s, %(nom_utilsateur)s, %(mot_de_passe)s,    "
+                    " %(role)s, %(date_inscription)s)                             "
+                    "RETURNING id_attack;",
+                    {
+                        "id_utilisateur": id_utilisateur,
+                        "nom_utilsateur": utilisateur.nom_utilisateur,
+                        "mot_de_passe": utilisateur.mot_de_passe,
+                        "role": utilisateur.role,
+                        "date_inscription": utilisateur.date_inscription,
+                    },
+                )
+                res = cursor.fetchone()
+        if res:
+            utilisateur.id_utilisateur = res["id_utilisateur"]
+            created = True
+
+        return created
+
+    def find_id_user(self, label: str) -> Optional[int]:
+        """
+        Get the id_attack_type from the label
+        """
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT id_attack_type                     "
+                    "  FROM tp.attack_type                     "
+                    " WHERE attack_type_name = %(attack_name)s ",
+                    {"attack_name": label},
+                )
+                res = cursor.fetchone()
+
+        if res:
+            return res["id_attack_type"]

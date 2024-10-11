@@ -1,6 +1,7 @@
 from non_connecte import Non_connecte
 from ingredient import Ingredient
 from recette import Recette
+from datetime import datetime
 
 
 class Utilisateur:
@@ -37,7 +38,8 @@ class Utilisateur:
         id_utilisateur: str,
         nom_utilisateur: str,
         mot_de_passe: str,
-        role: str = "Non connecté", 
+        role: str = "Non connecté",
+        date_inscription: datetime, 
         ingredients_favoris: list[Ingredient],
         recette_favorite: List[Recette],
         liste_course: List[Ingredient],
@@ -49,6 +51,7 @@ class Utilisateur:
         self.nom_utilisateur = nom_utilisateur
         self.mot_de_passe = mot_de_passe
         self.role = role
+        self.date_inscription = date_inscription
         self.ingredient_favori = ingredient_favori
         self.recette_favorite = recette_favorite
         self.liste_course = liste_course
