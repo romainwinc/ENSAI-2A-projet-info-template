@@ -117,6 +117,8 @@ try:
             DROP TABLE IF EXISTS {}.avis CASCADE;
             CREATE TABLE {}.avis (
                 id_avis SERIAL PRIMARY KEY,
+                id_recette INT REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
+                id_utilisateur INT REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE,
                 titre_avis VARCHAR(255),
                 nom_auteur VARCHAR(255),
                 date_publication DATE,
@@ -124,7 +126,12 @@ try:
                 note INT
             );
             """
-        ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
+        ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+        )
     )
 
     # Suppression si elle existe et Création de la table demande
@@ -143,48 +150,6 @@ try:
             );
             """
         ).format(
-            sql.Identifier(POSTGRES_SCHEMA),
-            sql.Identifier(POSTGRES_SCHEMA),
-            sql.Identifier(POSTGRES_SCHEMA),
-        )
-    )
-
-    # Suppression si elle existe et Création de la table utilisateur_avis (relation utilisateur-avis)
-    cursor.execute(
-        sql.SQL(
-            """
-            DROP TABLE IF EXISTS {}.utilisateur_avis CASCADE;
-            CREATE TABLE {}.utilisateur_avis (
-                id_utilisateur INT,
-                id_avis INT,
-                PRIMARY KEY (id_utilisateur, id_avis),
-                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE,
-                FOREIGN KEY (id_avis) REFERENCES {}.avis(id_avis) ON DELETE CASCADE
-            );
-            """
-        ).format(
-            sql.Identifier(POSTGRES_SCHEMA),
-            sql.Identifier(POSTGRES_SCHEMA),
-            sql.Identifier(POSTGRES_SCHEMA),
-            sql.Identifier(POSTGRES_SCHEMA),
-        )
-    )
-
-    # Suppression si elle existe et Création de la table recette_avis (relation recette-avis)
-    cursor.execute(
-        sql.SQL(
-            """
-            DROP TABLE IF EXISTS {}.recette_avis CASCADE;
-            CREATE TABLE {}.recette_avis (
-                id_recette INT,
-                id_avis INT,
-                PRIMARY KEY (id_recette, id_avis),
-                FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
-                FOREIGN KEY (id_avis) REFERENCES {}.avis(id_avis) ON DELETE CASCADE
-            );
-            """
-        ).format(
-            sql.Identifier(POSTGRES_SCHEMA),
             sql.Identifier(POSTGRES_SCHEMA),
             sql.Identifier(POSTGRES_SCHEMA),
             sql.Identifier(POSTGRES_SCHEMA),
@@ -225,6 +190,47 @@ try:
                 PRIMARY KEY (id_recette, id_ingredient),
                 FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
                 FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE
+            );
+            """
+        ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+        )
+    )
+
+    # Suppression si elle existe et Création de la recette_ingredient
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.recette_favorite CASCADE;
+            CREATE TABLE {}.recette_favorite (
+                id_recette INT,
+                id_utilisateur INT,
+                PRIMARY KEY (id_recette, id_utilisateur),
+                FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
+            );
+            """
+        ).format(
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+            sql.Identifier(POSTGRES_SCHEMA),
+        )
+    )
+
+    cursor.execute(
+        sql.SQL(
+            """
+            DROP TABLE IF EXISTS {}.ingredients_favoris CASCADE;
+            CREATE TABLE {}.ingredients_favoris (
+                id_ingredient INT,
+                id_utilisateur INT,
+                PRIMARY KEY (id_ingredient, id_utilisateur),
+                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE,
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
             );
             """
         ).format(
