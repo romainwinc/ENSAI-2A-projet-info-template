@@ -1,3 +1,4 @@
+from typing import Optional
 from utils.singleton import Singleton
 from dao.db_connection import DBConnection
 from models.utilisateur import Utilisateur
@@ -11,7 +12,7 @@ class UtilisateurDao(metaclass=Singleton):
         created = False
 
         # Get the id user
-        id_utilisateur = UtilisateurDao().find_id_user(utilisateur.id_utilisateur)
+        id_utilisateur = UtilisateurDao().find_id_user(utilisateur.nom_utilisateur)
         if id_utilisateur is None:
             return created
 
@@ -39,19 +40,19 @@ class UtilisateurDao(metaclass=Singleton):
 
         return created
 
-    def find_id_user(self, label: str) -> Optional[int]:
+    def find_id_user(self, nom: str) -> Optional[int]:
         """
-        Get the id_attack_type from the label
+        Trouver un utilisateur avec un nom
         """
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT id_attack_type                     "
-                    "  FROM tp.attack_type                     "
-                    " WHERE attack_type_name = %(attack_name)s ",
-                    {"attack_name": label},
+                    "SELECT id_utilisateur                     "
+                    "  FROM projet_informatique.utilisateur                     "
+                    " WHERE nom_utilisateur = %(nom_utilisateur)s ",
+                    {"nom_utilisateur": nom},
                 )
                 res = cursor.fetchone()
 
         if res:
-            return res["id_attack_type"]
+            return res["id_utilisateur"]
