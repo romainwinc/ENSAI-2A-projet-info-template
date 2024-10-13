@@ -1,14 +1,4 @@
-from create_db import create_tables
-from pop_db import insert_ingredients
-
-
-def main():
-    print("Création des tables...")
-    create_tables()
-
-    print("Insertion des ingrédients...")
-    insert_ingredients()
-
-
-if __name__ == "__main__":
-    main()
+# Permet d'initialiser les tables de la bases de données
+# Récupère toutes les recettes et ingrédients provenant de l'API
+import data.create_db
+import data.pop_db
