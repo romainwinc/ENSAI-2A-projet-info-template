@@ -39,7 +39,7 @@ try:
         ).format(sql.Identifier(POSTGRES_SCHEMA), sql.Identifier(POSTGRES_SCHEMA))
     )
 
-    # Suppression si elle existe et Création de la table recettes
+    # Suppression si elle existe et Création de la table recette
     cursor.execute(
         sql.SQL(
             """

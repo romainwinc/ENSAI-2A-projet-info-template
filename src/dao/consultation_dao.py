@@ -1,22 +1,43 @@
 from dao.db_connection import DBConnection
+from utils.singleton import Singleton
 
-class UneClasseDAO(metaclass=Singleton):
 
-    def une_methode_dao():
+class ConsultationDAO(metaclass=Singleton):
+    def __init__(self):
+        self.connection = DBConnection().connection
 
-        # Etape 1 : On récupère la connexion en utilisant la classe DBConnection.
-        with DBConnection().connection as connection :
-        
-            # Etape 2 : à partir de la connexion on crée un curseur pour la requête 
-            with connection.cursor() as cursor : 
-            
-                # Etape 3 : on exécute notre requête SQL
-                cursor.execute(requete_sql)
+    def add_consultation(self, id_recette, id_utilisateur, date_consultation):
+        """Ajoute une nouvelle consultation."""
+        query = """
+            INSERT INTO consultation (id_recette, id_utilisateur, date_consultation)
+            VALUES (%s, %s, %s)
+        """
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (id_recette, id_utilisateur, date_consultation))
 
-                # Etape 4 : on stocke le résultat de la requête
-                res = cursor.fetchall()
+    def get_consultations_by_user_id(self, id_utilisateur):
+        """Récupère les consultations pour un utilisateur donné."""
+        query = "SELECT * FROM consultation WHERE id_utilisateur = %s"
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (id_utilisateur,))
+                return cursor.fetchall()
 
-        if res:
-            # Etape 5 : on agence les résultats selon la forme souhaitée (objet, liste...)
+    def update_consultation(self, id_recette, id_utilisateur, **kwargs):
+        """Met à jour une consultation."""
+        query = (
+            "UPDATE consultation SET "
+            + ", ".join([f"{key} = %s" for key in kwargs])
+            + " WHERE id_recette = %s AND id_utilisateur = %s"
+        )
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (*kwargs.values(), id_recette, id_utilisateur))
 
-        return something
+    def delete_consultation(self, id_recette, id_utilisateur):
+        """Supprime une consultation par recette et utilisateur."""
+        query = "DELETE FROM consultation WHERE id_recette = %s AND id_utilisateur = %s"
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (id_recette, id_utilisateur))
