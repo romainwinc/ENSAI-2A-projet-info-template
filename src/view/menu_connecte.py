@@ -36,56 +36,35 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 "Consulter mes recettes favorites",
                 "Chercher une recette",
                 "Consulter mes notes et avis",
-                "Consulter mes ingrédients favoris",
-                "Consulter mes ingrédients non-désirés",
+                "Mes ingrédients favoris et non-désirés",
                 "Proposer une recette",
                 "Regarder ma liste de course",
-                "Demander un compte professionnel",
-                "Supprimer mon compte",
-                "Se déconnecter",
+                "Mon compte",
             ],
         ).execute()
 
         match choix:
             case "Consulter mes recettes favorites":
-                from View.recette_favorite import RecetteFavorite
-
-                return RecetteFavorite()
+                consulter_recette_favorite()
 
             case "Chercher une recette":
-                from View.recherche_recette import RechercheRecette
+                chercher_recette()
 
-                return RechercheRecette()
             case "Consulter mes notes et avis":
-                from View.consulter_mes_avis import ConsulterMesAvis
+                from view.consulter_notes_avis import ConsulterNotesAvis
 
-                return ConsulterMesAvis()
-            case "Consulter mes ingrédients favoris":
-                from View.ingredients_favoris import IngredientsFavoris
+                return ConsulterNotesAvis()
+            case "Mes ingrédients favoris et non-désirés":
+                from view.ingredients_favoris_et_non_desires import IngredientsFavorisEtNonDesires
 
-                return IngredientsFavoris()
-            case "Consulter mes ingrédients non-désirés":
-                from View.ingredients_non_desires import IngredientsNonDesires
-
-                return IngredientsNonDesires()
-            case "Demander un compte professionnel":
-                from View.demande_compte_pro import DemandeComptePro
-
-                return DemandeComptePro()
+                return IngredientsFavorisEtNonDesires()
             case "Proposer une recette":
-                from View.proposer_recette import ProposerRecette
+                proposer_recette()
 
-                return ProposerRecette()
             case "Regarder ma liste de course":
-                from View.ma_liste_de_course import MaListeDeCourse
+                afficher_liste_de_course()
 
-                return MaListeDeCourse()
-            case "Supprimer mon compte":
-                from View.supprimer_compte import SupprimerCompte
+            case "Mon compte":
+                from view.mon_compte_connecte import MonCompteConnecte
 
-                return SupprimerCompte()
-            case "Se déconnecter":
-                Session().deconnexion()
-                from View.menu_non_connecte import MenuNonConnecte
-
-                return MenuNonConnecte()
+                return MonCompteConnecte()
