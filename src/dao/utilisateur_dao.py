@@ -1,14 +1,13 @@
 from typing import Optional
-from utils.singleton import Singleton
+from Utils.singleton import Singleton
 from dao.db_connection import DBConnection
 from models.utilisateur import Utilisateur
 
 
 class UtilisateurDao(metaclass=Singleton):
+
     def add_user(self, utilisateur: Utilisateur) -> bool:
-        """
-        Ajout d'un utilisateur
-        """
+        """Ajout d'un utilisateur"""
         created = False
 
         # Get the id user
@@ -20,11 +19,11 @@ class UtilisateurDao(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(
                     "INSERT INTO utilisateur (id_utilisateur, nom_utilsateur,       "
-                    " mot_de_passe, role, date_inscription)             "
-                    "VALUES                                                     "
-                    "(%(id_utilisateur)s, %(nom_utilsateur)s, %(mot_de_passe)s,    "
-                    " %(role)s, %(date_inscription)s)                             "
-                    "RETURNING id_attack;",
+                    " mot_de_passe, role, date_inscription)                         "
+                    "VALUES                                                         "
+                    "(%(id_utilisateur)s, %(nom_utilsateur)s, %(mot_de_passe)s,     "
+                    " %(role)s, %(date_inscription)s)                               "
+                    "RETURNING id_utilisateur;",
                     {
                         "id_utilisateur": id_utilisateur,
                         "nom_utilsateur": utilisateur.nom_utilisateur,
@@ -41,9 +40,7 @@ class UtilisateurDao(metaclass=Singleton):
         return created
 
     def find_id_user(self, nom: str) -> Optional[int]:
-        """
-        Trouver un utilisateur avec un nom
-        """
+        """Trouver un utilisateur avec un nom"""
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
@@ -56,3 +53,19 @@ class UtilisateurDao(metaclass=Singleton):
 
         if res:
             return res["id_utilisateur"]
+
+    def update_user(self, id_utilisateur, upgrade):
+        """Met à jour une association recette-ingredient."""
+        query = "UPDATE utilisateur SET role= %(upgrade)s" + " WHERE id_utilisateur = %s "
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    query,
+                )
+
+    def delete_user(self, id_utilisateur):
+        """Supprime le compte d'un utilisateur"""
+
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM utilisateur WHERE id_utilisateur = %s", id_utilisateur)
