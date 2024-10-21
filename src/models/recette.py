@@ -44,24 +44,24 @@ class Recette:
         nom_recette: str,
         categorie: str,
         origine: str,
-        instruction: str,
+        instructions: str,
         mots_cles: str | None,
         url_image: str | None,
-        liste_ingredient: list[dict],
-        liste_avis: list[Avis] | None,
+        liste_ingredients: list[dict],
         nombre_avis: int,
         note_moyenne: float | None,
         date_derniere_modif: date,
+        liste_avis: list[Avis] = None,
     ) -> None:
 
         self.id_recette = id_recette
         self.nom_recette = nom_recette
         self.categorie = categorie
         self.origine = origine
-        self.instruction = instruction
+        self.instructions = instructions
         self.mots_cles = mots_cles
         self.url_image = url_image
-        self.liste_ingredient = liste_ingredient
+        self.liste_ingredients = liste_ingredients
         self.liste_avis = liste_avis
         self.nombre_avis = len(liste_avis) if liste_avis else 0
         self.note_moyenne = note_moyenne
@@ -71,24 +71,21 @@ class Recette:
         ingredients = []
 
         ingredients_str = ", ".join(
-            [
-                f"{ingredient['nom']}: {ingredient['quantite']}"
-                for ingredient in self.liste_ingredient
-            ]
+            [f"{ingredient[0]}: {ingredient[1]}" for ingredient in self.liste_ingredients]
         )
 
-        avis_str = ", ".join(
-            [f"{avis.auteur}: {avis.note}/5 - {avis.commentaire}" for avis in self.liste_avis]
-        )
+        # avis_str = ", ".join(
+        #     [f"{avis.auteur}: {avis.note}/5 - {avis.commentaire}" for avis in self.liste_avis]
+        # )
 
         return (
             f"Recette: {self.nom_recette}\n"
             f"Catégorie: {self.categorie}\n"
             f"Origine: {self.origine}\n"
-            f"Instructions: {self.instruction}\n"
+            f"Instructions: {self.instructions}\n"
             f'Mots-clés: {self.mots_cles if self.mots_cles else "Aucun"}\n'
-            f"Ingrédients:\n{self.ingredients_str}\n"
+            f"Ingrédients:\n{ingredients_str}\n"
             f"Note:{self.note_moyenne}/5\n"
-            f"Avis: [{avis_str}]\n"
-            f"Date de la dernière modification:{date_derniere_modif}"
+            # f"Avis: [{avis_str}]\n"
+            # f"Date de la dernière modification:{date_derniere_modif}"
         )

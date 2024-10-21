@@ -142,4 +142,5 @@ class RecetteDAO(metaclass=Singleton):
 
 
 if __name__ == "__main__":
-    RecetteDAO.get_recette_by_id(RecetteDAO, 1)
+
+    print(RecetteDAO().get_recette_by_id(1))
