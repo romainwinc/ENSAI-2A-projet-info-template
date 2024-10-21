@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from utils.singleton import Singleton
+from Utils.singleton import Singleton
 
 
 class Session(metaclass=Singleton):

@@ -1,7 +1,7 @@
 from InquirerPy import inquirer
 
-from view.vue_abstraite import VueAbstraite
-from view.session import Session
+from View.vue_abstraite import VueAbstraite
+from View.session import Session
 
 
 class MonCompteConnecte(VueAbstraite):
@@ -32,20 +32,18 @@ class MonCompteConnecte(VueAbstraite):
 
         choix = inquirer.select(
             message="Faites votre choix : ",
-            choices=[
-                "Demande de compte professionnel",
-                "Déconnexion",
-                "Supprimer mon compte"
-            ],
+            choices=["Demande de compte professionnel", "Déconnexion", "Supprimer mon compte"],
         ).execute()
 
         match choix:
             case "Demande de compte professionnel":
+                pass
 
             case "Déconnexion":
                 Session().deconnexion()
-                from view.menu_non_connecte import MenuNonConnecte
+                from View.menu_non_connecte import MenuNonConnecte
 
                 return MenuNonConnecte()
 
             case "Supprimer mon compte":
+                pass
