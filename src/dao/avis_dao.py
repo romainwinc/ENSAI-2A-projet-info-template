@@ -1,5 +1,5 @@
 from dao.db_connection import DBConnection
-from utils.singleton import Singleton
+from Utils.singleton import Singleton
 
 
 class AvisDAO(metaclass=Singleton):
@@ -18,7 +18,8 @@ class AvisDAO(metaclass=Singleton):
     ):
         """Ajoute un nouvel avis."""
         query = """
-            INSERT INTO avis (id_recette, id_utilisateur, titre_avis, nom_auteur, date_publication, commentaire, note)
+            INSERT INTO avis (id_recette, id_utilisateur, titre_avis, nom_auteur,
+             date_publication, commentaire, note)
             VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id_avis
         """
         with self.connection as connection:

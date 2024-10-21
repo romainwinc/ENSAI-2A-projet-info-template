@@ -1,7 +1,7 @@
-from dao import utilisateur_dao
+from dao.utilisateur_dao import UtilisateurDao
 from models import utilisateur
 
 
-class UtilisateurService:
-    def __init__(self, utilisateur_dao):
-        self.utlisateur_dao = utilisateur_dao
+if __name__ == "__main__":
+    dao = UtilisateurDao()
+    ServiceRecette(dao).rechercher_par_id_recette(1)

@@ -43,16 +43,13 @@ class AvisService:
         for avis in avis_list:
             print(avis)
 
-    def modifier_note(self, avis_id, **kwargs):
-        """Modifie les attributs d'un avis existant."""
-        self.avis_dao.update_avis(avis_id, **kwargs)
-
-    def supprimer_note(self, avis_id):
-        """Supprime un avis de la base de données."""
-        self.avis_dao.delete_avis(avis_id)
-
-    def afficher_note(self, id_recette):
+    def afficher_avis_utilisateur(self, id_utilisateur):
         """Affiche les avis liés à une recette."""
-        avis_list = self.recuperer_avis_par_recette(id_recette)
+        avis_list = self.recuperer_avis_par_utilisateur(id_utilisateur)
         for avis in avis_list:
             print(avis)
+
+
+if __name__ == "__main__":
+    dao = AvisDAO()
+    AvisService(dao).recuperer_avis_par_recette(1)
