@@ -5,8 +5,10 @@ from models.utilisateur import Utilisateur
 
 
 class UtilisateurDao(metaclass=Singleton):
+    def __init__(self):
+        self.connection = DBConnection().connection
 
-    def add_user(self, utilisateur: Utilisateur) -> bool:
+    def add_user(self, nom_utilisateur, mot_de_passe) -> bool:
         """Ajout d'un utilisateur"""
         created = False
 
@@ -18,8 +20,8 @@ class UtilisateurDao(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO utilisateur (id_utilisateur, nom_utilsateur,       "
-                    " mot_de_passe, role, date_inscription)                         "
+                    "INSERT INTO projet_informatique.utilisateur "
+                    "(id_utilisateur, nom_utilsateur, mot_de_passe, role, date_inscription) "
                     "VALUES                                                         "
                     "(%(id_utilisateur)s, %(nom_utilsateur)s, %(mot_de_passe)s,     "
                     " %(role)s, %(date_inscription)s)                               "
@@ -56,7 +58,10 @@ class UtilisateurDao(metaclass=Singleton):
 
     def update_user(self, id_utilisateur, upgrade):
         """Met à jour une association recette-ingredient."""
-        query = "UPDATE utilisateur SET role= %(upgrade)s" + " WHERE id_utilisateur = %s "
+        query = (
+            "UPDATE projet_informatique.utilisateur SET role= %(upgrade)s"
+            + " WHERE id_utilisateur = %s "
+        )
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
@@ -68,4 +73,7 @@ class UtilisateurDao(metaclass=Singleton):
 
         with self.connection as connection:
             with connection.cursor() as cursor:
-                cursor.execute("DELETE FROM utilisateur WHERE id_utilisateur = %s", id_utilisateur)
+                cursor.execute(
+                    "DELETE FROM projet_informatique.utilisateur WHERE id_utilisateur = %s",
+                    id_utilisateur,
+                )
