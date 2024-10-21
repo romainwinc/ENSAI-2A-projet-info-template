@@ -108,4 +108,5 @@ class ServiceRecette:
 
 if __name__ == "__main__":
     dao = RecetteDAO()
-    print(ServiceRecette(dao).rechercher_par_id_recette(1))
+    # print(ServiceRecette(dao).rechercher_par_id_recette(1)) # marche
+    print(ServiceRecette(dao).rechercher_par_id_recette("Apple Frangipan Tart"))

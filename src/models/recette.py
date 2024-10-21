@@ -45,12 +45,12 @@ class Recette:
         categorie: str,
         origine: str,
         instructions: str,
-        mots_cles: str | None,
-        url_image: str | None,
         liste_ingredients: list[dict],
         nombre_avis: int,
-        note_moyenne: float | None,
         date_derniere_modif: date,
+        mots_cles: str = None,
+        url_image: str = None,
+        note_moyenne: float = None,
         liste_avis: list[Avis] = None,
     ) -> None:
 
@@ -84,8 +84,9 @@ class Recette:
             f"Origine: {self.origine}\n"
             f"Instructions: {self.instructions}\n"
             f'Mots-clés: {self.mots_cles if self.mots_cles else "Aucun"}\n'
-            f"Ingrédients:\n{ingredients_str}\n"
+            f"Ingrédients:{self.liste_ingredients}\n"
+            # f"Ingrédients:\n{ingredients_str}\n"
             f"Note:{self.note_moyenne}/5\n"
             # f"Avis: [{avis_str}]\n"
-            # f"Date de la dernière modification:{date_derniere_modif}"
+            f"Date de la dernière modification:{self.date_derniere_modif.strftime('%d-%m-%Y')}"
         )
