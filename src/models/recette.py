@@ -1,5 +1,6 @@
-from src/models/ingredient.py import Ingredient
-from src/models/avis.py import Avis
+from models.ingredient import Ingredient
+from models.avis import Avis
+from datetime import date
 
 
 class Recette:
@@ -69,11 +70,14 @@ class Recette:
     def __repr__(self) -> str:
         ingredients = []
 
-        ingredients_str = ', '.join(
-            [f"{ingredient['nom']}: {ingredient['quantite']}" for ingredient in self.liste_ingredient]
+        ingredients_str = ", ".join(
+            [
+                f"{ingredient['nom']}: {ingredient['quantite']}"
+                for ingredient in self.liste_ingredient
+            ]
         )
 
-        avis_str = ', '.join(
+        avis_str = ", ".join(
             [f"{avis.auteur}: {avis.note}/5 - {avis.commentaire}" for avis in self.liste_avis]
         )
 
@@ -85,6 +89,6 @@ class Recette:
             f'Mots-clés: {self.mots_cles if self.mots_cles else "Aucun"}\n'
             f"Ingrédients:\n{self.ingredients_str}\n"
             f"Note:{self.note_moyenne}/5\n"
-            f'Avis: [{avis_str}]\n'
+            f"Avis: [{avis_str}]\n"
             f"Date de la dernière modification:{date_derniere_modif}"
         )

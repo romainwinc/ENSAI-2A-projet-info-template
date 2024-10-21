@@ -40,13 +40,16 @@ class ConsulterNotesAvis(VueAbstraite):
 
         match choix:
             case "Consulter mes notes":
-                afficher_mes_notes()
+                pass
 
             case "Consulter mes avis":
-                afficher_mes_avis()
+                from service.service_avis import afficher_avis_utilisateur
 
+                afficher_avis_utilisateur()
             case "Supprimer mes notes":
-                supprimer_mes_notes()
+                pass
 
             case "Supprimer mes avis":
-                supprimer_mes_avis()
+                from service.service_avis import supprimer_avis
+
+                supprimer_avis()

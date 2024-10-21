@@ -1,10 +1,14 @@
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
+from dotenv import load_dotenv
+import os
 
 
 class RecetteFavoriteDAO(metaclass=Singleton):
     def __init__(self):
         self.connection = DBConnection().connection
+        load_dotenv()
+        self.schema = os.getenv("POSTGRES_SCHEMA")
 
     def add_recette_favorite(self, id_recette, id_utilisateur):
         """Ajoute une recette aux favoris d'un utilisateur."""

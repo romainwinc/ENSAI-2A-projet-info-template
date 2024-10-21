@@ -45,11 +45,13 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
         match choix:
             case "Consulter mes recettes favorites":
+                from service.service_consultation import consulter_recette_favorite
+
                 consulter_recette_favorite()
-
             case "Chercher une recette":
-                chercher_recette()
+                from service.service_consultation import chercher_recette
 
+                chercher_recette()
             case "Consulter mes notes et avis":
                 from view.consulter_notes_avis import ConsulterNotesAvis
 
@@ -59,11 +61,13 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
                 return IngredientsFavorisEtNonDesires()
             case "Proposer une recette":
+                from service.demande import proposer_recette
+
                 proposer_recette()
-
             case "Regarder ma liste de course":
-                afficher_liste_de_course()
+                from service.utilisateur import afficher_liste_de_course
 
+                afficher_liste_de_course()
             case "Mon compte":
                 from view.mon_compte_connecte import MonCompteConnecte
 

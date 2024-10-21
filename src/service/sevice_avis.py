@@ -1,5 +1,6 @@
-from dao import avis_dao
-from models import avis
+from datetime import datetime
+from dao.avis_dao import AvisDAO
+from models.avis import Avis
 
 
 class AvisService:
@@ -41,3 +42,14 @@ class AvisService:
         avis_list = self.recuperer_avis_par_recette(id_recette)
         for avis in avis_list:
             print(avis)
+
+    def afficher_avis_utilisateur(self, id_utilisateur):
+        """Affiche les avis liés à une recette."""
+        avis_list = self.recuperer_avis_par_utilisateur(id_utilisateur)
+        for avis in avis_list:
+            print(avis)
+
+
+if __name__ == "__main__":
+    dao = AvisDAO()
+    AvisService(dao).creer_avis(1)

@@ -32,15 +32,12 @@ class MonCompteConnecte(VueAbstraite):
 
         choix = inquirer.select(
             message="Faites votre choix : ",
-            choices=[
-                "Demande de compte professionnel",
-                "Déconnexion",
-                "Supprimer mon compte"
-            ],
+            choices=["Demande de compte professionnel", "Déconnexion", "Supprimer mon compte"],
         ).execute()
 
         match choix:
             case "Demande de compte professionnel":
+                pass
 
             case "Déconnexion":
                 Session().deconnexion()
@@ -49,3 +46,4 @@ class MonCompteConnecte(VueAbstraite):
                 return MenuNonConnecte()
 
             case "Supprimer mon compte":
+                pass

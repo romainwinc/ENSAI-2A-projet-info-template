@@ -18,7 +18,8 @@ class AvisDAO(metaclass=Singleton):
     ):
         """Ajoute un nouvel avis."""
         query = """
-            INSERT INTO avis (id_recette, id_utilisateur, titre_avis, nom_auteur, date_publication, commentaire, note)
+            INSERT INTO projet_informatique.avis (id_recette, id_utilisateur, titre_avis,
+            nom_auteur, date_publication, commentaire, note)
             VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id_avis
         """
         with self.connection as connection:
@@ -39,7 +40,7 @@ class AvisDAO(metaclass=Singleton):
 
     def get_avis_by_recette_id(self, id_recette):
         """Récupère les avis pour une recette donnée."""
-        query = "SELECT * FROM avis WHERE id_recette = %s"
+        query = "SELECT * FROM projet_informatique.avis WHERE id_recette = %s"
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (id_recette,))
@@ -47,7 +48,7 @@ class AvisDAO(metaclass=Singleton):
 
     def get_avis_by_user_id(self, id_utilisateur):
         """Récupère les avis d'un utilisateur donné."""
-        query = "SELECT * FROM avis WHERE id_utilisateur = %s"
+        query = "SELECT * FROM projet_informatique.avis WHERE id_utilisateur = %s"
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (id_utilisateur,))
@@ -56,7 +57,7 @@ class AvisDAO(metaclass=Singleton):
     def update_avis(self, avis_id, **kwargs):
         """Met à jour un avis."""
         query = (
-            "UPDATE avis SET "
+            "UPDATE projet_informatique.avis SET "
             + ", ".join([f"{key} = %s" for key in kwargs])
             + " WHERE id_avis = %s"
         )
@@ -66,7 +67,16 @@ class AvisDAO(metaclass=Singleton):
 
     def delete_avis(self, avis_id):
         """Supprime un avis par son ID."""
-        query = "DELETE FROM avis WHERE id_avis = %s"
+        query = "DELETE FROM projet_informatique.avis WHERE id_avis = %s"
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (avis_id,))
+
+    def update_avis_note(self, id_avis, note):
+        """Modifie la note d'un avis"""
+        query = (
+            "UPDATE projet_informatique.avis SET note = %(note)s" + "WHERE id_avis = %(id_avis)s"
+        )
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (id_avis, note))
