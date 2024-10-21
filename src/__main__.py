@@ -1,7 +1,7 @@
 import logging
 import dotenv
 
-from view.accueil.accueil_vue import AccueilVue
+from View.accueil.accueil_vue import AccueilVue
 
 
 if __name__ == "__main__":
