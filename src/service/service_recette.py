@@ -1,5 +1,6 @@
 from dao.recette_dao import RecetteDAO
 from models.recette import Recette
+from datetime import datetime
 
 
 class ServiceRecette:
@@ -23,7 +24,7 @@ class ServiceRecette:
         """
         recette_data = self.recette_dao.get_recette_by_id(recette_id)
         if recette_data:
-            return Recette(**recette_data)
+            return [Recette(**recette_data)]
         return None
 
     def rechercher_par_ingredient(self, nom_ingredient: str) -> list[Recette]:
@@ -32,13 +33,14 @@ class ServiceRecette:
         """
         recettes = self.recette_dao.get_all_recettes()
         recettes_avec_ingredient = []
+
         for recette_data in recettes:
             ingredients = recette_data["liste_ingredients"]
+
             # Vérifier si l'ingrédient est dans la liste des ingrédients
-            if any(
-                nom_ingredient.lower() in ingredient["nom"].lower() for ingredient in ingredients
-            ):
+            if any(nom_ingredient.lower() in ingredient.lower() for ingredient in ingredients):
                 recettes_avec_ingredient.append(Recette(**recette_data))
+
         return recettes_avec_ingredient
 
     def creer_recette(
@@ -47,12 +49,12 @@ class ServiceRecette:
         categorie: str,
         origine: str,
         instructions: str,
-        mots_cles: str | None,
-        url_image: str | None,
-        liste_ingredients: list[dict],
+        liste_ingredients: list[str],
         nombre_avis: int = 0,
+        mots_cles: str = None,
+        url_image: str = None,
         note_moyenne: float = None,
-        date_derniere_modif: str = None,
+        date_derniere_modif: datetime = datetime.now(),
     ) -> int:
         """
         Crée une nouvelle recette et retourne son ID.
@@ -100,7 +102,7 @@ class ServiceRecette:
         """
         Affiche une recette formatée par son ID.
         """
-        recette = self.rechercher_par_id(recette_id)
+        recette = self.recette_dao.get_recette_by_id(recette_id)
         if recette:
             return recette.__repr__()
         return f"Aucune recette trouvée avec l'ID {recette_id}."
@@ -108,5 +110,29 @@ class ServiceRecette:
 
 if __name__ == "__main__":
     dao = RecetteDAO()
-    print(ServiceRecette(dao).rechercher_par_id_recette(1))  # marche
-    # print(ServiceRecette(dao).rechercher_par_id_recette("Apple Frangipan Tart"))
+    # print("id")
+    # print(ServiceRecette(dao).rechercher_par_id_recette(1))  # marche
+    # print("Nom")
+    # print(ServiceRecette(dao).rechercher_par_nom_recette("Apple Frangipan Tart"))  # marche
+    # print("ingredient")
+    # print(ServiceRecette(dao).rechercher_par_ingredient("digestive biscuits")) # marche
+    # print("supprimer")
+    # print(ServiceRecette(dao).supprimer_recette(2))  # marche
+    print("modifier un argument")
+    print(
+        ServiceRecette(dao).modifier_recette(1, {"nom_recette": "Tarte aux pommes à la frangipane"})
+    )  # marche
+
+    # print("stock dans la base de donnée")
+    # print(
+    #     ServiceRecette(dao).creer_recette(
+    #         "Exemple Recette",
+    #         "Dessert",
+    #         "British",
+    #         "Touiller / Remuer / Mélanger / Agiter",
+    #         ["Butter", "Jam"],
+    #     )
+    # )
+
+    # print(representation)
+    # print(ServiceRecette(dao).afficher_recette(1)) # Marche mais est peut être redondant

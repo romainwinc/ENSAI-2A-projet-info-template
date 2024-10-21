@@ -2,6 +2,7 @@ from dao.db_connection import DBConnection
 from utils.singleton import Singleton
 from dotenv import load_dotenv
 import os
+from datetime import datetime
 
 
 class RecetteDAO(metaclass=Singleton):
@@ -28,17 +29,17 @@ class RecetteDAO(metaclass=Singleton):
         recettes = []
         for row in rows:
             recette = {
-                "id_recette": row[0],
-                "nom_recette": row[1],
-                "categorie": row[2],
-                "origine": row[3],
-                "instructions": row[4],
-                "mots_cles": row[5],
-                "url_image": row[6],
-                "liste_ingredients": row[7],
-                "nombre_avis": row[8],
-                "note_moyenne": row[9],
-                "date_derniere_modif": row[10],
+                "id_recette": row["id_recette"],
+                "nom_recette": row["nom_recette"],
+                "categorie": row["categorie"],
+                "origine": row["origine"],
+                "instructions": row["instructions"],
+                "mots_cles": row["mots_cles"],
+                "url_image": row["url_image"],
+                "liste_ingredients": row["liste_ingredients"],
+                "nombre_avis": row["nombre_avis"],
+                "note_moyenne": row["note_moyenne"],
+                "date_derniere_modif": row["date_derniere_modif"],
             }
             recettes.append(recette)
 
@@ -91,13 +92,15 @@ class RecetteDAO(metaclass=Singleton):
         date_derniere_modif,
     ):
         """Ajoute une nouvelle recette dans la table 'recette'."""
-        query = """
-            INSERT INTO recette (nom_recette, categorie, origine, instructions, 
+        query = (
+            """
+            INSERT INTO {}.recette (nom_recette, categorie, origine, instructions, 
                                  mots_cles, url_image, liste_ingredients, nombre_avis, 
                                  note_moyenne, date_derniere_modif)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id_recette
         """
+        ).format(self.schema)
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
@@ -120,9 +123,13 @@ class RecetteDAO(metaclass=Singleton):
 
     def update_recette(self, recette_id, **kwargs):
         """Met à jour une recette existante."""
-        query = "UPDATE recette SET "
-        query += ", ".join([f"{key} = %s" for key in kwargs])
-        query += " WHERE id_recette = %s"
+        query = (
+            """
+                UPDATE {}.recette 
+                SET ", ".join([f"{key} = %s" for key in kwargs] 
+                WHERE id_recette = %s
+                """
+        ).format(self.schema)
 
         with self.connection as connection:
             with connection.cursor() as cursor:
@@ -130,7 +137,11 @@ class RecetteDAO(metaclass=Singleton):
 
     def delete_recette(self, recette_id):
         """Supprime une recette par son ID."""
-        query = "DELETE FROM recette WHERE id_recette = %s"
+        query = (
+            """DELETE FROM {}.recette 
+                WHERE id_recette = %s
+                """
+        ).format(self.schema)
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (recette_id,))
@@ -138,4 +149,19 @@ class RecetteDAO(metaclass=Singleton):
 
 if __name__ == "__main__":
 
-    print(RecetteDAO().get_recette_by_id(1))
+    # print(RecetteDAO().get_recette_by_id(1))
+    # print(RecetteDAO().get_all_recettes())
+    print(
+        RecetteDAO().add_recette(
+            "Exemple Recette",
+            "Dessert",
+            "British",
+            "Touiller / Remuer / Mélanger / Agiter",
+            None,
+            None,
+            ["Butter", "Jam"],
+            None,
+            None,
+            datetime.now(),
+        )
+    )
