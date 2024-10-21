@@ -6,7 +6,7 @@ from view.session import Session
 
 class MonCompteConnecte(VueAbstraite):
     """Vue de la gestion du compte d'un utilisateur connecté (qui n'a pas de rôle spécial
-    comme administrateur ou profeissionnel)
+    comme administrateur ou professionnel)
 
     Attributes
     ----------

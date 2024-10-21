@@ -47,8 +47,8 @@ class UtilisateurDao(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(
                     "SELECT id_utilisateur                     "
-                    "  FROM projet_informatique.utilisateur                     "
-                    " WHERE nom_utilisateur = %(nom_utilisateur)s ",
+                    "FROM projet_informatique.utilisateur                     "
+                    "WHERE nom_utilisateur = %(nom_utilisateur)s ",
                     {"nom_utilisateur": nom},
                 )
                 res = cursor.fetchone()

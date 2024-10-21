@@ -134,3 +134,8 @@ class RecetteDAO(metaclass=Singleton):
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (recette_id,))
+
+
+if __name__ == "__main__":
+
+    print(RecetteDAO().get_recette_by_id(1))

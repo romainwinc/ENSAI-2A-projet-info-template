@@ -1,4 +1,5 @@
 from InquirerPy import inquirer
+from view.session import Session
 
 
 class MenuUtilisateurSeConnecter:
@@ -34,6 +35,7 @@ class MenuUtilisateurSeConnecter:
         # Simuler la vérification des informations de connexion (exemple de validation)
         if self.verifier_connexion(nom_utilisateur, mot_de_passe):
             print(f"Bienvenue, {nom_utilisateur} ! Vous êtes maintenant connecté.")
+            Session().utilisateur = nom_utilisateur
             from view.menu_principal_vue import MenuPrincipalVue
 
             return MenuPrincipalVue()
