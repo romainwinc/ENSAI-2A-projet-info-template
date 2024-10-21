@@ -101,7 +101,7 @@ class RechercheRecetteVue:
         Returns
         -------
         list
-            Retourne une liste de recettes contenant l'ingrédient ou None si aucune recette n'est trouvée.
+            Retourne liste recettes contenant l'ingrédient ou None si aucune recette n'est trouvée
         """
         # Simuler une base de données de recettes avec ingrédients
         recettes_par_ingredient = {
