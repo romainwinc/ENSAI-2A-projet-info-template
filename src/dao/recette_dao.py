@@ -71,8 +71,8 @@ class RecetteDAO(metaclass=Singleton):
                 "url_image": row["url_image"],
                 "liste_ingredients": row["liste_ingredients"],
                 "nombre_avis": row["nombre_avis"],
-                "note_moyenne": row[9],
-                "date_derniere_modif": row[10],
+                "note_moyenne": row["note_moyenne"],
+                "date_derniere_modif": row["date_derniere_modif"],
             }
             return recette
         return None
