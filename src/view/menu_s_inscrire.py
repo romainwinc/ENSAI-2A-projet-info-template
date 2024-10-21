@@ -1,7 +1,7 @@
 from InquirerPy import inquirer
 
 
-class MenuUtilisateurInscription:
+class MenuUtilisateurInscriptionVue:
     """Vue du menu d'inscription utilisateur
 
     Permet à un nouvel utilisateur de s'inscrire avec un nom d'utilisateur et un mot de passe.
@@ -31,8 +31,8 @@ class MenuUtilisateurInscription:
             invalid_message="Le mot de passe doit contenir au moins 6 caractères.",
         ).execute()
 
-        # Confirme le mot de passe
-        confirmation_mot_de_passe = inquirer.secret(
+        # Confirme le mot de passe et vérifie qu'il correspond
+        inquirer.secret(
             message="Confirmez votre mot de passe : ",
             validate=lambda x: x == mot_de_passe,
             invalid_message="Les mots de passe ne correspondent pas.",
@@ -67,10 +67,3 @@ class MenuUtilisateurInscription:
         # Cet exemple retourne True directement pour simuler une inscription réussie.
         print(f"Inscription réussie pour l'utilisateur: {nom_utilisateur}")
         return True  # Simule une réussite d'inscription
-
-
-# Exemple d'utilisation
-if __name__ == "__main__":
-    menu_inscription_vue = MenuUtilisateurInscriptionVue()
-    vue_suivante = menu_inscription_vue.choisir_menu()
-    vue_suivante.choisir_menu()  # Redirige vers la vue suivante après inscription
