@@ -1,7 +1,7 @@
 from non_connecte import Non_connecte
 from ingredient import Ingredient
 from recette import Recette
-from datetime import datetime
+from datetime import date
 
 
 class Utilisateur:
@@ -39,13 +39,12 @@ class Utilisateur:
         nom_utilisateur: str,
         mot_de_passe: str,
         role: str = "Non connecté",
-        date_inscription: datetime, 
-        ingredients_favoris: list[Ingredient],
-        recette_favorite: List[Recette],
-        liste_course: List[Ingredient],
-        liste_ingredient_favori: List[Ingredient],
-        liste_ingredient_non_desires: List[Ingredient],
-        
+        date_inscription: datetime = None,
+        ingredients_favoris: list(Ingredient) = [None],
+        recette_favorite: list(Recette) = [None],
+        liste_course: list(Ingredient) = [None],
+        liste_ingredient_favori: list(Ingredient) = [None],
+        liste_ingredient_non_desires: list(Ingredient) = [None],
     ) -> None:
         self.id_utilisateur = id_utilisateur
         self.nom_utilisateur = nom_utilisateur
