@@ -1,19 +1,25 @@
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
+from dotenv import load_dotenv
+import os
 
 
 class RecetteDAO(metaclass=Singleton):
     def __init__(self):
         self.connection = DBConnection().connection
+        load_dotenv()
+        self.schema = os.getenv("POSTGRES_SCHEMA")
 
     def get_all_recettes(self):
         """Récupère toutes les recettes de la table 'recette'."""
-        query = """
+        query = (
+            """
             SELECT id_recette, nom_recette, categorie, origine, instructions, 
                    mots_cles, url_image, liste_ingredients, nombre_avis, 
                    note_moyenne, date_derniere_modif
-            FROM recette
+            FROM {}.recette
         """
+        ).format(self.schema)
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query)
@@ -40,13 +46,15 @@ class RecetteDAO(metaclass=Singleton):
 
     def get_recette_by_id(self, recette_id):
         """Récupère une recette spécifique par son ID."""
-        query = """
+        query = (
+            """
             SELECT id_recette, nom_recette, categorie, origine, instructions, 
                    mots_cles, url_image, liste_ingredients, nombre_avis, 
                    note_moyenne, date_derniere_modif
-            FROM recette
+            FROM {}.recette
             WHERE id_recette = %s
         """
+        ).format(self.schema)
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (recette_id,))
@@ -54,15 +62,15 @@ class RecetteDAO(metaclass=Singleton):
 
         if row:
             recette = {
-                "id_recette": row[0],
-                "nom_recette": row[1],
-                "categorie": row[2],
-                "origine": row[3],
-                "instructions": row[4],
-                "mots_cles": row[5],
-                "url_image": row[6],
-                "liste_ingredients": row[7],
-                "nombre_avis": row[8],
+                "id_recette": row["id_recette"],
+                "nom_recette": row["nom_recette"],
+                "categorie": row["categorie"],
+                "origine": row["origine"],
+                "instructions": row["instructions"],
+                "mots_cles": row["mots_cles"],
+                "url_image": row["url_image"],
+                "liste_ingredients": row["liste_ingredients"],
+                "nombre_avis": row["nombre_avis"],
                 "note_moyenne": row[9],
                 "date_derniere_modif": row[10],
             }

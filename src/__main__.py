@@ -1,16 +1,12 @@
 import logging
 import dotenv
 
-from utils.log_init import initialiser_logs
-
 from view.accueil.accueil_vue import AccueilVue
 
 
 if __name__ == "__main__":
     # On charge les variables d'envionnement
     dotenv.load_dotenv(override=True)
-
-    initialiser_logs("Application")
 
     vue_courante = AccueilVue("Bienvenue")
     nb_erreurs = 0

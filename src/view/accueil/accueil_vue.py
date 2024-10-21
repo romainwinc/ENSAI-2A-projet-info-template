@@ -1,7 +1,5 @@
 from InquirerPy import inquirer
 
-from utils.reset_database import ResetDatabase
-
 from view.vue_abstraite import VueAbstraite
 from view.session import Session
 
@@ -48,9 +46,9 @@ class AccueilVue(VueAbstraite):
             case "Infos de session":
                 return AccueilVue(Session().afficher())
 
-            case "Ré-initialiser la base de données":
-                succes = ResetDatabase().lancer()
-                message = (
-                    f"Ré-initilisation de la base de données - {'SUCCES' if succes else 'ECHEC'}"
-                )
-                return AccueilVue(message)
+            # case "Ré-initialiser la base de données":
+            #     succes = ResetDatabase().lancer()
+            #     message = (
+            #         f"Ré-initilisation de la base de données - {'SUCCES' if succes else 'ECHEC'}"
+            #     )
+            #     return AccueilVue(message)
