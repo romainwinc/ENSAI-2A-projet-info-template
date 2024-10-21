@@ -1,12 +1,12 @@
 from InquirerPy import inquirer
 
-from View.vue_abstraite import VueAbstraite
-from View.session import Session
+from view.vue_abstraite import VueAbstraite
+from view.session import Session
 
 
 class MonCompteConnecte(VueAbstraite):
     """Vue de la gestion du compte d'un utilisateur connecté (qui n'a pas de rôle spécial
-    comme administrateur ou profeissionnel)
+    comme administrateur ou professionnel)
 
     Attributes
     ----------
@@ -41,7 +41,7 @@ class MonCompteConnecte(VueAbstraite):
 
             case "Déconnexion":
                 Session().deconnexion()
-                from View.menu_non_connecte import MenuNonConnecte
+                from view.menu_non_connecte import MenuNonConnecte
 
                 return MenuNonConnecte()
 

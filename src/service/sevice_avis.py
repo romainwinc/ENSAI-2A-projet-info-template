@@ -52,4 +52,4 @@ class AvisService:
 
 if __name__ == "__main__":
     dao = AvisDAO()
-    AvisService(dao).recuperer_avis_par_recette(1)
+    AvisService(dao).creer_avis(1)
