@@ -70,3 +70,10 @@ class AvisDAO(metaclass=Singleton):
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (avis_id,))
+
+    def update_avis_note(self, id_avis, note):
+        """Modifie la note d'un avis"""
+        query = "UPDATE avis SET note = %(note)s" + "WHERE id_avis = %(id_avis)s"
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (id_avis, note))

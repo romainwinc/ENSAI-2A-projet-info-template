@@ -1,5 +1,6 @@
-from dao import avis_dao
-from models import avis
+from datetime import datetime
+from dao.avis_dao import AvisDAO
+from models.avis import Avis
 
 
 class AvisService:
@@ -37,6 +38,20 @@ class AvisService:
         self.avis_dao.delete_avis(avis_id)
 
     def afficher_avis(self, id_recette):
+        """Affiche les avis liés à une recette."""
+        avis_list = self.recuperer_avis_par_recette(id_recette)
+        for avis in avis_list:
+            print(avis)
+
+    def modifier_note(self, avis_id, **kwargs):
+        """Modifie les attributs d'un avis existant."""
+        self.avis_dao.update_avis(avis_id, **kwargs)
+
+    def supprimer_note(self, avis_id):
+        """Supprime un avis de la base de données."""
+        self.avis_dao.delete_avis(avis_id)
+
+    def afficher_note(self, id_recette):
         """Affiche les avis liés à une recette."""
         avis_list = self.recuperer_avis_par_recette(id_recette)
         for avis in avis_list:
