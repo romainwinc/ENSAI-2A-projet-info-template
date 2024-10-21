@@ -121,7 +121,7 @@ if __name__ == "__main__":
     print("modifier un argument")
     print(
         ServiceRecette(dao).modifier_recette(1, {"nom_recette": "Tarte aux pommes à la frangipane"})
-    )  # marche
+    )  # marche pas
 
     # print("stock dans la base de donnée")
     # print(
