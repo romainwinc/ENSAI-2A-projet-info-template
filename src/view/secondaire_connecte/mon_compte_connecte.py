@@ -1,7 +1,7 @@
 from InquirerPy import inquirer
 
-from View.vue_abstraite import VueAbstraite
-from View.session import Session
+from view.vue_abstraite import VueAbstraite
+from view.session import Session
 
 
 class MonCompteConnecte(VueAbstraite):
@@ -41,7 +41,7 @@ class MonCompteConnecte(VueAbstraite):
 
             case "Déconnexion":
                 Session().deconnexion()
-                from View.menu_non_connecte import MenuNonConnecte
+                from view.menu_non_connecte import MenuNonConnecte
 
                 return MenuNonConnecte()
 
