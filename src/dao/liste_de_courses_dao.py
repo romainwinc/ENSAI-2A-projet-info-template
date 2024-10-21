@@ -1,10 +1,14 @@
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
+from dotenv import load_dotenv
+import os
 
 
 class ListeDeCoursesDAO(metaclass=Singleton):
     def __init__(self):
         self.connection = DBConnection().connection
+        load_dotenv()
+        self.schema = os.getenv("POSTGRES_SCHEMA")
 
     def add_liste_de_courses(self, id_ingredient, id_recette, id_utilisateur):
         """Ajoute un ingrédient à la liste de courses d'un utilisateur."""

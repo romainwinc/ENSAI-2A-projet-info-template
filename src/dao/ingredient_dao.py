@@ -1,10 +1,14 @@
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
+from dotenv import load_dotenv
+import os
 
 
 class IngredientDAO(metaclass=Singleton):
     def __init__(self):
         self.connection = DBConnection().connection
+        load_dotenv()
+        self.schema = os.getenv("POSTGRES_SCHEMA")
 
     def get_all_ingredients(self):
         """Récupère tous les ingrédients de la table 'ingredient'."""
