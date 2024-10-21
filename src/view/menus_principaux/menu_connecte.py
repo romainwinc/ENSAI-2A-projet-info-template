@@ -1,7 +1,7 @@
 from InquirerPy import inquirer
 
-from View.vue_abstraite import VueAbstraite
-from View.session import Session
+from view.vue_abstraite import VueAbstraite
+from view.session import Session
 
 
 class MenuUtilisateurConnecte(VueAbstraite):
@@ -45,30 +45,30 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
         match choix:
             case "Consulter mes recettes favorites":
-                from Service.service_consultation import consulter_recette_favorite
+                from service.service_consultation import consulter_recette_favorite
 
                 consulter_recette_favorite()
             case "Chercher une recette":
-                from Service.service_consultation import chercher_recette
+                from service.service_consultation import chercher_recette
 
                 chercher_recette()
             case "Consulter mes notes et avis":
-                from View.consulter_notes_avis import ConsulterNotesAvis
+                from view.consulter_notes_avis import ConsulterNotesAvis
 
                 return ConsulterNotesAvis()
             case "Mes ingrédients favoris et non-désirés":
-                from View.ingredients_favoris_et_non_desires import IngredientsFavorisEtNonDesires
+                from view.ingredients_favoris_et_non_desires import IngredientsFavorisEtNonDesires
 
                 return IngredientsFavorisEtNonDesires()
             case "Proposer une recette":
-                from Service.demande import proposer_recette
+                from service.demande import proposer_recette
 
                 proposer_recette()
             case "Regarder ma liste de course":
-                from Service.utilisateur import afficher_liste_de_course
+                from service.utilisateur import afficher_liste_de_course
 
                 afficher_liste_de_course()
             case "Mon compte":
-                from View.mon_compte_connecte import MonCompteConnecte
+                from view.mon_compte_connecte import MonCompteConnecte
 
                 return MonCompteConnecte()
