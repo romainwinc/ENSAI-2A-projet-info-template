@@ -28,7 +28,7 @@ class MenuProfessionnelVue(VueAbstraite):
                 "Consulter ses notes ou ses avis",
                 "Consulter ses ingrédients favoris ou ingrédients non désirés",
                 "Proposer une recette",
-                "Regarder la liste de course",
+                "Regarder la liste de courses",
                 "Demander la suppression d'une recette",
                 "Supprimer le compte",
                 "Ré-initialiser la base de données",
@@ -80,13 +80,3 @@ class MenuProfessionnelVue(VueAbstraite):
                 from view.professionnel.supprimer_compte_vue import SupprimerCompteVue
 
                 return SupprimerCompteVue()
-
-            case "Ré-initialiser la base de données":
-                succes = ResetDatabase().lancer()
-                message = (
-                    f"Ré-initilisation de la base de données - {'SUCCES' if succes else 'ECHEC'}"
-                )
-                return AccueilVue(message)
-
-            case "Infos de session":
-                return AccueilVue(Session().afficher())
