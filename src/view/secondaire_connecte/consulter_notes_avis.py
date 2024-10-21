@@ -1,7 +1,7 @@
 from InquirerPy import inquirer
 
-from View.vue_abstraite import VueAbstraite
-from View.session import Session
+from view.vue_abstraite import VueAbstraite
+from view.session import Session
 
 
 class ConsulterNotesAvis(VueAbstraite):
@@ -43,13 +43,13 @@ class ConsulterNotesAvis(VueAbstraite):
                 pass
 
             case "Consulter mes avis":
-                from Service.service_avis import afficher_avis_utilisateur
+                from service.service_avis import afficher_avis_utilisateur
 
                 afficher_avis_utilisateur()
             case "Supprimer mes notes":
                 pass
 
             case "Supprimer mes avis":
-                from Service.service_avis import supprimer_avis
+                from service.service_avis import supprimer_avis
 
                 supprimer_avis()
