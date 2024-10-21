@@ -1,10 +1,14 @@
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
+from dotenv import load_dotenv
+import os
 
 
 class DemandeDAO(metaclass=Singleton):
     def __init__(self):
         self.connection = DBConnection().connection
+        load_dotenv()
+        self.schema = os.getenv("POSTGRES_SCHEMA")
 
     def add_demande(
         self, id_utilisateur, type_demande, attribut_modifie, attribut_corrige, commentaire_demande

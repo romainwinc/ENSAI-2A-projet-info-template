@@ -5,6 +5,8 @@ from utils.singleton import Singleton
 class RecetteIngredientDAO(metaclass=Singleton):
     def __init__(self):
         self.connection = DBConnection().connection
+        load_dotenv()
+        self.schema = os.getenv("POSTGRES_SCHEMA")
 
     def add_recette_ingredient(self, id_recette, id_ingredient, mesure):
         """Ajoute une association recette-ingredient."""
