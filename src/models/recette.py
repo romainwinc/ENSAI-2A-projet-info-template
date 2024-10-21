@@ -1,6 +1,6 @@
 from models.ingredient import Ingredient
 from models.avis import Avis
-from datetime import date
+from datetime import datetime
 
 
 class Recette:
@@ -47,7 +47,7 @@ class Recette:
         instructions: str,
         liste_ingredients: list[dict],
         nombre_avis: int,
-        date_derniere_modif: date,
+        date_derniere_modif: datetime = datetime.now(),
         mots_cles: str = None,
         url_image: str = None,
         note_moyenne: float = None,
