@@ -1,7 +1,5 @@
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
-from dotenv import load_dotenv
-import os
 
 
 class RecetteDAO(metaclass=Singleton):
