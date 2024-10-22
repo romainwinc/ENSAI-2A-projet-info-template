@@ -114,7 +114,7 @@ class RecetteDAO(metaclass=Singleton):
             return recette
         return None
 
-    def add_recette(
+    def ajouter_recette(
         self,
         nom_recette,
         categorie,
@@ -127,21 +127,29 @@ class RecetteDAO(metaclass=Singleton):
         note_moyenne,
         date_derniere_modif,
     ):
-        """Ajoute une nouvelle recette dans la table 'recette'."""
-        query = (
-            """
-            INSERT INTO {}.recette (nom_recette, categorie, origine, instructions, 
-                                 mots_cles, url_image, liste_ingredients, nombre_avis, 
-                                 note_moyenne, date_derniere_modif)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            RETURNING id_recette
-        """
-        ).format(self.schema)
-        with self.connection as connection:
-            with connection.cursor() as cursor:
+        try:
+            with self.connection.cursor() as cursor:
+                # Récupérer le maximum des id_recette existants
                 cursor.execute(
-                    query,
+                    ("SELECT COALESCE(MAX(id_recette), 0) FROM {}.recette;").format(self.schema)
+                )
+                max_id = cursor.fetchone()[0]
+
+                # Calculer le nouvel ID
+                new_id = max_id + 1
+                print(new_id)
+                # Insérer la nouvelle recette avec le nouvel ID
+                cursor.execute(
                     (
+                        """
+                    INSERT INTO {}.recette (
+                        id_recette, nom_recette, categorie, origine, instructions, mots_cles, 
+                        url_image, liste_ingredients, nombre_avis, note_moyenne, date_derniere_modif
+                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+                    """
+                    ).format(self.schema),
+                    (
+                        new_id,
                         nom_recette,
                         categorie,
                         origine,
@@ -154,8 +162,12 @@ class RecetteDAO(metaclass=Singleton):
                         date_derniere_modif,
                     ),
                 )
-                recette_id = cursor.fetchone()[0]
-        return recette_id
+                self.connection.commit()
+                return new_id
+        except Exception as e:
+            self.connection.rollback()
+            print(f"Erreur lors de l'insertion de la recette: {e}")
+            return None
 
     def update_by_recette_id(self, recette_id, **kwargs):
         """Met à jour une recette existante."""
@@ -213,23 +225,24 @@ if __name__ == "__main__":
 
     # print(RecetteDAO().get_recette_by_id(1))
     # print(RecetteDAO().get_all_recettes())
-    # print(
-    #     RecetteDAO().add_recette(
-    #         "Exemple Recette",
-    #         "Dessert",
-    #         "British",
-    #         "Touiller / Remuer / Mélanger / Agiter",
-    #         None,
-    #         None,
-    #         ["Butter", "Jam"],
-    #         None,
-    #         None,
-    #         datetime.now(),
-    #     )
-    # ) # marche pas
 
     # print("update par id")
     # print(RecetteDAO().update_by_recette_id(1, nom_recette="Tarte"))  # marche
 
-    print("update par nom")
-    print(RecetteDAO().update_by_nom_recette("Burek", categorie="exemple de dessert"))  # marche
+    # print("update par nom")
+    # print(RecetteDAO().update_by_nom_recette("Burek", categorie="exemple de dessert"))  # marche
+
+    print(
+        RecetteDAO().ajouter_recette(
+            "Exemple Recette",  # nom_recette
+            "Dessert",  # categorie
+            "British",  # origine
+            "Touiller / Remuer / Mélanger / Agiter",  # instructions
+            None,  # mots_cles (ici None, donc NULL en base)
+            None,  # url_image (None si non fourni)
+            ["Butter", "Jam"],  # liste_ingredients (un tableau en Python)
+            None,  # nombre_avis (None signifie pas encore d'avis)
+            None,  # note_moyenne (pas encore de notes)
+            datetime.now(),  # date_derniere_modif (date d'aujourd'hui)
+        )
+    )
