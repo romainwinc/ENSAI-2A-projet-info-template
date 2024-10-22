@@ -1,7 +1,6 @@
-from non_connecte import Non_connecte
 from ingredient import Ingredient
 from recette import Recette
-from datetime import date
+from datetime import datetime
 
 
 class Utilisateur:
@@ -35,9 +34,9 @@ class Utilisateur:
 
     def __init__(
         self,
-        id_utilisateur: str,
         nom_utilisateur: str,
         mot_de_passe: str,
+        id_utilisateur: str = None,
         role: str = "Non connecté",
         date_inscription: datetime = None,
         ingredients_favoris: list(Ingredient) = [None],
@@ -46,12 +45,12 @@ class Utilisateur:
         liste_ingredient_favori: list(Ingredient) = [None],
         liste_ingredient_non_desires: list(Ingredient) = [None],
     ) -> None:
-        self.id_utilisateur = id_utilisateur
         self.nom_utilisateur = nom_utilisateur
         self.mot_de_passe = mot_de_passe
+        self.id_utilisateur = id_utilisateur
         self.role = role
         self.date_inscription = date_inscription
-        self.ingredient_favori = ingredient_favori
+        self.ingredients_favoris = ingredients_favoris
         self.recette_favorite = recette_favorite
         self.liste_course = liste_course
         self.liste_ingredient_favori = liste_ingredient_favori
@@ -62,8 +61,9 @@ class Utilisateur:
         Renvoie une représentation lisible de l'utilisateur connecté.
         """
         return (
-            f"Connecte(identifiant={self.id_utilisateur}, nom d'utilisateur={self.mot_de_passe}, "
-            f"ingredient_favori={self.ingredient_favori}, recette_favorite={self.recette_favorite}, "
-            f"liste_course={self.liste_course}, liste_ingredient_favori={self.liste_ingredient_favori}, "
+            f"Connecte(identifiant={self.id_utilisateur}, nom d'utilisateur={self.nom_utilisateur},"
+            f"mot de passe ={self.mot_de_passe},ingredient_favori={self.ingredient_favori},"
+            f"recette_favorite={self.recette_favorite},liste_course={self.liste_course}, "
+            f"liste_ingredient_favori={self.liste_ingredient_favori}, "
             f"liste_ingredient_non_desires={self.liste_ingredient_non_desires}, role={self.grade})"
         )
