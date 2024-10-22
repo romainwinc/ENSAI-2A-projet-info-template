@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 from utils.singleton import Singleton
 from dao.db_connection import DBConnection
@@ -72,3 +73,88 @@ class UtilisateurDao(metaclass=Singleton):
                     "DELETE FROM projet_informatique.utilisateur WHERE id_utilisateur = %s",
                     id_utilisateur,
                 )
+
+    def se_connecter(self, pseudo, mdp) -> Utilisateur:
+        """se connecter grâce à son pseudo et son mot de passe
+
+        Parameters
+        ----------
+        pseudo : str
+            pseudo de l'utilisateur que l'on souhaite trouver
+        mdp : str
+            mot de passe de l'utilisateur
+
+        Returns
+        -------
+        joueur : Utilisateur
+            renvoie l'utilisateur que l'on cherche
+        """
+        res = None
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT *                           "
+                        "  FROM utilisateur                      "
+                        " WHERE pseudo = %(pseudo)s         "
+                        "   AND mdp = %(mdp)s;              ",
+                        {"pseudo": pseudo, "mdp": mdp},
+                    )
+                    res = cursor.fetchone()
+        except Exception as e:
+            logging.info(e)
+
+        utilisateur = None
+
+        if res:
+            utilisateur = Utilisateur(
+                nom_utilisateur=res["nom_utilisateur"],
+                mot_de_passe=res["mot_de_passe"],
+                id_utilisateur=res["id_utilisateur"],
+                role=res["role"],
+                date_inscription=res["date_inscription"],
+            )
+
+        return utilisateur
+
+
+def lister_tous(self) -> list[Utilisateur]:
+    """lister tous les utilisateurs
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    liste_utilisateurs : list[Utilisateur]
+        renvoie la liste de tous les utilisateurs dans la base de données
+    """
+
+    try:
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT *                              "
+                    "  FROM utilisateur;                        "
+                )
+                res = cursor.fetchall()
+    except Exception as e:
+        logging.info(e)
+        raise
+
+    liste_utilisateurs = []
+
+    if res:
+        for row in res:
+            utilisateur = Utilisateur(
+                nom_utilisateur=res["nom_utilisateur"],
+                mot_de_passe=res["mot_de_passe"],
+                id_utilisateur=res["id_utilisateur"],
+                role=res["role"],
+                date_inscription=res["date_inscription"],
+            )
+
+            liste_utilisateurs.append(utilisateur)
+
+    return liste_utilisateurs

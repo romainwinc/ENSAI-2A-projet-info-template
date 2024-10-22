@@ -1,6 +1,7 @@
 from dao.utilisateur_dao import UtilisateurDao
 from models.utilisateur import Utilisateur
 from datetime import datetime
+from utils.securite import hash_password
 
 
 class ServiceUtilisateur:
@@ -27,8 +28,9 @@ class ServiceUtilisateur:
         """Supprime un compte utilisateur"""
         self.utilisateur_dao.delete_user(id_utilisateur)
 
-    def demande_de_changement_de_role(self, id_utilisateur: str, dde_role: str):
-        return None  # la fonction n'est pas encore créer car il manque des attribus pour pouvoir la faire
+    def se_connecter(self, pseudo, mdp) -> Utilisateur:
+        """Se connecter à partir de pseudo et mdp"""
+        return UtilisateurDao().se_connecter(pseudo, hash_password(mdp, pseudo))
 
 
 if __name__ == "__main__":
@@ -45,5 +47,11 @@ if __name__ == "__main__":
         )
     except ValueError as e:
         print(e)
+
+    def nom_utilisateur_deja_utilise(self, nom_utilisateur) -> bool:
+        """Vérifie si le nom d'utilisateur est déjà utilisé
+        Retourne True si le nom d'utilisateur existe déjà en BDD"""
+        utilisateurs = UtilisateurDao().lister_tous()
+        return utilisateur in [u.nom_utilisateur for u in utilisateurs]
 
     # ServiceUtilisateur(dao).changer_role_utilisateur(utilisateur, "Admin")

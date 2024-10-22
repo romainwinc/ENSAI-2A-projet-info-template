@@ -64,9 +64,11 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
                 proposer_recette()
             case "Afficher ma liste de course":
-                from view.liste_course import ListeCourse
+                utilisateur_id = Session().utilisateur
+                dao = IngredientDAO()
+                ingredient_service = IngredientService(dao)
+                ingredient_service.afficher_ingredients_liste_courses(utilisateur_id)
 
-                return ListeCourse()
             case "Mon compte":
                 from view.mon_compte_connecte import MonCompteConnecte
 
