@@ -40,27 +40,19 @@ class ConsulterNotesAvis(VueAbstraite):
             ],
         ).execute()
 
+        utilisateur_id = Session().utilisateur
+        dao = AvisDAO()
+        avis_service = AvisService(dao)
+
         match choix:
             case "Consulter mes notes":
-                dao = AvisDAO()
-                avis_service = AvisService(dao)
-                utilisateur_id = Session().utilisateur
                 avis_service.afficher_avis_utilisateur(utilisateur_id)
 
             case "Consulter mes avis":
-                dao = AvisDAO()
-                avis_service = AvisService(dao)
-                utilisateur_id = Session().utilisateur
                 avis_service.afficher_avis_utilisateur(utilisateur_id)
 
             case "Supprimer mes notes":
-                dao = AvisDAO()
-                avis_service = AvisService(dao)
-                utilisateur_id = Session().utilisateur
                 avis_service.supprimer_note_utilisateur(utilisateur_id)
 
             case "Supprimer mes avis":
-                dao = AvisDAO()
-                avis_service = AvisService(dao)
-                utilisateur_id = Session().utilisateur
                 avis_service.supprimer_avis_utilisateur(utilisateur_id)

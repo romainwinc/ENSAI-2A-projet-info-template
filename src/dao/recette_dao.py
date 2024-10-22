@@ -80,6 +80,40 @@ class RecetteDAO(metaclass=Singleton):
             return recette
         return None
 
+    def get_recette_by_nom_recette(self, nom_recette):
+        """Récupère une recette spécifique par son nom."""
+        query = (
+            """
+            SELECT id_recette, nom_recette, categorie, origine, instructions, 
+                   mots_cles, url_image, liste_ingredients, nombre_avis, 
+                   note_moyenne, date_derniere_modif
+            FROM {}.recette
+            WHERE nom_recette = %s
+            """
+        ).format(self.schema)
+
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (nom_recette,))
+                row = cursor.fetchone()
+
+        if row:
+            recette = {
+                "id_recette": row["id_recette"],
+                "nom_recette": row["nom_recette"],
+                "categorie": row["categorie"],
+                "origine": row["origine"],
+                "instructions": row["instructions"],
+                "mots_cles": row["mots_cles"],
+                "url_image": row["url_image"],
+                "liste_ingredients": row["liste_ingredients"],
+                "nombre_avis": row["nombre_avis"],
+                "note_moyenne": row["note_moyenne"],
+                "date_derniere_modif": row["date_derniere_modif"],
+            }
+            return recette
+        return None
+
     def add_recette(
         self,
         nom_recette,
@@ -198,4 +232,4 @@ if __name__ == "__main__":
     # print(RecetteDAO().update_by_recette_id(1, nom_recette="Tarte"))  # marche
 
     print("update par nom")
-    print(RecetteDAO().update_by_recette_id("Apam balik", categorie="exemple de dessert"))  # marche
+    print(RecetteDAO().update_by_nom_recette("Burek", categorie="exemple de dessert"))  # marche

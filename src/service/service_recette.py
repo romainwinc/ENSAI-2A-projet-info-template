@@ -85,11 +85,11 @@ class ServiceRecette:
         self.recette_dao.update_by_recette_id(recette_id, **kwargs)
         return True
 
-    def modifier_recette_nom(self, nom_recette: int, **kwargs) -> bool:
+    def modifier_recette_nom_recette(self, nom_recette: int, **kwargs) -> bool:
         """
         Modifie une recette existante. Les champs à mettre à jour sont passés en tant que paramètres.
         """
-        recette_existante = self.recette_dao.get_recette_by_nom(nom_recette)
+        recette_existante = self.recette_dao.get_recette_by_nom_recette(nom_recette)
         if not recette_existante:
             print(f"Recette avec ID {nom_recette} non trouvée.")
             return False
@@ -132,6 +132,10 @@ if __name__ == "__main__":
     # print(ServiceRecette(dao).supprimer_recette(2))  # marche
     # print("modifier un argument")
     # print(ServiceRecette(dao).modifier_recette_id(1, nom_recette="Tarte crème"))  # marche
+    # print("modifier un argument")
+    # print(
+    #     ServiceRecette(dao).modifier_recette_nom_recette("Ayam Percik", categorie="Viande")
+    # )  # marche
 
     # print("stock dans la base de donnée")
     # print(
