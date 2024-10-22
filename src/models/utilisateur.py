@@ -41,8 +41,5 @@ class Utilisateur:
         """
         return (
             f"Connecte(identifiant={self.id_utilisateur}, nom d'utilisateur={self.nom_utilisateur},"
-            f"mot de passe ={self.mot_de_passe},ingredient_favori={self.ingredient_favori},"
-            f"recette_favorite={self.recette_favorite},liste_course={self.liste_course}, "
-            f"liste_ingredient_favori={self.liste_ingredient_favori}, "
-            f"liste_ingredient_non_desires={self.liste_ingredient_non_desires}, role={self.grade})"
+            f"mot de passe ={self.mot_de_passe}, role={self.role})"
         )
