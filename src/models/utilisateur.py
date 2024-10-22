@@ -1,6 +1,6 @@
-from recette import Recette
+from models.recette import Recette
 from datetime import datetime
-from ingredient import Ingredient
+from models.ingredient import Ingredient
 
 
 class Utilisateur:
@@ -39,11 +39,11 @@ class Utilisateur:
         id_utilisateur: str = None,
         role: str = "Non connecté",
         date_inscription: datetime = None,
-        ingredients_favoris: list(Ingredient) = [None],
-        recette_favorite: list(Recette) = [None],
-        liste_course: list(Ingredient) = [None],
-        liste_ingredient_favori: list(Ingredient) = [None],
-        liste_ingredient_non_desires: list(Ingredient) = [None],
+        ingredients_favoris: list[Ingredient] = None,
+        recette_favorite: list[Recette] = None,
+        liste_course: list[Ingredient] = None,
+        liste_ingredient_favori: list[Ingredient] = None,
+        liste_ingredient_non_desires: list[Ingredient] = None,
     ) -> None:
         self.nom_utilisateur = nom_utilisateur
         self.mot_de_passe = mot_de_passe

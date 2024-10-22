@@ -15,7 +15,9 @@ class ServiceUtilisateur:
         grade = "Connecté"
         date_inscrit = datetime.now()
         id_utilisateur = self.utilisateur_dao.add_user(
-            utilisateur.id_utilisateur, utilisateur.nom_utilisateur, utilisateur.mot_de_passe
+            Utilisateur(
+                utilisateur.id_utilisateur, utilisateur.nom_utilisateur, utilisateur.mot_de_passe
+            )
         )
 
         return Utilisateur(
@@ -51,4 +53,4 @@ if __name__ == "__main__":
     except ValueError as e:
         print(e)
 
-    ServiceUtilisateur(dao).changer_role_utilisateur(utilisateur, "Admin")
+    # ServiceUtilisateur(dao).changer_role_utilisateur(utilisateur, "Admin")
