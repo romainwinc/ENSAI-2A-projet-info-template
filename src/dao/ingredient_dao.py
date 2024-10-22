@@ -1,4 +1,5 @@
 from dao.db_connection import DBConnection
+from models.ingredient import Ingredient
 from utils.singleton import Singleton
 from psycopg2 import sql
 from dotenv import load_dotenv
@@ -84,24 +85,30 @@ class IngredientDAO(metaclass=Singleton):
             return ingredient
         return None
 
-    def add_ingredient(self, nom_ingredient, description_ingredient):
-        """Ajoute un nouvel ingrédient dans la table 'ingredient'."""
-        try:
-            with self.connection.cursor() as cursor:
+    def add_ingredient(self, ingredient: Ingredient) -> bool:
+        """Ajout d'un nouvel ingrédient"""
+        res = None
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
                 cursor.execute(
-                    (
-                        "INSERT INTO {}.ingredient (nom_ingredient, description_ingredient) "
-                        "VALUES (%s, %s) RETURNING id_ingredient"
-                    ).format(self.schema),
-                    (nom_ingredient, description_ingredient),
+                    "INSERT INTO {}.ingredient "
+                    "(nom_ingredient, description_ingredient) "
+                    "VALUES (%(nom_ingredient)s, %(description_ingredient)s) "
+                    "RETURNING id_ingredient;".format(self.schema),
+                    {
+                        "nom_ingredient": ingredient.nom_ingredient,
+                        "description_ingredient": ingredient.description_ingredient,
+                    },
                 )
-                ingredient_id = cursor.fetchone()[0]
-                self.connection.commit()
-                return ingredient_id
-        except Exception as e:
-            self.connection.rollback()
-            print(f"Erreur lors de l'insertion de l'ingrédient: {e}")
-            return None
+                res = cursor.fetchone()
+
+        created = False
+        if res:
+            ingredient.id_ingredient = res["id_ingredient"]
+            created = True
+
+        return created
+
 
     def update_by_ingredient_id(self, ingredient_id, **kwargs):
         """Met à jour un ingrédient existant par son ID."""
@@ -122,6 +129,26 @@ class IngredientDAO(metaclass=Singleton):
                 cursor.execute(query, (*kwargs.values(), ingredient_id))
                 connection.commit()
 
+    def update_by_ingredient_nom(self, nom_ingredient, **kwargs):
+        """Met à jour un ingrédient existant par son nom."""
+        # Construire dynamiquement la partie SET avec des Identifiers sécurisés
+        set_clause = sql.SQL(", ").join(
+            sql.SQL("{} = %s").format(sql.Identifier(key)) for key in kwargs
+        )
+
+        query = sql.SQL(
+            """
+            UPDATE {}.ingredient
+            SET {}
+            WHERE nom_ingredient = %s
+            """
+        ).format(sql.Identifier(self.schema), set_clause)
+
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (*kwargs.values(), nom_ingredient))
+                connection.commit()
+
     def delete_ingredient(self, ingredient_id):
         """Supprime un ingrédient par son ID."""
         query = (
@@ -138,12 +165,21 @@ class IngredientDAO(metaclass=Singleton):
 
 if __name__ == "__main__":
 
-    print(IngredientDAO().get_all_ingredients())
+    # print(IngredientDAO().get_all_ingredients()) # Marche
 
-    # print(IngredientDAO().get_ingredient_by_id(1))
+    # print(IngredientDAO().get_ingredient_by_id(122)) # marche
+
+    # print(IngredientDAO().get_ingredient_by_nom("Eggs")) # Marche
 
     # print("update par id")
-    # print(IngredientDAO().update_by_ingredient_id(1, nom_ingredient="Tarte"))  # marche
+    # print(
+    #     IngredientDAO().update_by_ingredient_id(5, nom_ingredient="Tests Changement de Nom")
+    # )  # marche
 
     # print("update par nom")
-    # print(IngredientDAO().update_by_nom_ingredient("Burek", categorie="exemple de dessert"))  # marche
+    # print(
+    #     IngredientDAO().update_by_ingredient_nom("Eggs", description_ingredient="exemple d'oeufs")
+    # )  # marche
+
+    # print("Suppression")
+    # print(IngredientDAO().delete_ingredient(5))  # marche
