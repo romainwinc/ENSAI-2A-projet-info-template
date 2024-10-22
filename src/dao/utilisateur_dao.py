@@ -2,7 +2,6 @@ from typing import Optional
 from utils.singleton import Singleton
 from dao.db_connection import DBConnection
 from models.utilisateur import Utilisateur
-from dotenv import load_dotenv
 
 
 class UtilisateurDao(metaclass=Singleton):

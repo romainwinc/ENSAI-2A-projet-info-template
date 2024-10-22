@@ -1,5 +1,6 @@
 from recette import Recette
 from datetime import datetime
+from ingredient import Ingredient
 
 
 class Utilisateur:
