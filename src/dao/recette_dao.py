@@ -1,5 +1,7 @@
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
+import psycopg2
+from psycopg2 import sql
 from dotenv import load_dotenv
 import os
 from datetime import datetime
@@ -121,19 +123,45 @@ class RecetteDAO(metaclass=Singleton):
                 recette_id = cursor.fetchone()[0]
         return recette_id
 
-    def update_recette(self, recette_id, **kwargs):
+    def update_by_recette_id(self, recette_id, **kwargs):
         """Met à jour une recette existante."""
-        query = (
+        # Construire dynamiquement la partie SET avec des Identifiers sécurisés
+        set_clause = sql.SQL(", ").join(
+            sql.SQL("{} = %s").format(sql.Identifier(key)) for key in kwargs
+        )
+
+        query = sql.SQL(
             """
-                UPDATE {}.recette 
-                SET ", ".join([f"{key} = %s" for key in kwargs] 
+                UPDATE {}.recette
+                SET {}
                 WHERE id_recette = %s
-                """
-        ).format(self.schema)
+            """
+        ).format(sql.Identifier(self.schema), set_clause)
 
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (*kwargs.values(), recette_id))
+                connection.commit()
+
+    def update_by_nom_recette(self, nom_recette, **kwargs):
+        """Met à jour une recette existante."""
+        # Construire dynamiquement la partie SET avec des Identifiers sécurisés
+        set_clause = sql.SQL(", ").join(
+            sql.SQL("{} = %s").format(sql.Identifier(key)) for key in kwargs
+        )
+
+        query = sql.SQL(
+            """
+                UPDATE {}.recette
+                SET {}
+                WHERE nom_recette = %s
+            """
+        ).format(sql.Identifier(self.schema), set_clause)
+
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (*kwargs.values(), nom_recette))
+                connection.commit()
 
     def delete_recette(self, recette_id):
         """Supprime une recette par son ID."""
@@ -151,17 +179,23 @@ if __name__ == "__main__":
 
     # print(RecetteDAO().get_recette_by_id(1))
     # print(RecetteDAO().get_all_recettes())
-    print(
-        RecetteDAO().add_recette(
-            "Exemple Recette",
-            "Dessert",
-            "British",
-            "Touiller / Remuer / Mélanger / Agiter",
-            None,
-            None,
-            ["Butter", "Jam"],
-            None,
-            None,
-            datetime.now(),
-        )
-    )
+    # print(
+    #     RecetteDAO().add_recette(
+    #         "Exemple Recette",
+    #         "Dessert",
+    #         "British",
+    #         "Touiller / Remuer / Mélanger / Agiter",
+    #         None,
+    #         None,
+    #         ["Butter", "Jam"],
+    #         None,
+    #         None,
+    #         datetime.now(),
+    #     )
+    # ) # marche pas
+
+    # print("update par id")
+    # print(RecetteDAO().update_by_recette_id(1, nom_recette="Tarte"))  # marche
+
+    print("update par nom")
+    print(RecetteDAO().update_by_recette_id("Apam balik", categorie="exemple de dessert"))  # marche
