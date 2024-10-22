@@ -42,41 +42,25 @@ class ConsulterNotesAvis(VueAbstraite):
 
         match choix:
             case "Consulter mes notes":
-                pass
-
-            case "Consulter mes avis":
-
                 dao = AvisDAO()
                 avis_service = AvisService(dao)
-                avis_service.afficher_avis_utilisateur(Session().utilisateur)
+                utilisateur_id = Session().utilisateur
+                avis_service.afficher_avis_utilisateur(utilisateur_id)
+
+            case "Consulter mes avis":
+                dao = AvisDAO()
+                avis_service = AvisService(dao)
+                utilisateur_id = Session().utilisateur
+                avis_service.afficher_avis_utilisateur(utilisateur_id)
+
             case "Supprimer mes notes":
-                pass
+                dao = AvisDAO()
+                avis_service = AvisService(dao)
+                utilisateur_id = Session().utilisateur
+                avis_service.supprimer_note_utilisateur(utilisateur_id)
 
             case "Supprimer mes avis":
+                dao = AvisDAO()
+                avis_service = AvisService(dao)
                 utilisateur_id = Session().utilisateur
-                # Récupérer les avis de l'utilisateur
-                avis_list = self.service_avis.recuperer_avis_par_utilisateur(utilisateur_id)
-
-                if avis_list:
-                    # Afficher les avis disponibles avec leur ID pour que l'utilisateur sache quel ID choisir
-                    print("\nVoici vos avis :\n")
-                    for avis in avis_list:
-                        print(
-                            f"ID: {avis.id}, Titre: {avis.titre}, Commentaire: {avis.commentaire}"
-                        )
-
-                    # Demander à l'utilisateur d'entrer l'ID de l'avis à supprimer
-                    avis_id = inquirer.text(
-                        message="Entrez l'ID de l'avis que vous souhaitez supprimer :",
-                    ).execute()
-
-                    # Valider que l'ID est bien dans la liste des avis de l'utilisateur
-                    avis_ids = [str(avis.id) for avis in avis_list]
-                    if avis_id in avis_ids:
-                        # Supprimer l'avis si l'ID est valide
-                        self.avis_service.supprimer_avis(int(avis_id))
-                        print(f"L'avis avec l'ID {avis_id} a été supprimé.")
-                    else:
-                        print("L'ID fourni ne correspond à aucun de vos avis.")
-                else:
-                    print("Vous n'avez aucun avis à supprimer.")
+                avis_service.supprimer_avis_utilisateur(utilisateur_id)
