@@ -2,6 +2,7 @@ from typing import Optional
 from utils.singleton import Singleton
 from dao.db_connection import DBConnection
 from models.utilisateur import Utilisateur
+from dotenv import load_dotenv
 
 
 class UtilisateurDao(metaclass=Singleton):
@@ -59,7 +60,7 @@ class UtilisateurDao(metaclass=Singleton):
         if res:
             return res["id_utilisateur"]
 
-    def update_user(self, id_utilisateur, upgrade):
+    def update_user(self, id_utilisateur: str, upgrade: str):
         """Met à jour une association recette-ingredient."""
         query = (
             "UPDATE projet_informatique.utilisateur SET role= %(upgrade)s"

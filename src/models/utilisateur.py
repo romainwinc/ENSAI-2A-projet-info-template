@@ -1,4 +1,3 @@
-from ingredient import Ingredient
 from recette import Recette
 from datetime import datetime
 

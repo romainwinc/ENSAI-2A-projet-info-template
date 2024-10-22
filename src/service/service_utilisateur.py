@@ -1,7 +1,7 @@
 from dao.utilisateur_dao import UtilisateurDao
 from models.utilisateur import Utilisateur
 from datetime import datetime
-from models.utilisateur import Utilisateur
+
 
 
 class ServiceUtilisateur:
@@ -22,6 +22,9 @@ class ServiceUtilisateur:
             grade,
             date_inscrit,
         )
+    
+    def changer_role_utilisateur(self, utilisateur: Utilisateur):
+
 
 
 if __name__ == "__main__":
