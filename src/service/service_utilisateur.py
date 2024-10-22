@@ -7,26 +7,17 @@ class ServiceUtilisateur:
     def __init__(self, utilisateur_dao):
         self.utilisateur_dao = utilisateur_dao
 
-    def creer_utilisateur(self, utilisateur: Utilisateur):
+    def creer_utilisateur(self, nom, mdp) -> Utilisateur:
         """Crée un nouvel utilisateur et le stocke dans la base de données."""
         if not utilisateur.mot_de_passe:  # Vérifie si le mot de passe est vide
             raise ValueError("Le mot de passe ne peut pas être vide.")
 
         grade = "Connecté"
         date_inscrit = datetime.now()
-        id_utilisateur = self.utilisateur_dao.add_user(
-            Utilisateur(
-                utilisateur.id_utilisateur, utilisateur.nom_utilisateur, utilisateur.mot_de_passe
-            )
+        nouvel_utilisateur = Utilisateur(
+            nom_utilisateur=nom, mot_de_passe=mdp, role=grade, date_inscription=date_inscrit
         )
-
-        return Utilisateur(
-            id_utilisateur,
-            utilisateur.nom_utilisateur,
-            utilisateur.mot_de_passe,
-            grade,
-            date_inscrit,
-        )
+        return nouvel_utilisateur if UtilisateurDao().add_user(nouvel_utilisateur) else None
 
     def changer_role_utilisateur(self, id_utilisateur: str, new_role: str):
         """Change le role d'un utilisateur"""
@@ -49,7 +40,9 @@ if __name__ == "__main__":
             id_utilisateur=None,
             role="Connecté",
         )
-        ServiceUtilisateur(dao).creer_utilisateur(utilisateur)
+        ServiceUtilisateur(dao).creer_utilisateur(
+            utilisateur.nom_utilisateur, utilisateur.mot_de_passe
+        )
     except ValueError as e:
         print(e)
 

@@ -10,32 +10,25 @@ class UtilisateurDao(metaclass=Singleton):
 
     def add_user(self, utilisateur: Utilisateur) -> bool:
         """Ajout d'un utilisateur"""
-        created = False
-
-        # Get the id user
-        id_user = UtilisateurDao().find_id_user(
-            utilisateur.nom_utilisateur, utilisateur.mot_de_passe
-        )
-        if id_user is None:
-            return created
-
+        res = None
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
                     "INSERT INTO projet_informatique.utilisateur "
-                    "(id_utilisateur, nom_utilsateur, mot_de_passe, role, date_inscription) "
+                    "(nom_utilisateur, mot_de_passe, role, date_inscription) "
                     "VALUES                                                         "
-                    "(%(nom_utilsateur)s, %(mot_de_passe)s,     "
+                    "(%(nom_utilisateur)s, %(mot_de_passe)s,     "
                     " %(role)s, %(date_inscription)s)                               "
                     "RETURNING id_utilisateur;",
                     {
-                        "nom_utilsateur": utilisateur.nom_utilisateur,
+                        "nom_utilisateur": utilisateur.nom_utilisateur,
                         "mot_de_passe": utilisateur.mot_de_passe,
                         "role": utilisateur.role,
                         "date_inscription": utilisateur.date_inscription,
                     },
                 )
                 res = cursor.fetchone()
+        created = False
         if res:
             utilisateur.id_utilisateur = res["id_utilisateur"]
             created = True
