@@ -26,17 +26,29 @@ class ServiceUtilisateur:
             date_inscrit,
         )
 
+    def changer_role_utilisateur(self, id_utilisateur: str, new_role: str):
+        """Change le role d'un utilisateur"""
+        self.utilisateur_dao.update_user(id_utilisateur, new_role)
+
+    def supprimer_utilisateur(self, id_utilisateur):
+        """Supprime un compte utilisateur"""
+        self.utilisateur_dao.delete_user(id_utilisateur)
+
+    def demande_de_changement_de_role(self, id_utilisateur: str, dde_role: str):
+        return None  # la fonction n'est pas encore créer car il manque des attribus pour pouvoir la faire
+
 
 if __name__ == "__main__":
     dao = UtilisateurDao()
     try:
         utilisateur = Utilisateur(
-            id_utilisateur=None,  # ID sera généré par la base de données
             nom_utilisateur="Antoine_Dupont",
-            mot_de_passe="",  # Mot de passe vide pour tester la validation
-            role="Connecté",  # Ceci devrait être géré dans le service
-            date_inscription=datetime.now(),
+            mot_de_passe="Totolebest",
+            id_utilisateur=None,
+            role="Connecté",
         )
         ServiceUtilisateur(dao).creer_utilisateur(utilisateur)
     except ValueError as e:
         print(e)
+
+    ServiceUtilisateur(dao).changer_role_utilisateur(utilisateur, "Admin")

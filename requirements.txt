@@ -10,4 +10,3 @@ regex
 requests
 tabulate
 uvicorn
-dotenv

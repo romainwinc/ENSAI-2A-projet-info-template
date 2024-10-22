@@ -77,7 +77,8 @@ class AvisService:
         print("\nVoici vos avis :\n")
         for avis in avis_list:
             print(
-                f"ID: {avis.id_avis}, Titre: {avis.titre_avis}, Commentaire: {avis.commentaire}, Note: {avis.note}"
+                f"ID: {avis.id_avis}, Titre: {avis.titre_avis}, "
+                f"Commentaire: {avis.commentaire}, Note: {avis.note}"
             )
 
         # Demander à l'utilisateur d'entrer l'ID de l'avis à supprimer

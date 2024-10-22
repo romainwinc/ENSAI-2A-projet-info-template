@@ -59,7 +59,7 @@ class UtilisateurDao(metaclass=Singleton):
         if res:
             return res["id_utilisateur"]
 
-    def update_user(self, id_utilisateur, upgrade):
+    def update_user(self, id_utilisateur: str, upgrade: str):
         """Met à jour une association recette-ingredient."""
         query = (
             "UPDATE projet_informatique.utilisateur SET role= %(upgrade)s"
