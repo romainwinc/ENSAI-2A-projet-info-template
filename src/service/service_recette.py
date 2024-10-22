@@ -73,7 +73,7 @@ class ServiceRecette:
         )
         return recette_id
 
-    def modifier_recette(self, recette_id: int, **kwargs) -> bool:
+    def modifier_recette_id(self, recette_id: int, **kwargs) -> bool:
         """
         Modifie une recette existante. Les champs à mettre à jour sont passés en tant que paramètres.
         """
@@ -82,7 +82,19 @@ class ServiceRecette:
             print(f"Recette avec ID {recette_id} non trouvée.")
             return False
 
-        self.recette_dao.update_recette(recette_id, **kwargs)
+        self.recette_dao.update_by_recette_id(recette_id, **kwargs)
+        return True
+
+    def modifier_recette_nom(self, nom_recette: int, **kwargs) -> bool:
+        """
+        Modifie une recette existante. Les champs à mettre à jour sont passés en tant que paramètres.
+        """
+        recette_existante = self.recette_dao.get_recette_by_nom(nom_recette)
+        if not recette_existante:
+            print(f"Recette avec ID {nom_recette} non trouvée.")
+            return False
+
+        self.recette_dao.update_by_nom_recette(nom_recette, **kwargs)
         return True
 
     def supprimer_recette(self, recette_id: int) -> bool:
@@ -118,10 +130,8 @@ if __name__ == "__main__":
     # print(ServiceRecette(dao).rechercher_par_ingredient("digestive biscuits")) # marche
     # print("supprimer")
     # print(ServiceRecette(dao).supprimer_recette(2))  # marche
-    print("modifier un argument")
-    print(
-        ServiceRecette(dao).modifier_recette(1, {"nom_recette": "Tarte aux pommes à la frangipane"})
-    )  # marche pas
+    # print("modifier un argument")
+    # print(ServiceRecette(dao).modifier_recette_id(1, nom_recette="Tarte crème"))  # marche
 
     # print("stock dans la base de donnée")
     # print(
