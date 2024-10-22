@@ -64,9 +64,9 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
                 proposer_recette()
             case "Afficher ma liste de course":
-                from service.utilisateur import afficher_liste_de_course
+                from view.liste_course import ListeCourse
 
-                afficher_liste_de_course()
+                return ListeCourse()
             case "Mon compte":
                 from view.mon_compte_connecte import MonCompteConnecte
 
