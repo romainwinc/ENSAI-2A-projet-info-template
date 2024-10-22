@@ -109,7 +109,6 @@ class IngredientDAO(metaclass=Singleton):
 
         return created
 
-
     def update_by_ingredient_id(self, ingredient_id, **kwargs):
         """Met à jour un ingrédient existant par son ID."""
         set_clause = sql.SQL(", ").join(
@@ -183,3 +182,14 @@ if __name__ == "__main__":
 
     # print("Suppression")
     # print(IngredientDAO().delete_ingredient(5))  # marche
+
+    # dao = IngredientDAO()
+    # try:
+    #     ingredient = Ingredient(
+    #         id_ingredient=None,
+    #         nom_ingredient="Ananas",
+    #         description_ingredient="Fruit",
+    #     )
+    #     dao.add_ingredient(ingredient)
+    # except ValueError as e:
+    #     print(e)

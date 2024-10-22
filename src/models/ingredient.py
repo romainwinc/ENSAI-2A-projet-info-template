@@ -8,7 +8,12 @@ class Ingredient:
         description_ingredient (str): La description de l'ingrédient.
     """
 
-    def __init__(self, id_ingredient: int, nom_ingredient: str, description_ingredient: str):
+    def __init__(
+        self,
+        nom_ingredient: str,
+        description_ingredient: str,
+        id_ingredient: int = None,
+    ):
         """
         Initialise un nouvel ingrédient.
 
