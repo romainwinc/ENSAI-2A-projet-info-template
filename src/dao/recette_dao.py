@@ -4,6 +4,7 @@ from psycopg2 import sql
 from dotenv import load_dotenv
 import os
 from datetime import datetime
+from models.recette import Recette
 
 
 class RecetteDAO(metaclass=Singleton):
@@ -113,56 +114,39 @@ class RecetteDAO(metaclass=Singleton):
             return recette
         return None
 
-    def ajouter_recette(
-        self,
-        nom_recette,
-        categorie,
-        origine,
-        instructions,
-        mots_cles,
-        url_image,
-        liste_ingredients,
-        nombre_avis,
-        note_moyenne,
-        date_derniere_modif,
-    ):
-        try:
-            with self.connection.cursor() as cursor:
-                # Récupérer le maximum des id_recette existants
-                cursor.execute(
-                    ("SELECT COALESCE(MAX(id_recette), 0) FROM {}.recette;").format(self.schema)
-                )
-                max_id = cursor.fetchone()[0]
+    def ajouter_recette(self, recette: Recette):
 
-                # Calculer le nouvel ID
-                new_id = max_id + 1
-                print(new_id)
-                # Insérer la nouvelle recette avec le nouvel ID
+        try:
+            res = None
+            with self.connection.cursor() as cursor:
                 cursor.execute(
-                    (
-                        """
-                    INSERT INTO {}.recette (
-                        id_recette, nom_recette, categorie, origine, instructions, mots_cles, 
-                        url_image, liste_ingredients, nombre_avis, note_moyenne, date_derniere_modif
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-                    """
-                    ).format(self.schema),
-                    (
-                        new_id,
-                        nom_recette,
-                        categorie,
-                        origine,
-                        instructions,
-                        mots_cles,
-                        url_image,
-                        liste_ingredients,
-                        nombre_avis,
-                        note_moyenne,
-                        date_derniere_modif,
-                    ),
+                    "INSERT INTO projet_informatique.recette (nom_recette, "
+                    " categorie, origine, instructions, mots_cles, "
+                    " url_image, liste_ingredients, nombre_avis, "
+                    "note_moyenne, date_derniere_modif) "
+                    "VALUES (%(nom_recette)s, %(categorie)s, %(origine)s, %(instructions)s,"
+                    " %(mots_cles)s, %(url_image)s, %(liste_ingredients)s, %(nombre_avis)s,"
+                    " %(note_moyenne)s, %(date_derniere_modif)s)"
+                    "RETURNING id_recette;",
+                    {
+                        "nom_recette": recette.nom_recette,
+                        "categorie": recette.categorie,
+                        "origine": recette.origine,
+                        "instructions": recette.instructions,
+                        "mots_cles": recette.mots_cles,
+                        "url_image": recette.url_image,
+                        "liste_ingredients": recette.liste_ingredients,
+                        "nombre_avis": recette.nombre_avis,
+                        "note_moyenne": recette.note_moyenne,
+                        "date_derniere_modif": recette.date_derniere_modif,
+                    },
                 )
-                self.connection.commit()
-                return new_id
+                res = cursor.fetchone()
+            created = False
+            if res:
+                recette.id_recette = res["id_recette"]
+                created = True
+
         except Exception as e:
             self.connection.rollback()
             print(f"Erreur lors de l'insertion de la recette: {e}")

@@ -40,10 +40,18 @@ if __name__ == "__main__":
             id_utilisateur=None,
             role="Connecté",
         )
-        ServiceUtilisateur(dao).creer_utilisateur(
-            utilisateur.nom_utilisateur, utilisateur.mot_de_passe
+        utilisateur2 = Utilisateur(
+            nom_utilisateur="Jean", mot_de_passe="123", id_utilisateur=None, role="Professionel"
         )
+        # ServiceUtilisateur(dao).creer_utilisateur(utilisateur2.nom_utilisateur, utilisateur2.mot_de_passe)
     except ValueError as e:
         print(e)
 
-    # ServiceUtilisateur(dao).changer_role_utilisateur(utilisateur, "Admin")
+    utilisateur = Utilisateur(
+        nom_utilisateur="Antoine_Dupont",
+        mot_de_passe="Totolebest",
+        id_utilisateur=1,
+        role="Connecté",
+    )
+    # ServiceUtilisateur(dao).changer_role_utilisateur(utilisateur.id_utilisateur, new_role="Admin")
+    # ServiceUtilisateur(dao).supprimer_utilisateur(1)

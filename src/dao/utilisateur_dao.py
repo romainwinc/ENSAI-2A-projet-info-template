@@ -54,14 +54,12 @@ class UtilisateurDao(metaclass=Singleton):
     def update_user(self, id_utilisateur: str, upgrade: str):
         """Met à jour une association recette-ingredient."""
         query = (
-            "UPDATE projet_informatique.utilisateur SET role= %(upgrade)s"
-            + " WHERE id_utilisateur = %s "
+            "UPDATE projet_informatique.utilisateur SET role= %(role)s"
+            + " WHERE id_utilisateur = %(id_utilisateur)s "
         )
         with self.connection as connection:
             with connection.cursor() as cursor:
-                cursor.execute(
-                    query,
-                )
+                cursor.execute(query, {"id_utilisateur": id_utilisateur, "role": upgrade})
 
     def delete_user(self, id_utilisateur):
         """Supprime le compte d'un utilisateur"""
@@ -69,6 +67,6 @@ class UtilisateurDao(metaclass=Singleton):
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "DELETE FROM projet_informatique.utilisateur WHERE id_utilisateur = %s",
-                    id_utilisateur,
+                    "DELETE FROM projet_informatique.utilisateur WHERE id_utilisateur = %(id_utilisateur)s",
+                    {"id_utilisateur": id_utilisateur},
                 )
