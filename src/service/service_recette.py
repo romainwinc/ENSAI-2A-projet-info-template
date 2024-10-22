@@ -127,7 +127,7 @@ if __name__ == "__main__":
     # print("Nom")
     # print(ServiceRecette(dao).rechercher_par_nom_recette("Apple Frangipan Tart"))  # marche
     # print("ingredient")
-    # print(ServiceRecette(dao).rechercher_par_ingredient("digestive biscuits")) # marche
+    print(ServiceRecette(dao).rechercher_par_ingredient("digestive biscuits"))  # marche
     # print("supprimer")
     # print(ServiceRecette(dao).supprimer_recette(2))  # marche
     # print("modifier un argument")

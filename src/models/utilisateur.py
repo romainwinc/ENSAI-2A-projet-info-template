@@ -18,18 +18,7 @@ class Utilisateur:
         Le nom d'utilisateur pour la connexion.
     password : str
         Le mot de passe de l'utilisateur.
-    ingredient_favori : list[Ingredient]
-        Une liste d'ingrédients favoris de l'utilisateur.
-    recette_favorite : list[Recette]
-        Une liste de recettes favorites de l'utilisateur.
-    liste_course : list[Ingredient]
-        Une liste des ingrédients pour les courses de l'utilisateur.
-    liste_ingredient_favori : list[Ingredient]
-        Une liste d'ingrédients favoris.
-    liste_ingredient_non_desires : list[Ingredient]
-        Une liste d'ingrédients non désirés par l'utilisateur.
-    grade : int
-        Le grade ou niveau de l'utilisateur (par défaut, 1).
+    role
     """
 
     def __init__(
@@ -39,22 +28,12 @@ class Utilisateur:
         id_utilisateur: str = None,
         role: str = "Non connecté",
         date_inscription: datetime = None,
-        ingredients_favoris: list[Ingredient] = None,
-        recette_favorite: list[Recette] = None,
-        liste_course: list[Ingredient] = None,
-        liste_ingredient_favori: list[Ingredient] = None,
-        liste_ingredient_non_desires: list[Ingredient] = None,
     ) -> None:
         self.nom_utilisateur = nom_utilisateur
         self.mot_de_passe = mot_de_passe
         self.id_utilisateur = id_utilisateur
         self.role = role
         self.date_inscription = date_inscription
-        self.ingredients_favoris = ingredients_favoris
-        self.recette_favorite = recette_favorite
-        self.liste_course = liste_course
-        self.liste_ingredient_favori = liste_ingredient_favori
-        self.liste_ingredient_non_desires = liste_ingredient_non_desires
 
     def __repr__(self) -> str:
         """

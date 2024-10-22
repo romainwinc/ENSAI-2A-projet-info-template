@@ -1,6 +1,5 @@
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
-import psycopg2
 from psycopg2 import sql
 from dotenv import load_dotenv
 import os
