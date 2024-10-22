@@ -37,7 +37,7 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 "Consulter mes notes et avis",
                 "Mes ingrédients favoris et non-désirés",
                 "Proposer une recette",
-                "Regarder ma liste de course",
+                "Afficher ma liste de course",
                 "Mon compte",
             ],
         ).execute()
@@ -63,10 +63,10 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 from service.demande import proposer_recette
 
                 proposer_recette()
-            case "Regarder ma liste de course":
-                from service.utilisateur import afficher_liste_de_course
+            case "Afficher ma liste de course":
+                from view.liste_course import ListeCourse
 
-                afficher_liste_de_course()
+                return ListeCourse()
             case "Mon compte":
                 from view.mon_compte_connecte import MonCompteConnecte
 

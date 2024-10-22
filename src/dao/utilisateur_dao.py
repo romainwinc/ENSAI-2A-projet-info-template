@@ -29,7 +29,6 @@ class UtilisateurDao(metaclass=Singleton):
                     " %(role)s, %(date_inscription)s)                               "
                     "RETURNING id_utilisateur;",
                     {
-                        "id_utilisateur": utilisateur.id_utilisateur,
                         "nom_utilsateur": utilisateur.nom_utilisateur,
                         "mot_de_passe": utilisateur.mot_de_passe,
                         "role": utilisateur.role,
@@ -50,9 +49,9 @@ class UtilisateurDao(metaclass=Singleton):
                 cursor.execute(
                     "SELECT id_utilisateur                     "
                     "FROM projet_informatique.utilisateur                     "
-                    "WHERE nom_utilisateur = %(nom_utilisateur)s"
-                    "AND mot_de_passe = %(mot_de_passse)s  ",
-                    {"nom_utilisateur": nom, "mot_de_passe": mdp},
+                    "WHERE (nom_utilisateur = %(nom)s "
+                    "AND mot_de_passe = %(mdp)s)  ",
+                    {"nom": nom, "mdp": mdp},
                 )
                 res = cursor.fetchone()
 
