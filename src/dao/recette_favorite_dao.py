@@ -10,17 +10,21 @@ class RecetteFavoriteDAO(metaclass=Singleton):
         load_dotenv()
         self.schema = os.getenv("POSTGRES_SCHEMA")
 
-    def add_recette_favorite(self, id_recette, id_utilisateur):
-        """Ajoute une recette aux favoris d'un utilisateur."""
+    def add_recette_favorite(self, nom_recette, id_utilisateur):
+        """Ajoute une recette aux favoris d'un utilisateur en utilisant le nom de la recette."""
         query = (
             """
             INSERT INTO {}.recette_favorite (id_recette, id_utilisateur)
-            VALUES (%s, %s)
+            VALUES (
+                (SELECT id_recette FROM {}.recette WHERE nom_recette = %s), 
+                %s
+            )
             """
-        ).format(self.schema)
+        ).format(self.schema, self.schema)
+
         with self.connection as connection:
             with connection.cursor() as cursor:
-                cursor.execute(query, (id_recette, id_utilisateur))
+                cursor.execute(query, (nom_recette, id_utilisateur))
 
     def get_favoris_by_user_id(self, id_utilisateur):
         """Récupère les noms des recettes favorites d'un utilisateur."""
@@ -38,20 +42,28 @@ class RecetteFavoriteDAO(metaclass=Singleton):
                 cursor.execute(query, (id_utilisateur,))
                 return [row["nom_recette"] for row in cursor.fetchall()]
 
-    def delete_recette_favorite(self, id_recette, id_utilisateur):
-        """Supprime une recette des favoris d'un utilisateur."""
+    def delete_recette_favorite(self, nom_recette, id_utilisateur):
+        """Supprime une recette des favoris d'un utilisateur en utilisant le nom de la recette."""
         query = (
-            "DELETE FROM {}.recette_favorite WHERE id_recette = %s AND id_utilisateur = %s"
-        ).format(self.schema)
+            """
+            DELETE FROM {}.recette_favorite 
+            WHERE id_recette = (
+                SELECT id_recette 
+                FROM {}.recette 
+                WHERE nom_recette = %s
+            ) AND id_utilisateur = %s
+            """
+        ).format(self.schema, self.schema)
+
         with self.connection as connection:
             with connection.cursor() as cursor:
-                cursor.execute(query, (id_recette, id_utilisateur))
+                cursor.execute(query, (nom_recette, id_utilisateur))
 
 
 if __name__ == "__main__":
     dao = RecetteFavoriteDAO()
 
     # Exemple d'utilisation :
-    # dao.add_recette_favorite(3, 1)  # Ajoute la recette 3 aux favoris de l'utilisateur 1
+    # dao.add_recette_favorite('Apple Frangipan Tart', 1)  # Ajoute 'Apple Frangipan Tart' aux favoris de l'utilisateur 1
     print(dao.get_favoris_by_user_id(1))  # Renvoie les recettes favorites de l'utilisateur 1
-    # dao.delete_recette_favorite(3, 1)  # Supprime la recette 3 des favoris de l'utilisateur 1
+    # dao.delete_recette_favorite('Apple Frangipan Tart', 1)  # Supprime 'Apple Frangipan Tart' des favoris de l'utilisateur 1

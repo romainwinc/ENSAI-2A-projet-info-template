@@ -1,13 +1,18 @@
 from dao.ingredient_dao import IngredientDAO
+from dao.ingredients_favoris_dao import IngredientsFavorisDAO
+from dao.ingredients_non_desires_dao import IngredientsNonDesiresDAO
+from dao.liste_de_courses_dao import ListeDeCoursesDAO
 from models.ingredient import Ingredient
-from datetime import datetime
 
 
 class ServiceIngredient:
-    def __init__(self, ingredient_dao):
+    def __init__(self, ingredient_dao, favoris_dao, non_desires_dao, liste_courses_dao):
         self.ingredient_dao = ingredient_dao
+        self.ingredients_favoris_dao = favoris_dao
+        self.ingredients_non_desires_dao = non_desires_dao
+        self.liste_de_courses_dao = liste_courses_dao
 
-    # Méthodes pours les ingrédients favoris
+    # Méthodes pour les ingrédients favoris
     def recuperer_ingredients_favoris_utilisateur(self, utilisateur_id: int):
         """Récupère les ingrédients favoris d'un utilisateur."""
         ingredients_favoris = self.ingredients_favoris_dao.get_favoris_by_user_id(utilisateur_id)
@@ -18,25 +23,19 @@ class ServiceIngredient:
 
         print("\nVoici vos ingrédients favoris :\n")
         for ingredient in ingredients_favoris:
-            print(f"- {ingredient.nom}")
+            print(f"- {ingredient}")
 
-    def supprimer_ingredients_favoris(self, utilisateur_id: int, ingredient_id: int):
+    def supprimer_ingredients_favoris(self, utilisateur_id: int, nom_ingredient: str):
         """Supprime un ingrédient favori d'un utilisateur."""
-        success = self.ingredients_favoris_dao.delete_favori(utilisateur_id, ingredient_id)
-        if success:
-            print(f"L'ingrédient favori avec l'ID {ingredient_id} a été supprimé.")
-        else:
-            print("Erreur lors de la suppression de l'ingrédient favori.")
+        self.ingredients_favoris_dao.delete_ingredient_favori(nom_ingredient, utilisateur_id)
+        print(f"L'ingrédient favori '{nom_ingredient}' a été supprimé.")
 
-    def ajouter_ingredients_favoris(self, utilisateur_id: int, ingredient_id: int):
-        """Ajouter un ingrédient favori à un utilisateur."""
-        success = self.ingredients_favoris_dao.delete_favori(utilisateur_id, ingredient_id)
-        if success:
-            print(f"L'ingrédient favori avec l'ID {ingredient_id} a été ajouté.")
-        else:
-            print("Erreur lors de l'ajout de l'ingrédient favori.")
+    def ajouter_ingredients_favoris(self, utilisateur_id: int, nom_ingredient: str):
+        """Ajoute un ingrédient favori à un utilisateur."""
+        self.ingredients_favoris_dao.add_ingredient_favori(nom_ingredient, utilisateur_id)
+        print(f"L'ingrédient favori '{nom_ingredient}' a été ajouté.")
 
-    # Méthodes pours les ingrédients non-désirés
+    # Méthodes pour les ingrédients non-désirés
     def recuperer_ingredients_non_desires_utilisateur(self, utilisateur_id: int):
         """Récupère les ingrédients non-désirés d'un utilisateur."""
         ingredients_non_desires = self.ingredients_non_desires_dao.get_non_desires_by_user_id(
@@ -49,25 +48,19 @@ class ServiceIngredient:
 
         print("\nVoici vos ingrédients non-désirés :\n")
         for ingredient in ingredients_non_desires:
-            print(f"- {ingredient.nom}")
+            print(f"- {ingredient}")
 
-    def supprimer_ingredients_non_desires(self, utilisateur_id: int, ingredient_id: int):
+    def supprimer_ingredients_non_desires(self, utilisateur_id: int, nom_ingredient: str):
         """Supprime un ingrédient non-désiré d'un utilisateur."""
-        success = self.ingredients_non_desires_dao.delete_non_desire(utilisateur_id, ingredient_id)
-        if success:
-            print(f"L'ingrédient non-désiré avec l'ID {ingredient_id} a été supprimé.")
-        else:
-            print("Erreur lors de la suppression de l'ingrédient non-désiré.")
-
-    def ajouter_ingredients_non_desires(self, utilisateur_id: int, ingredient_id: int):
-        """Ajoute un ingrédient non-désiré à un utilisateur."""
-        success = self.ingredients_non_desires_dao.add_ingredient_non_desire(
-            utilisateur_id, ingredient_id
+        self.ingredients_non_desires_dao.delete_ingredient_non_desire(
+            nom_ingredient, utilisateur_id
         )
-        if success:
-            print(f"L'ingrédient non-désiré avec l'ID {ingredient_id} a été ajouté.")
-        else:
-            print("Erreur lors de l'ajout de l'ingrédient non-désiré.")
+        print(f"L'ingrédient non-désiré '{nom_ingredient}' a été supprimé.")
+
+    def ajouter_ingredients_non_desires(self, utilisateur_id: int, nom_ingredient: str):
+        """Ajoute un ingrédient non-désiré à un utilisateur."""
+        self.ingredients_non_desires_dao.add_ingredient_non_desire(nom_ingredient, utilisateur_id)
+        print(f"L'ingrédient non-désiré '{nom_ingredient}' a été ajouté.")
 
     # Méthodes pour la liste de course
     def afficher_ingredients_liste_courses(self, utilisateur_id: int):
@@ -80,34 +73,27 @@ class ServiceIngredient:
 
         print("\nVoici les ingrédients de votre liste de courses :\n")
         for ingredient in ingredients_liste_courses:
-            print(f"- {ingredient.nom}")
+            print(f"- {ingredient}")
 
-    def supprimer_ingredients_liste_courses(
-        self, utilisateur_id: int, recette_id: int, ingredient_id: int
-    ):
+    def supprimer_ingredients_liste_courses(self, utilisateur_id: int, nom_ingredient: str):
         """Supprime un ingrédient de la liste de courses d'un utilisateur."""
-        success = self.liste_de_courses_dao.delete_from_liste(
-            ingredient_id, recette_id, utilisateur_id
-        )
-        if success:
-            print(f"L'ingrédient avec l'ID {ingredient_id} a été supprimé de la liste de courses.")
-        else:
-            print("Erreur lors de la suppression de l'ingrédient de la liste de course.")
+        self.liste_de_courses_dao.delete_from_liste(nom_ingredient, utilisateur_id)
+        print(f"L'ingrédient '{nom_ingredient}' a été supprimé de la liste de courses.")
 
-    def ajouter_ingredients_liste_courses(
-        self, utilisateur_id: int, recette_id: int, ingredient_id: int
-    ):
+    def ajouter_ingredients_liste_courses(self, utilisateur_id: int, nom_ingredient: str):
         """Ajoute un ingrédient à la liste de course d'un utilisateur."""
-        success = self.liste_de_courses_dao.add_liste_de_courses(
-            ingredient_id, recette_id, utilisateur_id
-        )
-        if success:
-            print(f"L'ingrédient avec l'ID {ingredient_id} a été ajouté à la liste de courses.")
-        else:
-            print("Erreur lors de l'ajout de l'ingrédient à la liste de courses.")
+        self.liste_de_courses_dao.add_liste_de_courses(nom_ingredient, utilisateur_id)
+        print(f"L'ingrédient '{nom_ingredient}' a été ajouté à la liste de courses.")
 
 
 if __name__ == "__main__":
-    dao = IngredientDAO()
-    # print("id")
-    # print(ServiceRecette(dao).rechercher_par_id_recette(1))  # marche
+    ingredient_dao = IngredientDAO()
+    favoris_dao = IngredientsFavorisDAO()
+    non_desires_dao = IngredientsNonDesiresDAO()
+    liste_courses_dao = ListeDeCoursesDAO()
+
+    service = ServiceIngredient(ingredient_dao, favoris_dao, non_desires_dao, liste_courses_dao)
+
+    # Exemple d'utilisation :
+    # service.ajouter_ingredients_favoris(1, 'Chicken')  # Ajoute 'Chicken' aux favoris de l'utilisateur 1
+    # service.recuperer_ingredients_favoris_utilisateur(1)  # Affiche les ingrédients favoris de l'utilisateur 1
