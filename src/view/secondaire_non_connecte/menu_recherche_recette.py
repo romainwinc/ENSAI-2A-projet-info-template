@@ -1,4 +1,5 @@
 from InquirerPy import inquirer
+from dao.db_connection import DBConnection
 
 
 class RechercheRecetteVue:
@@ -85,8 +86,12 @@ class RechercheRecetteVue:
             Retourne le nom de la recette trouvée ou None si aucune recette n'est trouvée.
         """
         # Simuler un appel API à TheMealDB ou une recherche dans la base de données
-        recettes_disponibles = ["Tarte aux pommes", "Pâtes à la bolognaise", "Salade César"]
-        if nom_recette in recettes_disponibles:
+        query = "SELECT * FROM projet_informatique.recette_ingredient WHERE id_recette = %s"
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (id_recette,))
+                return cursor.fetchall()
+        if nom_recette in query:
             return nom_recette
         return None
 
