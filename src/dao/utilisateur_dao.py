@@ -48,7 +48,20 @@ class UtilisateurDao(metaclass=Singleton):
         return created
 
     def find_id_user(self, nom: str, mdp: str) -> Optional[int]:
-        """Trouver un utilisateur avec un nom et mot de passe"""
+        """Trouver un utilisateur avec un nom et mot de passe
+
+        Parameters
+        ----------
+        nom : str
+            correspond au nom d'utilisateur
+        mdp : str
+            correspond au mot de passe de l'utilisateur
+
+        Returns
+        -------
+        res : Optional[int]
+
+        """
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(

@@ -116,7 +116,7 @@ class ServiceRecette:
         """
         recette = self.recette_dao.get_recette_by_id(recette_id)
         if recette:
-            return recette.__repr__()
+            return recette.__str__()
         return f"Aucune recette trouvée avec l'ID {recette_id}."
 
 
@@ -149,4 +149,4 @@ if __name__ == "__main__":
     # )
 
     # print(representation)
-    # print(ServiceRecette(dao).afficher_recette(1)) # Marche mais est peut être redondant
+    ServiceRecette(dao).afficher_recette(1)  # Marche mais est peut être redondant

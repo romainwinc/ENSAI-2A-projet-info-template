@@ -5,8 +5,8 @@ from utils.securite import hash_password
 
 
 class ServiceUtilisateur:
-    def __init__(self):
-        pass
+    def __init__(self, utilisateur_dao):
+        self.utilisateur_dao = utilisateur_dao
 
     def creer_utilisateur(self, nom, mdp) -> Utilisateur:
         """Crée un nouvel utilisateur et le stocke dans la base de données."""
