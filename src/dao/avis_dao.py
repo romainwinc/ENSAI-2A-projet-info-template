@@ -36,7 +36,7 @@ class AvisDAO(metaclass=Singleton):
                         note,
                     ),
                 )
-                return cursor.fetchone()[0]
+                return cursor.fetchone()
 
     def get_avis_by_recette_id(self, id_recette):
         """Récupère les avis pour une recette donnée."""
@@ -81,4 +81,6 @@ class AvisDAO(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(query, (id_avis, note))
 
+
 if __name__ == "__main__":
+    print(AvisDAO().get_avis_by_recette_id(1))
