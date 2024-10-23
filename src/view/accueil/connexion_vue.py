@@ -22,13 +22,24 @@ class ConnexionVue(VueAbstraite):
         if utilisateur:
             message = (
                 f"Vous êtes connecté sous le nom {utilisateur.nom_utilisateur} "
-                f"en tant qu'utilisateur {utilisateur.nom_utilisateur}."
+                f"en tant qu'utilisateur {utilisateur.role}."
             )
             Session().connexion(utilisateur)
 
-            from view.menu_joueur_vue import MenuJoueurVue
+            if utilisateur.role == "Connecté":
+                from view.menus_principaux.menu_connecte import MenuUtilisateurConnecte
 
-            return MenuJoueurVue(message)
+                return MenuUtilisateurConnecte(message)
+
+            elif utilisateur.role == "Professionnel":
+                from view.menus_principaux.menu_professionnel_vue import MenuProfessionnelVue
+
+                return MenuProfessionnelVue(message)
+
+            elif utilisateur.role == "Administrateur":
+                from view.menus_principaux.menu_administrateur import MenuAdministrateurVue
+
+                return MenuAdministrateurVue(message)
 
         message = "Erreur de connexion (nom d'utilisateur ou mot de passe invalide)"
         from view.accueil.accueil_vue import AccueilVue

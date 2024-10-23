@@ -1,7 +1,8 @@
 from InquirerPy import inquirer
+from view.vue_abstraite import VueAbstraite
 
 
-class RechercheRecetteVue:
+class RechercheRecetteVue(VueAbstraite):
     """Vue pour rechercher une recette.
 
     Permet à l'utilisateur de rechercher une recette par nom ou ingrédient.

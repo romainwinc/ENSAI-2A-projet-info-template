@@ -1,7 +1,8 @@
 from InquirerPy import inquirer
+from view.vue_abstraite import VueAbstraite
 
 
-class MenuAdministrateurVue:
+class MenuAdministrateurVue(VueAbstraite):
     """Vue du menu de l'administrateur
 
     Permet à l'administrateur de gérer ses recettes, avis, ingrédients, etc.

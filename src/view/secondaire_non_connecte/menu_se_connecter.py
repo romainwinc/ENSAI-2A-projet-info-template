@@ -1,8 +1,9 @@
 from InquirerPy import inquirer
 from view.session import Session
+from view.vue_abstraite import VueAbstraite
 
 
-class MenuUtilisateurSeConnecter:
+class MenuUtilisateurSeConnecter(VueAbstraite):
     """Vue du menu de connexion utilisateur
 
     Permet à l'utilisateur de se connecter avec un nom d'utilisateur et un mot de passe.

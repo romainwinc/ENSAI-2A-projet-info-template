@@ -1,7 +1,8 @@
 from InquirerPy import inquirer
+from view.vue_abstraite import VueAbstraite
 
 
-class MenuGestionCompteVue:
+class MenuGestionCompteVue(VueAbstraite):
     """Vue de gestion de compte réservée aux administrateurs
 
     Permet à l'administrateur de gérer les comptes des utilisateurs.

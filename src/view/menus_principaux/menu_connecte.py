@@ -64,6 +64,10 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
                 proposer_recette()
             case "Afficher ma liste de course":
+                from view.session import Session
+                from dao.ingredient_dao import IngredientDAO
+                from service.service_ingredient import IngredientService
+
                 utilisateur_id = Session().utilisateur
                 dao = IngredientDAO()
                 ingredient_service = IngredientService(dao)

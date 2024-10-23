@@ -1,7 +1,8 @@
 from InquirerPy import inquirer
+from view.vue_abstraite import VueAbstraite
 
 
-class MenuUtilisateurInscriptionVue:
+class MenuUtilisateurInscriptionVue(VueAbstraite):
     """Vue du menu d'inscription utilisateur
 
     Permet à un nouvel utilisateur de s'inscrire avec un nom d'utilisateur et un mot de passe.

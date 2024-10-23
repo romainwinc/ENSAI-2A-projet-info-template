@@ -35,10 +35,13 @@ class RechercheRecetteNonConnecte(VueAbstraite):
         match type_recherche:
             case "Rechercher par nom de recette":
                 self.rechercher_recette("nom")
+                return self
             case "Rechercher par ingrédient":
                 self.rechercher_recette("ingredient")
+                return self
             case "Rechercher par id":
                 self.rechercher_recette("id")
+                return self
             case "Retour au menu principal":
                 from view.accueil.accueil_vue import AccueilVue
 

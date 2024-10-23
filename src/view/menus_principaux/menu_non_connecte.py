@@ -1,7 +1,8 @@
 from InquirerPy import inquirer
+from view.vue_abstraite import VueAbstraite
 
 
-class MenuNonConnecte:
+class MenuNonConnecte(VueAbstraite):
     """Vue du menu de l'utilisateur
 
     Permet à l'utilisateur de choisir entre se connecter, s'inscrire, ou rechercher une recette.
