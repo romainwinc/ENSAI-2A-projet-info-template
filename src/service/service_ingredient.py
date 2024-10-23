@@ -147,5 +147,6 @@ if __name__ == "__main__":
 
     # Liste de courses
     # service.ajouter_ingredients_liste_courses(1, "Beef")  # Remplacez 1 par un ID utilisateur valide
-    service.afficher_ingredients_liste_courses(1)
+    # service.afficher_ingredients_liste_courses(1)
     # service.supprimer_ingredients_liste_courses(1, "Beef")
+    # service.modifier_ingredient(1, nom_ingredient="Chicken", description_ingredient="Légume rouge et juteux.")
