@@ -12,6 +12,34 @@ class ServiceIngredient:
         self.ingredients_non_desires_dao = non_desires_dao
         self.liste_de_courses_dao = liste_courses_dao
 
+    # Méthodes pour afficher un ingrédient
+    def afficher_ingredient(self, ingredient_id):
+        """Affiche un ingrédient spécifique par son ID."""
+        ingredient = self.ingredient_dao.get_ingredient_by_id(ingredient_id)
+        if ingredient:
+            print(f"\nIngrédient ID: {ingredient['id_ingredient']}")
+            print(f"Nom: {ingredient['nom_ingredient']}")
+            print(f"Description: {ingredient['description_ingredient']}\n")
+        else:
+            print(f"Aucun ingrédient trouvé avec l'ID: {ingredient_id}")
+
+    def ajouter_ingredient(self, nom_ingredient, description_ingredient):
+        """Ajoute un nouvel ingrédient."""
+        ingredient = Ingredient(
+            id_ingredient=None,
+            nom_ingredient=nom_ingredient,
+            description_ingredient=description_ingredient,
+        )
+        if self.ingredient_dao.add_ingredient(ingredient):
+            print(f"L'ingrédient '{nom_ingredient}' a été ajouté avec succès.")
+        else:
+            print("Erreur lors de l'ajout de l'ingrédient.")
+
+    def modifier_ingredient(self, ingredient_id, **kwargs):
+        """Modifie un ingrédient existant."""
+        self.ingredient_dao.update_by_ingredient_id(ingredient_id, **kwargs)
+        print(f"L'ingrédient avec ID {ingredient_id} a été modifié avec succès.")
+
     # Méthodes pour les ingrédients favoris
     def recuperer_ingredients_favoris_utilisateur(self, utilisateur_id: int):
         """Récupère les ingrédients favoris d'un utilisateur."""
@@ -95,5 +123,6 @@ if __name__ == "__main__":
     service = ServiceIngredient(ingredient_dao, favoris_dao, non_desires_dao, liste_courses_dao)
 
     # Exemple d'utilisation :
-    # service.ajouter_ingredients_favoris(1, 'Chicken')  # Ajoute 'Chicken' aux favoris de l'utilisateur 1
-    # service.recuperer_ingredients_favoris_utilisateur(1)  # Affiche les ingrédients favoris de l'utilisateur 1
+    # service.ajouter_ingredient("Chicken", "Légume rouge utilisé dans de nombreux plats.")
+    # service.afficher_ingredient(1)  # Affiche l'ingrédient avec ID 1
+    # service.modifier_ingredient(1, nom_ingredient="Chicken", description_ingredient="Légume rouge et juteux.")
