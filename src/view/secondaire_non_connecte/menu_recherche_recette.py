@@ -1,5 +1,6 @@
 from InquirerPy import inquirer
 from view.vue_abstraite import VueAbstraite
+from dao.db_connection import DBConnection
 
 
 class RechercheRecetteVue(VueAbstraite):
@@ -86,24 +87,32 @@ class RechercheRecetteVue(VueAbstraite):
             Retourne le nom de la recette trouvée ou None si aucune recette n'est trouvée.
         """
         # Simuler un appel API à TheMealDB ou une recherche dans la base de données
-        recettes_disponibles = ["Tarte aux pommes", "Pâtes à la bolognaise", "Salade César"]
-        if nom_recette in recettes_disponibles:
+        query = "SELECT * FROM projet_informatique.recette_ingredient WHERE id_recette = %s"
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (id_recette,))
+                return cursor.fetchall()
+        if nom_recette in query:
             return nom_recette
         return None
 
     def simuler_recherche_par_ingredient(self, ingredient):
         """Simule la recherche de recettes par ingrédient.
 
-        Parameters
-        ----------
-        ingredient : str
-            L'ingrédient pour lequel rechercher des recettes.
+                Parameters
+                ----------
+                ingredient : str
+                    L'ingrédient pour lequel rechercher des recettes.
 
-        Returns
-        -------
-        list
-            Retourne une liste de recettes contenant l'ingrédient ou None si
-            aucune recette n'est trouvée.
+                Returns
+                -------
+                list
+        <<<<<<< HEAD
+                    Retourne liste recettes contenant l'ingrédient ou None si aucune recette n'est trouvée
+        =======
+                    Retourne une liste de recettes contenant l'ingrédient ou None si
+                    aucune recette n'est trouvée.
+        >>>>>>> b26c95fec0f9096324101c44158b6ca182372694
         """
         # Simuler une base de données de recettes avec ingrédients
         recettes_par_ingredient = {

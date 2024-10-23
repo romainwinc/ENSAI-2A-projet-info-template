@@ -139,44 +139,47 @@ class UtilisateurDao(metaclass=Singleton):
 
         return utilisateur
 
+    def lister_tous(self) -> list[Utilisateur]:
+        """lister tous les utilisateurs
 
-def lister_tous(self) -> list[Utilisateur]:
-    """lister tous les utilisateurs
+        Parameters
+        ----------
+        None
 
-    Parameters
-    ----------
-    None
-
-    Returns
-    -------
-    liste_utilisateurs : list[Utilisateur]
+        Returns
+        -------
+        liste_utilisateurs : list[Utilisateur]
         renvoie la liste de tous les utilisateurs dans la base de données
-    """
+        """
 
-    try:
-        with DBConnection().connection as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    "SELECT *                              "
-                    "  FROM utilisateur;                        "
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT *                              "
+                        "  FROM projet_informatique.utilisateur;                        "
+                    )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+            raise
+
+        liste_utilisateurs = []
+
+        if res:
+            for row in res:
+                utilisateur = Utilisateur(
+                    nom_utilisateur=res["nom_utilisateur"],
+                    mot_de_passe=res["mot_de_passe"],
+                    id_utilisateur=res["id_utilisateur"],
+                    role=res["role"],
+                    date_inscription=res["date_inscription"],
                 )
-                res = cursor.fetchall()
-    except Exception as e:
-        logging.info(e)
-        raise
 
-    liste_utilisateurs = []
+                liste_utilisateurs.append(utilisateur)
 
-    if res:
-        for row in res:
-            utilisateur = Utilisateur(
-                nom_utilisateur=res["nom_utilisateur"],
-                mot_de_passe=res["mot_de_passe"],
-                id_utilisateur=res["id_utilisateur"],
-                role=res["role"],
-                date_inscription=res["date_inscription"],
-            )
+        return liste_utilisateurs
 
-            liste_utilisateurs.append(utilisateur)
 
-    return liste_utilisateurs
+if __name__ == "__main__":
+    UtilisateurDao().lister_tous()

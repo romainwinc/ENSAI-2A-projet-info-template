@@ -27,7 +27,7 @@ class InscriptionVue(VueAbstraite):
         ).execute()
 
         # Appel du service pour créer le joueur
-        utilisateur = ServiceUtilisateur().creer(nom_utilisateur, mdp)
+        utilisateur = ServiceUtilisateur().creer_utilisateur(nom_utilisateur, mdp)
 
         # Si l'utilisateur a été créé
         if utilisateur:
