@@ -10,7 +10,18 @@ class UtilisateurDao(metaclass=Singleton):
         self.connection = DBConnection().connection
 
     def add_user(self, utilisateur: Utilisateur) -> bool:
-        """Ajout d'un utilisateur"""
+        """Ajout d'un utilisateur
+
+        Parameters
+        ----------
+        utilisateur : Utilisateur
+            un nouvel utilisateur
+
+        Returns
+        -------
+        created : bool
+            renvoie si l'utilisateur est créé
+        """
         res = None
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
@@ -68,7 +79,8 @@ class UtilisateurDao(metaclass=Singleton):
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "DELETE FROM projet_informatique.utilisateur WHERE id_utilisateur = %(id_utilisateur)s",
+                    "DELETE FROM projet_informatique.utilisateur "
+                    "WHERE id_utilisateur = %(id_utilisateur)s",
                     {"id_utilisateur": id_utilisateur},
                 )
 
