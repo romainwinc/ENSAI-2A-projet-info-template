@@ -151,7 +151,7 @@ class IngredientDAO(metaclass=Singleton):
     def delete_ingredient(self, ingredient_id):
         """Supprime un ingrédient par son ID."""
         query = (
-            """DELETE FROM {}.ingredient 
+            """DELETE FROM {}.ingredient
                 WHERE id_ingredient = %s
             """
         ).format(self.schema)
@@ -162,34 +162,34 @@ class IngredientDAO(metaclass=Singleton):
                 connection.commit()
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    # print(IngredientDAO().get_all_ingredients()) # Marche
+# print(IngredientDAO().get_all_ingredients()) # Marche
 
-    # print(IngredientDAO().get_ingredient_by_id(122)) # marche
+# print(IngredientDAO().get_ingredient_by_id(122)) # marche
 
-    # print(IngredientDAO().get_ingredient_by_nom("Eggs")) # Marche
+# print(IngredientDAO().get_ingredient_by_nom("Eggs")) # Marche
 
-    # print("update par id")
-    # print(
-    #     IngredientDAO().update_by_ingredient_id(5, nom_ingredient="Tests Changement de Nom")
-    # )  # marche
+# print("update par id")
+# print(
+#     IngredientDAO().update_by_ingredient_id(5, nom_ingredient="Tests Changement de Nom")
+# )  # marche
 
-    # print("update par nom")
-    # print(
-    #     IngredientDAO().update_by_ingredient_nom("Eggs", description_ingredient="exemple d'oeufs")
-    # )  # marche
+# print("update par nom")
+# print(
+#     IngredientDAO().update_by_ingredient_nom("Eggs", description_ingredient="exemple d'oeufs")
+# )  # marche
 
-    # print("Suppression")
-    # print(IngredientDAO().delete_ingredient(5))  # marche
+# print("Suppression")
+# print(IngredientDAO().delete_ingredient(5))  # marche
 
-    # dao = IngredientDAO()
-    # try:
-    #     ingredient = Ingredient(
-    #         id_ingredient=None,
-    #         nom_ingredient="Ananas",
-    #         description_ingredient="Fruit",
-    #     )
-    #     dao.add_ingredient(ingredient)
-    # except ValueError as e:
-    #     print(e)
+# dao = IngredientDAO()
+# try:
+#     ingredient = Ingredient(
+#         id_ingredient=None,
+#         nom_ingredient="Ananas",
+#         description_ingredient="Fruit",
+#     )
+#     dao.add_ingredient(ingredient)
+# except ValueError as e:
+#     print(e)
