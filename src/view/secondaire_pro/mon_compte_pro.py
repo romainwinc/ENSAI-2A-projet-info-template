@@ -4,7 +4,7 @@ from view.vue_abstraite import VueAbstraite
 from view.session import Session
 
 
-class MonCompteConnecte(VueAbstraite):
+class MonComptePro(VueAbstraite):
     """Vue de la gestion du compte d'un utilisateur professionnel
 
     Attributes
