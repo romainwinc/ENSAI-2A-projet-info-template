@@ -5,8 +5,8 @@ from utils.securite import hash_password
 
 
 class ServiceUtilisateur:
-    def __init__(self, utilisateur_dao):
-        self.utilisateur_dao = utilisateur_dao
+    def __init__(self):
+        pass
 
     def creer_utilisateur(self, nom, mdp) -> Utilisateur:
         """Crée un nouvel utilisateur et le stocke dans la base de données."""
@@ -57,9 +57,9 @@ if __name__ == "__main__":
         utilisateur = Utilisateur(
             nom_utilisateur="Jaja", mot_de_passe="1234", id_utilisateur=None, role="Connecté"
         )
-        # ServiceUtilisateur(dao).creer_utilisateur(
-        #    utilisateur2.nom_utilisateur, utilisateur2.mot_de_passe
-        # )
+        ServiceUtilisateur().creer_utilisateur(
+            utilisateur2.nom_utilisateur, utilisateur2.mot_de_passe
+        )
         # ServiceUtilisateur(dao).creer_utilisateur(
         #    utilisateur.nom_utilisateur, utilisateur.mot_de_passe
         # )
@@ -68,6 +68,6 @@ if __name__ == "__main__":
         # )
         # ServiceUtilisateur(dao).supprimer_utilisateur(5)
         # ServiceUtilisateur(dao).se_connecter("Jaja", "1234")
-        ServiceUtilisateur(dao).nom_utilisateur_deja_utilise("Jaja")
+        # ServiceUtilisateur(dao).nom_utilisateur_deja_utilise("Jaja")
     except ValueError as e:
         print(e)

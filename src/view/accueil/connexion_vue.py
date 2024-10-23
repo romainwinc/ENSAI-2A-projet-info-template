@@ -2,6 +2,7 @@ from InquirerPy import inquirer
 
 from view.vue_abstraite import VueAbstraite
 from view.session import Session
+from dao.utilisateur_dao import UtilisateurDao
 
 
 class ConnexionVue(VueAbstraite):
@@ -15,12 +16,12 @@ class ConnexionVue(VueAbstraite):
         # Appel du service pour trouver le joueur
         from service.service_utilisateur import ServiceUtilisateur
 
-        utilisateur = ServiceUtilisateur().se_connecter(utilisateur, mdp)
+        utilisateur = ServiceUtilisateur(UtilisateurDao()).se_connecter(utilisateur, mdp)
 
         # Si le joueur a été trouvé à partir des ses identifiants de connexion
         if utilisateur:
             message = (
-                f"Vous êtes connecté sous l'utilisateur {utilisateur.nom_utilisateur} "
+                f"Vous êtes connecté sous le nom {utilisateur.nom_utilisateur} "
                 f"en tant qu'utilisateur {utilisateur.nom_utilisateur}."
             )
             Session().connexion(utilisateur)

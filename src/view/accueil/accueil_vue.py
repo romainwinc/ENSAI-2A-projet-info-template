@@ -32,17 +32,17 @@ class AccueilVue(VueAbstraite):
             case "Se connecter":
                 from view.accueil.connexion_vue import ConnexionVue
 
-                return ConnexionVue()
+                return ConnexionVue("Connexion à l'application")
 
             case "S'inscrire":
                 from view.accueil.inscription_vue import InscriptionVue
 
-                return InscriptionVue()
+                return InscriptionVue("Création de compte utilisateur")
 
             case "Rechercher une recette":
-                from view.secondaire_non_connecte.recherche_recette_vue import RechercheRecetteVue
+                from view.accueil.rechercher_recette_non_connecte import RechercheRecetteNonConnecte
 
-                return RechercheRecetteVue()
+                return RechercheRecetteNonConnecte("Recherche d'une recette")
 
             case "Quitter":
                 print("Merci d'avoir utilisé Recipe-Makers. À bientôt !")
