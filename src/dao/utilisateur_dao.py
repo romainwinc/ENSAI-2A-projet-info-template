@@ -78,6 +78,7 @@ class UtilisateurDao(metaclass=Singleton):
 
     def update_user(self, id_utilisateur: str, upgrade: str):
         """Met à jour une association recette-ingredient."""
+        print(upgrade)
         query = (
             "UPDATE projet_informatique.utilisateur SET role= %(role)s"
             + " WHERE id_utilisateur = %(id_utilisateur)s "

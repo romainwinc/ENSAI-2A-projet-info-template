@@ -69,12 +69,12 @@ if __name__ == "__main__":
         utilisateur = Utilisateur(
             nom_utilisateur="Jaja", mot_de_passe="1234", id_utilisateur=None, role="Connecté"
         )
-        # ServiceUtilisateur(dao).creer_utilisateur(
-        #     utilisateur2.nom_utilisateur, utilisateur2.mot_de_passe
-        # )
-        # ServiceUtilisateur(dao).creer_utilisateur(
-        #     utilisateur.nom_utilisateur, utilisateur.mot_de_passe
-        # )
+        ServiceUtilisateur(dao).creer_utilisateur(
+            utilisateur2.nom_utilisateur, utilisateur2.mot_de_passe
+        )
+        ServiceUtilisateur(dao).creer_utilisateur(
+            utilisateur.nom_utilisateur, utilisateur.mot_de_passe
+        )
         # ServiceUtilisateur(dao).changer_role_utilisateur(
         #     utilisateur2.id_utilisateur, new_role="Administrateur"
         # )
