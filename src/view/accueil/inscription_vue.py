@@ -1,9 +1,8 @@
 from InquirerPy import inquirer
 from InquirerPy.validator import PasswordValidator
-
-
 from view.vue_abstraite import VueAbstraite
 from service.service_utilisateur import ServiceUtilisateur
+from dao.utilisateur_dao import UtilisateurDao
 
 
 class InscriptionVue(VueAbstraite):
@@ -11,7 +10,7 @@ class InscriptionVue(VueAbstraite):
         # Demande à l'utilisateur de saisir son nom d'utilisateur, mot de passe...
         nom_utilisateur = inquirer.text(message="Entrez votre nom d'utilsateur : ").execute()
 
-        if ServiceUtilisateur().nom_utilisateur_deja_utilise(nom_utilisateur):
+        if ServiceUtilisateur(UtilisateurDao()).nom_utilisateur_deja_utilise(nom_utilisateur):
             from view.accueil.accueil_vue import AccueilVue
 
             return AccueilVue(f"Le nom d'utilisateur {nom_utilisateur} est déjà utilisé.")
@@ -27,7 +26,7 @@ class InscriptionVue(VueAbstraite):
         ).execute()
 
         # Appel du service pour créer le joueur
-        utilisateur = ServiceUtilisateur().creer_utilisateur(nom_utilisateur, mdp)
+        utilisateur = ServiceUtilisateur(UtilisateurDao()).creer_utilisateur(nom_utilisateur, mdp)
 
         # Si l'utilisateur a été créé
         if utilisateur:

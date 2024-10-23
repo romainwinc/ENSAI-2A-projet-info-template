@@ -37,9 +37,11 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 "Consulter mes notes et avis",
                 "Mes ingrédients favoris et non-désirés",
                 "Proposer une recette",
-                "Afficher ma liste de course",
+                "Ma liste de course",
                 "Mon compte",
+                "Quitter",
             ],
+            max_height=15,
         ).execute()
 
         match choix:
@@ -48,9 +50,9 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
                 consulter_recette_favorite()
             case "Chercher une recette":
-                from service.service_consultation import chercher_recette
+                from view.secondaire_connecte.recherche_recette import RechercheRecetteConnecte
 
-                chercher_recette()
+                return RechercheRecetteConnecte()
             case "Consulter mes notes et avis":
                 from view.consulter_notes_avis import ConsulterNotesAvis
 
@@ -63,7 +65,8 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 from service.demande import proposer_recette
 
                 proposer_recette()
-            case "Afficher ma liste de course":
+
+            case "Ma liste de course":
                 from view.session import Session
                 from dao.ingredient_dao import IngredientDAO
                 from service.service_ingredient import IngredientService
@@ -77,3 +80,7 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 from view.mon_compte_connecte import MonCompteConnecte
 
                 return MonCompteConnecte()
+
+            case "Quitter":
+                print("Retour au menu précédent.")
+                return None
