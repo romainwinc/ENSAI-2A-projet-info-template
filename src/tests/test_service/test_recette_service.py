@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock
-from service_recette import ServiceRecette
+from service.service_recette import ServiceRecette
 from models.recette import Recette
 
 
