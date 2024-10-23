@@ -45,11 +45,11 @@ if response_ingredients.status_code == 200:
             cursor.execute(
                 sql.SQL(
                     """
-                    INSERT INTO {}.ingredient (id_ingredient, nom_ingredient, description_ingredient)
-                    VALUES (%s, %s, %s)
+                    INSERT INTO {}.ingredient (nom_ingredient, description_ingredient)
+                    VALUES ( %s, %s)
                     """
                 ).format(sql.Identifier(POSTGRES_SCHEMA)),
-                (row.get("idIngredient"), row.get("strIngredient"), row.get("strDescription")),
+                (row.get("strIngredient"), row.get("strDescription")),
             )
 
         # Valider les modifications

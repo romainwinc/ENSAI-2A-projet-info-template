@@ -163,7 +163,7 @@ class IngredientDAO(metaclass=Singleton):
 
 
 if __name__ == "__main__":
-
+    pass
     # print(IngredientDAO().get_all_ingredients()) # Marche
 
     # print(IngredientDAO().get_ingredient_by_id(122)) # marche
