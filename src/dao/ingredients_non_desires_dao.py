@@ -51,10 +51,10 @@ class IngredientsNonDesiresDAO(metaclass=Singleton):
 if __name__ == "__main__":
     dao = IngredientsNonDesiresDAO()
 
-    # Exemple d'utilisation :
-    dao.add_ingredient_non_desire(
-        4, 1
-    )  # Ajoute l'ingrédient 4 à la liste des non désirés de l'utilisateur 1
-    print(
-        dao.get_non_desires_by_user_id(1)
-    )  # Renvoie les noms des ingrédients non désirés de l'utilisateur 1
+    # # Exemple d'utilisation :
+    # dao.add_ingredient_non_desire(
+    #     4, 1
+    # )  # Ajoute l'ingrédient 4 à la liste des non désirés de l'utilisateur 1
+    # print(
+    #     dao.get_non_desires_by_user_id(1)
+    # )  # Renvoie les noms des ingrédients non désirés de l'utilisateur 1

@@ -52,6 +52,6 @@ if __name__ == "__main__":
 
     # print(IngredientsFavorisDAO().add_ingredient_favori(3, 1))  # Marche
 
-    print(IngredientsFavorisDAO().get_favoris_by_user_id(1))  # marche
+    # print(IngredientsFavorisDAO().get_favoris_by_user_id(1))  # marche
 
     # print(IngredientsFavorisDAO().delete_ingredient_favori(456, 1))  # Marche

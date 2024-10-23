@@ -263,10 +263,9 @@ try:
             DROP TABLE IF EXISTS {}.liste_de_courses CASCADE;
             CREATE TABLE {}.liste_de_courses (
                 id_ingredient INT,
-                id_recette INT,
                 id_utilisateur INT,
-                PRIMARY KEY (id_ingredient, id_recette, id_utilisateur),
-                FOREIGN KEY (id_ingredient, id_recette) REFERENCES {}.recette_ingredient(id_ingredient, id_recette) ON DELETE CASCADE,
+                PRIMARY KEY (id_ingredient, id_utilisateur),
+                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE,
                 FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
             );
             """

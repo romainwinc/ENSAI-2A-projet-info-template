@@ -2,3 +2,5 @@
 # Récupère toutes les recettes et ingrédients provenant de l'API
 import data.create_db
 import data.pop_db
+
+# import data.pop_for_presentation
