@@ -80,3 +80,5 @@ class AvisDAO(metaclass=Singleton):
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (id_avis, note))
+
+if __name__ == "__main__":

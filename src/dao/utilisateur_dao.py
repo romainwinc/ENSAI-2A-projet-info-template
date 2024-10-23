@@ -169,17 +169,13 @@ class UtilisateurDao(metaclass=Singleton):
         if res:
             for row in res:
                 utilisateur = Utilisateur(
-                    nom_utilisateur=res["nom_utilisateur"],
-                    mot_de_passe=res["mot_de_passe"],
-                    id_utilisateur=res["id_utilisateur"],
-                    role=res["role"],
-                    date_inscription=res["date_inscription"],
+                    nom_utilisateur=row["nom_utilisateur"],
+                    mot_de_passe=row["mot_de_passe"],
+                    id_utilisateur=row["id_utilisateur"],
+                    role=row["role"],
+                    date_inscription=row["date_inscription"],
                 )
 
                 liste_utilisateurs.append(utilisateur)
 
         return liste_utilisateurs
-
-
-if __name__ == "__main__":
-    UtilisateurDao().lister_tous()
