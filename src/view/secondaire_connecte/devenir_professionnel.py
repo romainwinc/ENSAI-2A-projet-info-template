@@ -28,16 +28,14 @@ class DemandeCompteProfessionnelVue:
 
         # Demande à l'utilisateur d'expliquer pourquoi il souhaite devenir professionnel
         raison_demande = inquirer.text(
-            message="Expliquez pourquoi vous souhaitez devenir professionnel et les raisons d'acceptation : ",
+            message="Expliquez pourquoi vous souhaitez devenir professionnel : ",
             validate=lambda x: len(x) >= 10,
             invalid_message="Votre explication doit contenir au moins 10 caractères.",
         ).execute()
 
         # Simule la soumission de la demande
         if self.soumettre_demande(raison_demande):
-            print(
-                f"Merci {self.nom_utilisateur}, votre demande de compte professionnel a bien été soumise."
-            )
+            print(f"Merci {self.nom_utilisateur}, votre demande a été soumise avec succès.")
             from view.menu_principal_vue import MenuPrincipalVue
 
             return MenuPrincipalVue()  # Redirection vers le menu principal

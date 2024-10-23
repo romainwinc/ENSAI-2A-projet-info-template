@@ -5,14 +5,14 @@ from pydantic import BaseModel
 
 from utils.log_init import initialiser_logs
 
-from service.joueur_service import JoueurService
+from service.service_utilisateur import ServiceUtilisateur
 
 app = FastAPI(title="Mon webservice")
 
 
 initialiser_logs("Webservice")
 
-joueur_service = JoueurService()
+joueur_service = ServiceUtilisateur()
 
 
 @app.get("/joueur/", tags=["Joueurs"])

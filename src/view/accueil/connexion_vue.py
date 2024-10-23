@@ -2,31 +2,35 @@ from InquirerPy import inquirer
 
 from view.vue_abstraite import VueAbstraite
 from view.session import Session
-
-from service.joueur_service import JoueurService
+from dao.utilisateur_dao import UtilisateurDao
 
 
 class ConnexionVue(VueAbstraite):
-    """Vue de Connexion (saisie de pseudo et mdp)"""
+    """Vue de Connexion (saisie du nom d'utilisateur et mdp)"""
 
     def choisir_menu(self):
-        # Demande à l'utilisateur de saisir pseudo et mot de passe
-        pseudo = inquirer.text(message="Entrez votre pseudo : ").execute()
+        # Demande à l'utilisateur de saisir nom d'utilisateur et mot de passe
+        utilisateur = inquirer.text(message="Entrez votre nom d'utilisateur : ").execute()
         mdp = inquirer.secret(message="Entrez votre mot de passe :").execute()
 
         # Appel du service pour trouver le joueur
-        joueur = JoueurService().se_connecter(pseudo, mdp)
+        from service.service_utilisateur import ServiceUtilisateur
+
+        utilisateur = ServiceUtilisateur(UtilisateurDao()).se_connecter(utilisateur, mdp)
 
         # Si le joueur a été trouvé à partir des ses identifiants de connexion
-        if joueur:
-            message = f"Vous êtes connecté sous le pseudo {joueur.pseudo}"
-            Session().connexion(joueur)
+        if utilisateur:
+            message = (
+                f"Vous êtes connecté sous le nom {utilisateur.nom_utilisateur} "
+                f"en tant qu'utilisateur {utilisateur.nom_utilisateur}."
+            )
+            Session().connexion(utilisateur)
 
             from view.menu_joueur_vue import MenuJoueurVue
 
             return MenuJoueurVue(message)
 
-        message = "Erreur de connexion (pseudo ou mot de passe invalide)"
+        message = "Erreur de connexion (nom d'utilisateur ou mot de passe invalide)"
         from view.accueil.accueil_vue import AccueilVue
 
         return AccueilVue(message)

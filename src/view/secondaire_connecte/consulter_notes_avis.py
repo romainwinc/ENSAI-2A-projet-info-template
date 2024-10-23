@@ -2,6 +2,8 @@ from InquirerPy import inquirer
 
 from view.vue_abstraite import VueAbstraite
 from view.session import Session
+from service.service_avis import AvisService
+from dao.avis_dao import AvisDAO
 
 
 class ConsulterNotesAvis(VueAbstraite):
@@ -38,18 +40,19 @@ class ConsulterNotesAvis(VueAbstraite):
             ],
         ).execute()
 
+        utilisateur_id = Session().utilisateur
+        dao = AvisDAO()
+        avis_service = AvisService(dao)
+
         match choix:
             case "Consulter mes notes":
-                pass
+                avis_service.afficher_avis_utilisateur(utilisateur_id)
 
             case "Consulter mes avis":
-                from service.service_avis import afficher_avis_utilisateur
+                avis_service.afficher_avis_utilisateur(utilisateur_id)
 
-                afficher_avis_utilisateur()
             case "Supprimer mes notes":
-                pass
+                avis_service.supprimer_note_utilisateur(utilisateur_id)
 
             case "Supprimer mes avis":
-                from service.service_avis import supprimer_avis
-
-                supprimer_avis()
+                avis_service.supprimer_avis_utilisateur(utilisateur_id)

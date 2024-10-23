@@ -1,7 +1,6 @@
 from InquirerPy import inquirer
 
 from view.vue_abstraite import VueAbstraite
-from view.session import Session
 
 
 class MenuUtilisateurConnecte(VueAbstraite):
@@ -38,7 +37,7 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 "Consulter mes notes et avis",
                 "Mes ingrédients favoris et non-désirés",
                 "Proposer une recette",
-                "Regarder ma liste de course",
+                "Afficher ma liste de course",
                 "Mon compte",
             ],
         ).execute()
@@ -64,10 +63,12 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 from service.demande import proposer_recette
 
                 proposer_recette()
-            case "Regarder ma liste de course":
-                from service.utilisateur import afficher_liste_de_course
+            case "Afficher ma liste de course":
+                utilisateur_id = Session().utilisateur
+                dao = IngredientDAO()
+                ingredient_service = IngredientService(dao)
+                ingredient_service.afficher_ingredients_liste_courses(utilisateur_id)
 
-                afficher_liste_de_course()
             case "Mon compte":
                 from view.mon_compte_connecte import MonCompteConnecte
 

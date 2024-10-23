@@ -12,36 +12,46 @@ class IngredientsFavorisDAO(metaclass=Singleton):
 
     def add_ingredient_favori(self, id_ingredient, id_utilisateur):
         """Ajoute un ingrédient aux favoris d'un utilisateur."""
-        query = """
-            INSERT INTO ingredients_favoris (id_ingredient, id_utilisateur)
+        query = (
+            """
+            INSERT INTO {}.ingredients_favoris (id_ingredient, id_utilisateur)
             VALUES (%s, %s)
         """
+        ).format(self.schema)
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (id_ingredient, id_utilisateur))
 
     def get_favoris_by_user_id(self, id_utilisateur):
-        """Récupère les ingrédients favoris d'un utilisateur."""
-        query = "SELECT * FROM ingredients_favoris WHERE id_utilisateur = %s"
+        """Récupère les noms des ingrédients favoris d'un utilisateur."""
+        query = (
+            """
+            SELECT i.nom_ingredient 
+            FROM {}.ingredients_favoris f
+            JOIN {}.ingredient i ON f.id_ingredient = i.id_ingredient
+            WHERE f.id_utilisateur = %s
+            """
+        ).format(self.schema, self.schema)
+
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (id_utilisateur,))
-                return cursor.fetchall()
+                return [row["nom_ingredient"] for row in cursor.fetchall()]
 
-    def update_favori(self, id_ingredient, id_utilisateur, **kwargs):
-        """Met à jour un ingrédient favori."""
-        query = (
-            "UPDATE ingredients_favoris SET "
-            + ", ".join([f"{key} = %s" for key in kwargs])
-            + " WHERE id_ingredient = %s AND id_utilisateur = %s"
-        )
-        with self.connection as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(query, (*kwargs.values(), id_ingredient, id_utilisateur))
-
-    def delete_favori(self, id_ingredient, id_utilisateur):
+    def delete_ingredient_favori(self, id_ingredient, id_utilisateur):
         """Supprime un ingrédient des favoris d'un utilisateur."""
-        query = "DELETE FROM ingredients_favoris WHERE id_ingredient = %s AND id_utilisateur = %s"
+        query = (
+            "DELETE FROM {}.ingredients_favoris WHERE id_ingredient = %s AND id_utilisateur = %s"
+        ).format(self.schema)
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (id_ingredient, id_utilisateur))
+
+
+if __name__ == "__main__":
+
+    # print(IngredientsFavorisDAO().add_ingredient_favori(3, 1))  # Marche
+
+    print(IngredientsFavorisDAO().get_favoris_by_user_id(1))  # marche
+
+    # print(IngredientsFavorisDAO().delete_ingredient_favori(456, 1))  # Marche
