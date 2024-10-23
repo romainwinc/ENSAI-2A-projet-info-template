@@ -10,7 +10,7 @@ class ServiceUtilisateur:
 
     def creer_utilisateur(self, nom, mdp) -> Utilisateur:
         """Crée un nouvel utilisateur et le stocke dans la base de données."""
-        if not utilisateur.mot_de_passe:
+        if not mdp:
             raise ValueError("Le mot de passe ne peut pas être vide.")
 
         grade = "Connecté"
@@ -39,7 +39,7 @@ class ServiceUtilisateur:
         """Vérifie si le nom d'utilisateur est déjà utilisé
         Retourne True si le nom d'utilisateur existe déjà en BDD"""
         utilisateurs = UtilisateurDao().lister_tous()
-        return utilisateur in [u.nom_utilisateur for u in utilisateurs]
+        return nom_utilisateur in [u.nom_utilisateur for u in utilisateurs]
 
     def afficher_recettes_favorites(self, utilisateur_id: int):
         """Affiche les recettes favorites d'un utilisateur."""
@@ -69,17 +69,18 @@ if __name__ == "__main__":
         utilisateur = Utilisateur(
             nom_utilisateur="Jaja", mot_de_passe="1234", id_utilisateur=None, role="Connecté"
         )
-        ServiceUtilisateur(dao).creer_utilisateur(
-            utilisateur2.nom_utilisateur, utilisateur2.mot_de_passe
-        )
-        ServiceUtilisateur(dao).creer_utilisateur(
-            utilisateur.nom_utilisateur, utilisateur.mot_de_passe
-        )
+        # ServiceUtilisateur(dao).creer_utilisateur(
+        #     utilisateur2.nom_utilisateur, utilisateur2.mot_de_passe
+        # )
+        # ServiceUtilisateur(dao).creer_utilisateur(
+        #     utilisateur.nom_utilisateur, utilisateur.mot_de_passe
+        # )
         # ServiceUtilisateur(dao).changer_role_utilisateur(
         #     utilisateur2.id_utilisateur, new_role="Administrateur"
         # )
         # ServiceUtilisateur(dao).supprimer_utilisateur(5)
         # ServiceUtilisateur(dao).se_connecter("Jaja", "1234")
         # ServiceUtilisateur(dao).nom_utilisateur_deja_utilise("Jaja")
+
     except ValueError as e:
         print(e)
