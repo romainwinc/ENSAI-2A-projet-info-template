@@ -5,7 +5,7 @@ from service.service_recette import ServiceRecette
 from models.recette import Recette
 
 
-class RechercheRecetteNonConnecte(VueAbstraite):
+class ConsulterRecette(VueAbstraite):
     """Vue pour rechercher une recette.
 
     Permet à l'utilisateur de rechercher une recette par nom ou ingrédient.
@@ -43,9 +43,9 @@ class RechercheRecetteNonConnecte(VueAbstraite):
                 self.rechercher_recette("id")
                 return self
             case "Retour au menu principal":
-                from view.accueil.accueil_vue import AccueilVue
+                from view.menus_principaux.menu_professionnel_vue import MenuProfessionnelVue
 
-                return AccueilVue()
+                return MenuProfessionnelVue()
 
     def rechercher_recette(self, type_recherche: str):
         """Recherche une recette en fonction du type de recherche sélectionné.

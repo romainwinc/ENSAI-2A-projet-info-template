@@ -21,60 +21,47 @@ class MenuProfessionnelVue(VueAbstraite):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Consulter ses recettes favorites",
-                "Consulter une recette",
-                "Consulter ses notes ou ses avis",
-                "Consulter ses ingrédients favoris ou ingrédients non désirés",
-                "Proposer une recette",
-                "Regarder la liste de courses",
+                "Consulter mes recettes favorites",
+                "Chercher une recette",
+                "Consulter mes notes et avis",
+                "Mes ingrédients favoris et non-désirés",
+                "Soumettre une recette",
+                "Afficher ma liste de course",
                 "Demander la suppression d'une recette",
-                "Supprimer le compte",
-                "Ré-initialiser la base de données",
-                "Infos de session",
+                "Mon compte",
                 "Quitter",
             ],
         ).execute()
 
         match choix:
-            case "Quitter":
+            case "Consulter mes recettes favorites":
                 pass
 
-            case "Consulter ses recettes favorites":
-                from view.professionnel.recettes_favorites_vue import RecettesFavoritesVue
+            case "Chercher une recette":
+                from view.secondaire_pro.consulter_recette import ConsulterRecette
 
-                return RecettesFavoritesVue()
+                return ConsulterRecette()
 
-            case "Consulter une recette":
-                from view.professionnel.consulter_recette_vue import ConsulterRecetteVue
+            case "Consulter mes notes et avis":
+                pass
 
-                return ConsulterRecetteVue()
+            case "Mes ingrédients favoris et non-désirés":
+                pass
 
-            case "Consulter ses notes ou ses avis":
-                from view.professionnel.notes_avis_vue import NotesAvisVue
+            case "Soumettre une recette":
+                pass
 
-                return NotesAvisVue()
-
-            case "Consulter ses ingrédients favoris ou ingrédients non désirés":
-                from view.professionnel.ingredients_vue import IngredientsVue
-
-                return IngredientsVue()
-
-            case "Proposer une recette":
-                from view.professionnel.proposer_recette_vue import ProposerRecetteVue
-
-                return ProposerRecetteVue()
-
-            case "Regarder la liste de course":
-                from view.professionnel.liste_course_vue import ListeCourseVue
-
-                return ListeCourseVue()
+            case "Afficher ma liste de course":
+                pass
 
             case "Demander la suppression d'une recette":
-                from view.professionnel.suppression_recette_vue import SuppressionRecetteVue
+                pass
 
-                return SuppressionRecetteVue()
+            case "Mon compte":
+                from view.secondaire_pro import MonComptePro
 
-            case "Supprimer le compte":
-                from view.professionnel.supprimer_compte_vue import SupprimerCompteVue
+                return MonComptePro()
 
-                return SupprimerCompteVue()
+            case "Quitter":
+                print("Merci d'avoir utilisé Recipe-Makers. À bientôt !")
+                exit()
