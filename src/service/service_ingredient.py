@@ -93,7 +93,9 @@ class ServiceIngredient:
     # Méthodes pour la liste de course
     def afficher_ingredients_liste_courses(self, utilisateur_id: int):
         """Récupère les ingrédients de la liste de course d'un utilisateur."""
-        ingredients_liste_courses = self.liste_de_courses_dao.get_liste_by_user_id(utilisateur_id)
+        ingredients_liste_courses = self.liste_de_courses_dao.get_liste_de_courses_by_user_id(
+            utilisateur_id
+        )
 
         if not ingredients_liste_courses:
             print("Vous n'avez aucun ingrédient dans votre liste de courses.")
@@ -105,7 +107,9 @@ class ServiceIngredient:
 
     def supprimer_ingredients_liste_courses(self, utilisateur_id: int, nom_ingredient: str):
         """Supprime un ingrédient de la liste de courses d'un utilisateur."""
-        self.liste_de_courses_dao.delete_from_liste(nom_ingredient, utilisateur_id)
+        self.liste_de_courses_dao.delete_ingredient_from_liste_de_courses(
+            nom_ingredient, utilisateur_id
+        )
         print(f"L'ingrédient '{nom_ingredient}' a été supprimé de la liste de courses.")
 
     def ajouter_ingredients_liste_courses(self, utilisateur_id: int, nom_ingredient: str):
@@ -128,3 +132,20 @@ if __name__ == "__main__":
     # service.modifier_ingredient(
     #  1, nom_ingredient="Chicken", description_ingredient="Légume rouge et juteux."
     # )
+
+    # Favoris
+    # service.ajouter_ingredients_favoris(1, "Tomate")  # Remplacez 1 par un ID utilisateur valide
+    # service.recuperer_ingredients_favoris_utilisateur(1)
+    # service.supprimer_ingredients_favoris(1, "Tomate")
+
+    # # Non-désirés
+    # service.ajouter_ingredients_non_desires(
+    #     1, "Chicken"
+    # )  # Remplacez 1 par un ID utilisateur valide
+    # service.recuperer_ingredients_non_desires_utilisateur(1)
+    # service.supprimer_ingredients_non_desires(1, "Chicken")
+
+    # Liste de courses
+    # service.ajouter_ingredients_liste_courses(1, "Beef")  # Remplacez 1 par un ID utilisateur valide
+    service.afficher_ingredients_liste_courses(1)
+    # service.supprimer_ingredients_liste_courses(1, "Beef")
