@@ -88,21 +88,20 @@ class UtilisateurDao(metaclass=Singleton):
             renvoie l'utilisateur que l'on cherche
         """
         res = None
+        utilisateur = None
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "SELECT *                           "
-                        "  FROM utilisateur                      "
-                        " WHERE pseudo = %(pseudo)s         "
-                        "   AND mdp = %(mdp)s;              ",
-                        {"pseudo": pseudo, "mdp": mdp},
+                        "  FROM projet_informatique.utilisateur                      "
+                        " WHERE (nom_utilisateur = %(nom_utilisateur)s         "
+                        "   AND mot_de_passe = %(mot_de_passe)s);              ",
+                        {"nom_utilisateur": pseudo, "mot_de_passe": mdp},
                     )
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
-
-        utilisateur = None
 
         if res:
             utilisateur = Utilisateur(
