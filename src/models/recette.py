@@ -45,7 +45,7 @@ class Recette:
         categorie: str,
         origine: str,
         instructions: str,
-        liste_ingredients: list[dict],
+        liste_ingredients: list[Ingredient],
         nombre_avis: int,
         date_derniere_modif: datetime = datetime.now(),
         mots_cles: str = None,
