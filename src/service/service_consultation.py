@@ -1,10 +1,10 @@
 from datetime import date
-from dao import consultation_dao
-from models import consultation
+from dao.consultation_dao import ConsultationDAO
+from models.consultation import Consultation
 
 
 class ConsultationService:
-    def __init__(self, consultation_dao):
+    def __init__(self, consultation_dao: ConsultationDAO):
         self.consultation_dao = consultation_dao
 
     def creer_consultation(self, id_recette, id_utilisateur):

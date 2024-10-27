@@ -20,7 +20,8 @@ class AvisDAO(metaclass=Singleton):
         query = """
             INSERT INTO projet_informatique.avis (id_recette, id_utilisateur, titre_avis,
             nom_auteur, date_publication, commentaire, note)
-            VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id_avis
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            RETURNING id_avis
         """
         with self.connection as connection:
             with connection.cursor() as cursor:
@@ -44,7 +45,23 @@ class AvisDAO(metaclass=Singleton):
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (id_recette,))
-                return cursor.fetchall()
+                rows = cursor.fetchall()
+
+        avis = []
+        for row in rows:
+            avi = {
+                "id_avis": row["id_avis"],
+                "id_recette": row["id_recette"],
+                "id_utilisateur": row["id_utilisateur"],
+                "titre_avis": row["titre_avis"],
+                "nom_auteur": row["nom_auteur"],
+                "date_publication": row["date_publication"],
+                "commentaire": row["commentaire"],
+                "note": row["note"],
+            }
+            avis.append(avi)
+
+        return avis
 
     def get_avis_by_user_id(self, id_utilisateur):
         """Récupère les avis d'un utilisateur donné."""
@@ -52,7 +69,23 @@ class AvisDAO(metaclass=Singleton):
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, (id_utilisateur,))
-                return cursor.fetchall()
+                rows = cursor.fetchall()
+
+        avis = []
+        for row in rows:
+            avi = {
+                "id_avis": row["id_avis"],
+                "id_recette": row["id_recette"],
+                "id_utilisateur": row["id_utilisateur"],
+                "titre_avis": row["titre_avis"],
+                "nom_auteur": row["nom_auteur"],
+                "date_publication": row["date_publication"],
+                "commentaire": row["commentaire"],
+                "note": row["note"],
+            }
+            avis.append(avi)
+
+        return avis
 
     def update_avis(self, avis_id, **kwargs):
         """Met à jour un avis."""
@@ -83,4 +116,5 @@ class AvisDAO(metaclass=Singleton):
 
 
 if __name__ == "__main__":
-    print(AvisDAO().get_avis_by_recette_id(1))
+    # print(AvisDAO().get_avis_by_recette_id(1))
+    print(AvisDAO().get_avis_by_user_id(8))
