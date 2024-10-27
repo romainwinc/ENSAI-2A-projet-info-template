@@ -6,19 +6,50 @@ from datetime import datetime
 
 
 class ServiceAvis:
-    def __init__(self, avis_dao):
-        self.avis_dao = AvisDAO()
+    def __init__(self, avis_dao: AvisDAO()):
+        self.avis_dao = avis_dao
 
     def afficher_avis_par_recette(self, id_recette):
         """Affiche tous les avis pour une recette donnée."""
-        avis = self.avis_dao.get_avis_by_recette_id(id_recette)
+        avi = self.avis_dao.get_avis_by_recette_id(id_recette)
+        avis = []
+        for i in range(len(avi)):
+            avis.append(
+                Avis(
+                    id_avis=avi[i]["id_avis"],
+                    id_recette=avi[i]["id_recette"],
+                    id_utilisateur=avi[i]["id_utilisateur"],
+                    titre_avis=avi[i]["titre_avis"],
+                    nom_auteur=avi[i]["nom_auteur"],
+                    date_publication=avi[i]["date_publication"],
+                    commentaire=avi[i]["commentaire"],
+                    note=avi[i]["note"],
+                )
+            )
         if not avis:
             print("Aucun avis trouvé pour cette recette.")
             return
 
+        for a in avis:
+            print(self._afficher_avis(a))
+
     def afficher_avis_par_utilisateur(self, id_utilisateur):
         """Affiche tous les avis d'un utilisateur donné."""
-        avis = self.avis_dao.get_avis_by_user_id(id_utilisateur)
+        avi = self.avis_dao.get_avis_by_user_id(id_utilisateur)
+        avis = []
+        for i in range(len(avi)):
+            avis.append(
+                Avis(
+                    id_avis=avi[i]["id_avis"],
+                    id_recette=avi[i]["id_recette"],
+                    id_utilisateur=avi[i]["id_utilisateur"],
+                    titre_avis=avi[i]["titre_avis"],
+                    nom_auteur=avi[i]["nom_auteur"],
+                    date_publication=avi[i]["date_publication"],
+                    commentaire=avi[i]["commentaire"],
+                    note=avi[i]["note"],
+                )
+            )
         if not avis:
             print("Aucun avis trouvé pour cet utilisateur.")
             return
@@ -88,4 +119,5 @@ if __name__ == "__main__":
         id_avis=3,
     )
     # ServiceAvis(dao)._afficher_avis(avis1)
-    ServiceAvis(dao).afficher_avis_par_recette(1)
+    # ServiceAvis(dao).afficher_avis_par_recette(1)
+    # ServiceAvis(dao).afficher_avis_par_utilisateur(8)

@@ -46,7 +46,9 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
         match choix:
             case "Consulter mes recettes favorites":
-                from service.service_consultation import consulter_recette_favorite
+                from service.secondaire_connecte.service_consultation import (
+                    consulter_recette_favorite,
+                )
 
                 consulter_recette_favorite()
             case "Chercher une recette":
@@ -54,11 +56,13 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
                 return RechercheRecetteConnecte()
             case "Consulter mes notes et avis":
-                from view.consulter_notes_avis import ConsulterNotesAvis
+                from view.secondaire_connecte.consulter_notes_avis import ConsulterNotesAvis
 
                 return ConsulterNotesAvis()
             case "Mes ingrédients favoris et non-désirés":
-                from view.ingredients_favoris_et_non_desires import IngredientsFavorisEtNonDesires
+                from view.secondaire_connecte.ingredients_favoris_et_non_desires import (
+                    IngredientsFavorisEtNonDesires,
+                )
 
                 return IngredientsFavorisEtNonDesires()
             case "Proposer une recette":
@@ -77,7 +81,7 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 ingredient_service.afficher_ingredients_liste_courses(utilisateur_id)
 
             case "Mon compte":
-                from view.mon_compte_connecte import MonCompteConnecte
+                from view.secondaire_connecte.mon_compte_connecte import MonCompteConnecte
 
                 return MonCompteConnecte()
 
