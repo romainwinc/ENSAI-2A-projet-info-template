@@ -68,12 +68,12 @@ if __name__ == "__main__":
     dao = AvisDAO()
     # ServiceAvis(dao).ajouter_avis(
     #     id_recette=1,
-    #     id_utilisateur=8,
+    #     id_utilisateur=1,
     #     titre_avis="Test",
     #     nom_auteur="Tata",
     #     date_publication=datetime.now(),
     #     commentaire="Bon",
-    #     note=8,
+    #     note=5,
     # )
     # ServiceAvis(dao).supprimer_avis(2)
     # ServiceAvis(dao).modifier_avis(avis_id=3, note=9)

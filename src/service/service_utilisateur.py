@@ -41,46 +41,8 @@ class ServiceUtilisateur:
         utilisateurs = UtilisateurDao().lister_tous()
         return nom_utilisateur in [u.nom_utilisateur for u in utilisateurs]
 
-    def afficher_recettes_favorites(self, utilisateur_id: int):
-        """Affiche les recettes favorites d'un utilisateur."""
-        recettes_favorites = self.recette_favorite_dao.get_favoris_by_user_id(utilisateur_id)
-
-        if not recettes_favorites:
-            print("Vous n'avez aucune recette favorite.")
-            return
-
-        print("\nVoici vos recettes favorites :\n")
-        for recette in recettes_favorites:
-            print(f"- {recette}")
-
-
 if __name__ == "__main__":
     dao = UtilisateurDao()
-    try:
-        utilisateu3 = Utilisateur(
-            nom_utilisateur="Antoine_Dupont",
-            mot_de_passe="Totolebest",
-            id_utilisateur=None,
-            role="Connecté",
-        )
-        utilisateur2 = Utilisateur(
-            nom_utilisateur="Jean", mot_de_passe="123", id_utilisateur=None, role="Professionel"
-        )
-        utilisateur = Utilisateur(
-            nom_utilisateur="Jaja", mot_de_passe="1234", id_utilisateur=None, role="Connecté"
-        )
-        ServiceUtilisateur(dao).creer_utilisateur(
-            utilisateur2.nom_utilisateur, utilisateur2.mot_de_passe
-        )
-        ServiceUtilisateur(dao).creer_utilisateur(
-            utilisateur.nom_utilisateur, utilisateur.mot_de_passe
-        )
-        # ServiceUtilisateur(dao).changer_role_utilisateur(
-        #     utilisateur2.id_utilisateur, new_role="Administrateur"
-        # )
-        # ServiceUtilisateur(dao).supprimer_utilisateur(5)
-        # ServiceUtilisateur(dao).se_connecter("Jaja", "1234")
-        # ServiceUtilisateur(dao).nom_utilisateur_deja_utilise("Jaja")
 
     except ValueError as e:
         print(e)

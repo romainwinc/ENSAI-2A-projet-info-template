@@ -73,15 +73,15 @@ class DemandeDAO(metaclass=Singleton):
 
 if __name__ == "__main__":
 
-    print(
-        DemandeDAO().add_demande(
-            id_utilisateur=1,
-            type_demande="modification utilisateur",
-            attribut_modifie="nom",
-            attribut_corrige="Xavier",
-            commentaire_demande="changer nom de l'utilisateur 1 par Xavier",
-        )
-    )  # Marche
+    # print(
+    #     DemandeDAO().add_demande(
+    #         id_utilisateur=1,
+    #         type_demande="modification utilisateur",
+    #         attribut_modifie="nom",
+    #         attribut_corrige="Xavier",
+    #         commentaire_demande="changer nom de l'utilisateur 1 par Xavier",
+    #     )
+    # )  # Marche
 
     # print(
     #     DemandeDAO().update_demande(
@@ -93,4 +93,4 @@ if __name__ == "__main__":
 
     # print(DemandeDAO().delete_demande(2)) # Marche
 
-    print(DemandeDAO().get_demande_by_id_utilisateur(1))
+    # print(DemandeDAO().get_demande_by_id_utilisateur(1))
