@@ -64,6 +64,8 @@ if __name__ == "__main__":
     dao = RecetteFavoriteDAO()
 
     # Exemple d'utilisation :
-    # dao.add_recette_favorite('Apple Frangipan Tart', 1)  # Ajoute 'Apple Frangipan Tart' aux favoris de l'utilisateur 1
-    print(dao.get_favoris_by_user_id(1))  # Renvoie les recettes favorites de l'utilisateur 1
+    dao.add_recette_favorite(
+        "Apple Frangipan Tart", 1
+    )  # Ajoute 'Apple Frangipan Tart' aux favoris de l'utilisateur 1
+    # print(dao.get_favoris_by_user_id(1))  # Renvoie les recettes favorites de l'utilisateur 1
     # dao.delete_recette_favorite('Apple Frangipan Tart', 1)  # Supprime 'Apple Frangipan Tart' des favoris de l'utilisateur 1
