@@ -41,8 +41,9 @@ class ServiceUtilisateur:
         utilisateurs = UtilisateurDao().lister_tous()
         return nom_utilisateur in [u.nom_utilisateur for u in utilisateurs]
 
-if __name__ == "__main__":
-    dao = UtilisateurDao()
 
-    except ValueError as e:
-        print(e)
+# if __name__ == "__main__":
+#     dao = UtilisateurDao()
+
+# except ValueError as e:
+#     print(e)
