@@ -37,14 +37,14 @@ class MenuAdministrateurVue(VueAbstraite):
         # Gestion des choix de l'administrateur avec 'match case'
         match choix:
             case "Consulter mes recettes favorites":
-                from view.recettes_favorites_vue import RecettesFavoritesVue
+                from view.secondaire_admin.recettes_favorites import RecettesFavoritesVue
 
                 return RecettesFavoritesVue()
 
             case "Consulter une recette":
-                from view.consulter_recette_vue import ConsulterRecetteVue
+                from view.secondaire_admin.recherche_recette import ConsulterRecette
 
-                return ConsulterRecetteVue()
+                return ConsulterRecette()
 
             case "Consulter mes notes/avis":
                 from view.notes_avis_vue import NotesAvisVue

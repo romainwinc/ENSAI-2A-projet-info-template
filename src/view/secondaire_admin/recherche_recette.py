@@ -6,10 +6,10 @@ from service.service_recette import ServiceRecette
 from models.recette import Recette
 
 
-class RechercheRecetteNonConnecte(VueAbstraite):
+class ConsulterRecette(VueAbstraite):
     """Vue pour rechercher une recette.
 
-    Permet à l'utilisateur non connecté de rechercher une recette par nom ou ingrédient.
+    Permet à l'dministrateur de rechercher une recette par nom ou ingrédient.
     """
 
     def choisir_menu(self):
@@ -44,9 +44,9 @@ class RechercheRecetteNonConnecte(VueAbstraite):
                 self.rechercher_recette("id")
                 return self
             case "Retour au menu principal":
-                from view.accueil.accueil_vue import AccueilVue
+                from view.menus_principaux.menu_administrateur import MenuAdministrateurVue
 
-                return AccueilVue()
+                return MenuAdministrateurVue()
 
     def rechercher_recette(self, type_recherche: str):
         """Recherche une recette en fonction du type de recherche sélectionné.
@@ -85,45 +85,16 @@ class RechercheRecetteNonConnecte(VueAbstraite):
         recettes : list
             Liste de recettes à afficher.
         """
-        r = []  # Liste pour stocker les noms des recettes trouvées
-
         if recettes:
             for recette in recettes:
-                r.append(recette.nom_recette)  # Ajouter le nom de chaque recette à la liste r
+                print(f"Recette trouvée : {recette}")
         else:
             print("Aucune recette trouvée.")
-
-        # Afficher le menu avec les noms des recettes trouvées ou une option de retour
-        choix_menu = r + [
-            "Retour au menu de recherche"
-        ]  # Ajouter une option pour retourner au menu de recherche
-        choix = inquirer.select(
-            message="Sélectionnez une recette pour plus de détails ou retournez au menu :",
-            choices=choix_menu,
-        ).execute()
-
-        if choix in r:
-            # Trouver la recette correspondante
-            recette_selectionnee = next(
-                (recette for recette in recettes if recette.nom_recette == choix), None
-            )
-            if recette_selectionnee:
-                from view.accueil.vue_detail_recette import VueDetailRecette
-
-                return VueDetailRecette(recette_selectionnee).afficher()
-        else:
-            # Retourner à la vue de recherche
             return self
-
-        # Ancienne Version
-        # if recettes:
-        #     for recette in recettes:
-        #         print(f"Recette trouvée : {recette}")
-        # else:
-        #     print("Aucune recette trouvée.")
-        # inquirer.select(
-        #     message="Avez vous fini de lire la recette ?",
-        #     choices=[
-        #         "Retour au menu de recherche",
-        #     ],
-        # ).execute()
+        inquirer.select(
+            message="Avez vous fini de lire la recette ?",
+            choices=[
+                "Laisser un avis",
+                "Retour au menu de recherche",
+            ],
+        ).execute()

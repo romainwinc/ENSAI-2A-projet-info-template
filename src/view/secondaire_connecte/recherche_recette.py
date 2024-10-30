@@ -1,6 +1,7 @@
 from InquirerPy import inquirer
 from view.vue_abstraite import VueAbstraite
 from dao.recette_dao import RecetteDAO
+from dao.recette_favorite_dao import RecetteFavoriteDAO
 from service.service_recette import ServiceRecette
 from models.recette import Recette
 
@@ -57,17 +58,23 @@ class RechercheRecetteConnecte(VueAbstraite):
         """
         if type_recherche == "nom":
             nom_recette = inquirer.text(message="Entrez le nom de la recette :").execute()
-            recettes = ServiceRecette(RecetteDAO()).rechercher_par_nom_recette(nom_recette)
+            recettes = ServiceRecette(
+                RecetteDAO(), RecetteFavoriteDAO()
+            ).rechercher_par_nom_recette(nom_recette)
             self.afficher_resultats(recettes)
 
         elif type_recherche == "ingredient":
             nom_ingredient = inquirer.text(message="Entrez le nom de l'ingrédient :").execute()
-            recettes = ServiceRecette(RecetteDAO()).rechercher_par_ingredient(nom_ingredient)
+            recettes = ServiceRecette(RecetteDAO(), RecetteFavoriteDAO()).rechercher_par_ingredient(
+                nom_ingredient
+            )
             self.afficher_resultats(recettes)
 
         elif type_recherche == "id":
             recette_id = inquirer.number(message="Entrez l'ID de la recette :").execute()
-            recette = ServiceRecette(RecetteDAO()).rechercher_par_id_recette(recette_id)
+            recette = ServiceRecette(RecetteDAO(), RecetteFavoriteDAO()).rechercher_par_id_recette(
+                recette_id
+            )
             self.afficher_resultats(recette)
 
     def afficher_resultats(self, recettes: Recette):
@@ -83,3 +90,11 @@ class RechercheRecetteConnecte(VueAbstraite):
                 print(f"Recette trouvée : {recette}")
         else:
             print("Aucune recette trouvée.")
+            return self
+        inquirer.select(
+            message="Avez vous fini de lire la recette ?",
+            choices=[
+                "Laisser un avis",
+                "Retour au menu de recherche",
+            ],
+        ).execute()
