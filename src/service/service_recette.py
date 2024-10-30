@@ -77,7 +77,8 @@ class ServiceRecette:
 
     def modifier_recette_id(self, recette_id: int, **kwargs) -> bool:
         """
-        Modifie une recette existante. Les champs à mettre à jour sont passés en tant que paramètres.
+        Modifie une recette existante. Les champs à mettre à jour sont passés en tant que
+        paramètres.
         """
         recette_existante = self.recette_dao.get_recette_by_id(recette_id)
         if not recette_existante:
@@ -89,7 +90,8 @@ class ServiceRecette:
 
     def modifier_recette_nom_recette(self, nom_recette: int, **kwargs) -> bool:
         """
-        Modifie une recette existante. Les champs à mettre à jour sont passés en tant que paramètres.
+        Modifie une recette existante. Les champs à mettre à jour sont passés en tant que
+        paramètres.
         """
         recette_existante = self.recette_dao.get_recette_by_nom_recette(nom_recette)
         if not recette_existante:
@@ -131,7 +133,9 @@ class ServiceRecette:
         )
 
     def supprimer_recette_favorite(self, nom_recette: str, id_utilisateur: int) -> str:
-        """Supprime une recette des favoris de l'utilisateur et renvoie un message de confirmation."""
+        """
+        Supprime une recette des favoris de l'utilisateur et renvoie un message de confirmation.
+        """
         self.recette_favorite_dao.delete_recette_favorite(nom_recette, id_utilisateur)
         print(
             f"La recette '{nom_recette}' a été supprimée des favoris de l'utilisateur {id_utilisateur}."
