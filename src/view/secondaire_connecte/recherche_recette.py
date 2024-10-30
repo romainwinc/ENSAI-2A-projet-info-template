@@ -85,16 +85,32 @@ class RechercheRecetteConnecte(VueAbstraite):
         recettes : list
             Liste de recettes à afficher.
         """
+        r = []  # Liste pour stocker les noms des recettes trouvées
+
         if recettes:
             for recette in recettes:
-                print(f"Recette trouvée : {recette}")
+                r.append(recette.nom_recette)  # Ajouter le nom de chaque recette à la liste r
         else:
             print("Aucune recette trouvée.")
-            return self
-        inquirer.select(
-            message="Avez vous fini de lire la recette ?",
-            choices=[
-                "Laisser un avis",
-                "Retour au menu de recherche",
-            ],
+
+        # Afficher le menu avec les noms des recettes trouvées ou une option de retour
+        choix_menu = r + [
+            "Retour au menu de recherche"
+        ]  # Ajouter une option pour retourner au menu de recherche
+        choix = inquirer.select(
+            message="Sélectionnez une recette pour plus de détails ou retournez au menu :",
+            choices=choix_menu,
         ).execute()
+
+        if choix in r:
+            # Trouver la recette correspondante
+            recette_selectionnee = next(
+                (recette for recette in recettes if recette.nom_recette == choix), None
+            )
+            if recette_selectionnee:
+                from view.secondaire_connecte.vue_detail_recette import VueDetailRecette
+
+                return VueDetailRecette(recette_selectionnee).afficher()
+        else:
+            # Retourner à la vue de recherche
+            return self

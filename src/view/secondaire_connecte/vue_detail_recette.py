@@ -26,13 +26,15 @@ class VueDetailRecette(VueAbstraite):
         print(f"{self.recette}")
 
         # Permet de revenir au menu principal ou à la recherche
-        from view.accueil.rechercher_recette_non_connecte import RechercheRecetteNonConnecte
+        from view.secondaire_connecte.recherche_recette import RechercheRecetteConnecte
 
         inquirer.select(
             message="Que souhaitez-vous faire ensuite ?",
             choices=[
+                "Ajouter la recette à mes favoris",
+                "Ajouter un avis",
                 "Retour à la recherche",
             ],
         ).execute()
 
-        return RechercheRecetteNonConnecte()  # Retour à la vue de recherche
+        return RechercheRecetteConnecte()  # Retour à la vue de recherche
