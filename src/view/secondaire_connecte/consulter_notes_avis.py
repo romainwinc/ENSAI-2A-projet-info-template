@@ -37,6 +37,7 @@ class ConsulterNotesAvis(VueAbstraite):
                 "Supprimer mes avis",
                 "Consulter mes notes",
                 "Modifier mes notes",
+                "Modifier un commentaire",
                 "Retour au menu principal",
             ],
         ).execute()
@@ -64,6 +65,10 @@ class ConsulterNotesAvis(VueAbstraite):
 
             case "Modifier mes notes":
                 self.modifier_notes()
+                return self
+
+            case "Modifier un commentaire":
+                self.modifier_commentaire()
                 return self
 
             case "Supprimer mes avis":
@@ -106,11 +111,11 @@ class ConsulterNotesAvis(VueAbstraite):
         else:
             inquirer.select(
                 message="",
-                choices=["Retour au menu des avis et notes"],
+                choices=["Retour au menu des avis"],
             ).execute()
 
     def modifier_notes(self):
-        """Affiche les notes à modifier."""
+        """Modifie les notes des avis."""
         utilisateur_id = Session().utilisateur.id_utilisateur
         dao = AvisDAO()
         avis_service = ServiceAvis(dao)
@@ -143,5 +148,41 @@ class ConsulterNotesAvis(VueAbstraite):
         else:
             inquirer.select(
                 message="",
-                choices=["Retour au menu des avis et notes"],
+                choices=["Retour au menu des avis"],
+            ).execute()
+
+    def modifier_commentaire(self):
+        """Modifie les commentaires des avis."""
+        utilisateur_id = Session().utilisateur.id_utilisateur
+        dao = AvisDAO()
+        avis_service = ServiceAvis(dao)
+        liste = []  # Liste pour stocker les id des avis de la personne
+
+        avis = avis_service.afficher_avis_par_utilisateur(utilisateur_id)
+
+        if avis:
+            for avi in avis:
+                liste.append(avi.id_avis)
+
+            # Afficher le menu avec les noms des recettes trouvées ou une option de retour
+            choix_menu = liste + ["Retour au menu des avis et notes"]
+            choix = inquirer.select(
+                message="Sélectionnez l'avis pour lequel vous voulez changer le commentaire :",
+                choices=choix_menu,
+            ).execute()
+
+            if choix in liste:
+                nouveau_com = inquirer.text(
+                    message="Indiquer le nouveau commentaire que vous voulez.",
+                ).execute()
+                # Trouver la recette correspondante
+                avis_service.modifier_avis(choix, commentaire=str(nouveau_com))
+                print("La note a été modifiée avec succès.")
+            else:
+                # Retourner à la vue de recherche
+                return self
+        else:
+            inquirer.select(
+                message="",
+                choices=["Retour au menu des avis"],
             ).execute()

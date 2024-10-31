@@ -95,9 +95,7 @@ class RechercheRecetteConnecte(VueAbstraite):
             print("Aucune recette trouvée.")
 
         # Afficher le menu avec les noms des recettes trouvées ou une option de retour
-        choix_menu = r + [
-            "Retour au menu de recherche"
-        ]  # Ajouter une option pour retourner au menu de recherche
+        choix_menu = r + ["Retour au menu de recherche"]
         choix = inquirer.select(
             message="Sélectionnez une recette pour plus de détails ou retournez au menu :",
             choices=choix_menu,
