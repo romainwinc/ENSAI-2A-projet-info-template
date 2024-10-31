@@ -1,8 +1,6 @@
 from datetime import datetime
 from dao.avis_dao import AvisDAO
 from models.avis import Avis
-from InquirerPy import inquirer
-from datetime import datetime
 
 
 class ServiceAvis:

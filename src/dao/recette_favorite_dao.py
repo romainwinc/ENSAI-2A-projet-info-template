@@ -16,7 +16,7 @@ class RecetteFavoriteDAO(metaclass=Singleton):
             """
             INSERT INTO {}.recette_favorite (id_recette, id_utilisateur)
             VALUES (
-                (SELECT id_recette FROM {}.recette WHERE nom_recette = %s), 
+                (SELECT id_recette FROM {}.recette WHERE nom_recette = %s LIMIT 1),
                 %s
             )
             """
@@ -30,7 +30,7 @@ class RecetteFavoriteDAO(metaclass=Singleton):
         """Récupère les noms des recettes favorites d'un utilisateur."""
         query = (
             """
-            SELECT r.nom_recette 
+            SELECT r.nom_recette
             FROM {}.recette_favorite rf
             JOIN {}.recette r ON rf.id_recette = r.id_recette
             WHERE rf.id_utilisateur = %s
@@ -46,10 +46,10 @@ class RecetteFavoriteDAO(metaclass=Singleton):
         """Supprime une recette des favoris d'un utilisateur en utilisant le nom de la recette."""
         query = (
             """
-            DELETE FROM {}.recette_favorite 
+            DELETE FROM {}.recette_favorite
             WHERE id_recette = (
-                SELECT id_recette 
-                FROM {}.recette 
+                SELECT id_recette
+                FROM {}.recette
                 WHERE nom_recette = %s
             ) AND id_utilisateur = %s
             """
