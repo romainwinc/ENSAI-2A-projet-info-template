@@ -46,7 +46,7 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
         match choix:
             case "Consulter mes recettes favorites":
-                from service.secondaire_connecte.service_consultation import (
+                from service.service_consultation import (
                     consulter_recette_favorite,
                 )
 
