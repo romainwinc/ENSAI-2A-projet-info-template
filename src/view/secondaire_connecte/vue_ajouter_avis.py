@@ -23,7 +23,9 @@ class VueAjouterAvis(VueAbstraite):
         id_recette = Session().recette.id_recette
         titre_avis = inquirer.text(message="Entrez le titre de l'avis :").execute()
         commentaire = inquirer.text(message="Entrez votre commentaire :").execute()
-        note = inquirer.number(message="Notez la recette sur 5 :", float_allowed=False).execute()
+        note = inquirer.select(
+            message="Notez la recette sur 5 :", choices=[0, 1, 2, 3, 4, 5]
+        ).execute()
         date_publication = datetime.now().strftime("%Y-%m-%d")  # Date actuelle au format AAAA-MM-JJ
 
         # Appel à la méthode ajouter_avis dans ServiceAvis

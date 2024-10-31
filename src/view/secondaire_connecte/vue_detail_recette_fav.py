@@ -26,13 +26,13 @@ class DetailRecetteFav(VueAbstraite):
         print("\n" + "-" * 50 + "\nDétails de la Recette\n" + "-" * 50 + "\n")
         print(f"{recette}")
 
-        from view.secondaire_connecte.recettes_favorites import RecettesFavorites
+        from view.menus_principaux.menu_connecte import MenuUtilisateurConnecte
 
         choix = inquirer.select(
             message="Que souhaitez-vous faire ?",
             choices=[
                 "Supprimer la recette de mes favoris",
-                "Retour aux recettes favorites",
+                "Retour au menu principal",
             ],
         ).execute()
 
@@ -43,4 +43,4 @@ class DetailRecetteFav(VueAbstraite):
                 return self
             case "Retour aux recettes favorites":
                 Session().fermer_recette()
-                return RecettesFavorites()
+                return MenuUtilisateurConnecte()

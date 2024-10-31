@@ -64,7 +64,8 @@ class Avis:
             f"Auteur: {self.nom_auteur}\n"  # Affichage du nom de l'auteur
             f"Commentaire: {self.commentaire}\n"  # Affichage du commentaire
             f"Note: {self.note or 'Non noté'}\n"  # Affichage de la note
-            f"Date de publication: {self.date_publication.strftime('%d/%m/%Y')}\n"  # Affichage de la date
+            f"Date de publication: {self.date_publication.strftime('%d/%m/%Y')}\n"
+            # Affichage de la date
             f"ID Utilisateur: {self.id_utilisateur}\n"  # Affichage de l'ID de l'utilisateur
             f"ID Recette: {self.id_recette}"  # Affichage de l'ID de la recette
         )
