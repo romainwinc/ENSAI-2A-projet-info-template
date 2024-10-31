@@ -40,7 +40,7 @@ class ConsulterNotesAvis(VueAbstraite):
             ],
         ).execute()
 
-        utilisateur_id = Session().utilisateur
+        utilisateur_id = Session().utilisateur.id_utilisateur
         dao = AvisDAO()
         avis_service = ServiceAvis(dao)
 

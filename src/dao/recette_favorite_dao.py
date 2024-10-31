@@ -50,7 +50,7 @@ class RecetteFavoriteDAO(metaclass=Singleton):
             WHERE id_recette = (
                 SELECT id_recette
                 FROM {}.recette
-                WHERE nom_recette = %s
+                WHERE nom_recette = %s LIMIT 1
             ) AND id_utilisateur = %s
             """
         ).format(self.schema, self.schema)

@@ -1,5 +1,10 @@
 from InquirerPy import inquirer
-
+from view.session import Session
+from dao.ingredient_dao import IngredientDAO
+from dao.ingredients_favoris_dao import IngredientsFavorisDAO
+from dao.ingredients_non_desires_dao import IngredientsNonDesiresDAO
+from dao.liste_de_courses_dao import ListeDeCoursesDAO
+from service.service_ingredient import ServiceIngredient
 from view.vue_abstraite import VueAbstraite
 
 
@@ -44,13 +49,20 @@ class MenuUtilisateurConnecte(VueAbstraite):
             max_height=15,
         ).execute()
 
+        utilisateur_id = Session().utilisateur
+        dao_ing = IngredientDAO()
+        dao_ing_fav = IngredientsFavorisDAO()
+        dao_ing_nd = IngredientsNonDesiresDAO()
+        dao_liste_course = ListeDeCoursesDAO()
+        ingredient_service = ServiceIngredient(dao_ing, dao_ing_fav, dao_ing_nd, dao_liste_course)
+
         match choix:
             case "Consulter mes recettes favorites":
-                from service.secondaire_connecte.service_consultation import (
-                    consulter_recette_favorite,
-                )
+                from view.secondaire_connecte.recettes_favorites import RecettesFavorites
 
-                consulter_recette_favorite()
+                return RecettesFavorites()
+                # recette_service.afficher_recettes_favorites(id_utilisateur)
+                # return self
             case "Chercher une recette":
                 from view.secondaire_connecte.recherche_recette import RechercheRecetteConnecte
 
@@ -71,13 +83,6 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 proposer_recette()
 
             case "Ma liste de course":
-                from view.session import Session
-                from dao.ingredient_dao import IngredientDAO
-                from service.service_ingredient import IngredientService
-
-                utilisateur_id = Session().utilisateur
-                dao = IngredientDAO()
-                ingredient_service = IngredientService(dao)
                 ingredient_service.afficher_ingredients_liste_courses(utilisateur_id)
 
             case "Mon compte":
