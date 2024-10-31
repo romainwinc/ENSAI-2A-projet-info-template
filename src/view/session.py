@@ -34,3 +34,11 @@ class Session(metaclass=Singleton):
             res += f"{att[0]} : {att[1]}\n"
 
         return res
+
+    def ouvrir_recette(self, recette):
+        """Enregistrement des données d'une recette quand on l'ouvre"""
+        self.recette = recette
+
+    def fermer_recette(self):
+        """Suppression des données d'une recette quand on la ferme"""
+        self.recette = None

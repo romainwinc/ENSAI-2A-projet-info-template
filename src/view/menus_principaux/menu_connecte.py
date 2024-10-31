@@ -1,5 +1,13 @@
 from InquirerPy import inquirer
-
+from view.session import Session
+from dao.ingredient_dao import IngredientDAO
+from dao.ingredients_favoris_dao import IngredientsFavorisDAO
+from dao.ingredients_non_desires_dao import IngredientsNonDesiresDAO
+from dao.liste_de_courses_dao import ListeDeCoursesDAO
+from service.service_ingredient import ServiceIngredient
+from dao.recette_dao import RecetteDAO
+from dao.recette_favorite_dao import RecetteFavoriteDAO
+from service.service_recette import ServiceRecette
 from view.vue_abstraite import VueAbstraite
 
 
@@ -44,13 +52,17 @@ class MenuUtilisateurConnecte(VueAbstraite):
             max_height=15,
         ).execute()
 
+        utilisateur_id = Session().utilisateur
+        dao_ing = IngredientDAO()
+        dao_ing_fav = IngredientsFavorisDAO()
+        dao_ing_nd = IngredientsNonDesiresDAO()
+        dao_liste_course = ListeDeCoursesDAO()
+        ingredient_service = ServiceIngredient(dao_ing, dao_ing_fav, dao_ing_nd, dao_liste_course)
+
         match choix:
             case "Consulter mes recettes favorites":
-                from service.service_consultation import (
-                    consulter_recette_favorite,
-                )
-
-                consulter_recette_favorite()
+                self.afficher_recette_fav()
+                return self
             case "Chercher une recette":
                 from view.secondaire_connecte.recherche_recette import RechercheRecetteConnecte
 
@@ -71,13 +83,6 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 proposer_recette()
 
             case "Ma liste de course":
-                from view.session import Session
-                from dao.ingredient_dao import IngredientDAO
-                from service.service_ingredient import IngredientService
-
-                utilisateur_id = Session().utilisateur
-                dao = IngredientDAO()
-                ingredient_service = IngredientService(dao)
                 ingredient_service.afficher_ingredients_liste_courses(utilisateur_id)
 
             case "Mon compte":
@@ -88,3 +93,38 @@ class MenuUtilisateurConnecte(VueAbstraite):
             case "Quitter":
                 print("Retour au menu précédent.")
                 return None
+
+    def afficher_recette_fav(self):
+        """Affiche les recettes favorites et l'utilisateur peut sélectionner une recette."""
+        id_utilisateur = Session().utilisateur.id_utilisateur
+        dao_recette = RecetteDAO()
+        dao_recette_fav = RecetteFavoriteDAO()
+        service_recette = ServiceRecette(dao_recette, dao_recette_fav)
+
+        favoris = service_recette.afficher_recettes_favorites(id_utilisateur)
+
+        # Vérifiez si l'utilisateur a des recettes favorites
+        if not favoris:
+            inquirer.select(
+                message="",
+                choices=["OK"],
+            ).execute()
+            return self
+
+        # Afficher les recettes favorites
+        choix_menu = favoris + ["Retour au menu principal"]
+        choix = inquirer.select(
+            message="Sélectionnez une recette pour plus de détails ou retournez au menu :",
+            choices=choix_menu,
+        ).execute()
+
+        if choix in favoris:
+            # Afficher les détails de la recette sélectionnée
+            recette_selectionnee = choix
+            Session().ouvrir_recette(recette_selectionnee)
+            from view.secondaire_connecte.vue_detail_recette_fav import DetailRecetteFav
+
+            return DetailRecetteFav().afficher()
+        else:
+            # Retourner au menu précédent
+            return self

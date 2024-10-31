@@ -13,7 +13,7 @@ try:
     )
 
     user2 = Utilisateur(
-        nom_utilisateur="Florence_Foresti",
+        nom_utilisateur="Flo",
         mot_de_passe="1234",
         id_utilisateur=None,
         role=None,

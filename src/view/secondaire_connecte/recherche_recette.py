@@ -4,6 +4,7 @@ from dao.recette_dao import RecetteDAO
 from dao.recette_favorite_dao import RecetteFavoriteDAO
 from service.service_recette import ServiceRecette
 from models.recette import Recette
+from view.session import Session
 
 
 class RechercheRecetteConnecte(VueAbstraite):
@@ -94,9 +95,7 @@ class RechercheRecetteConnecte(VueAbstraite):
             print("Aucune recette trouvée.")
 
         # Afficher le menu avec les noms des recettes trouvées ou une option de retour
-        choix_menu = r + [
-            "Retour au menu de recherche"
-        ]  # Ajouter une option pour retourner au menu de recherche
+        choix_menu = r + ["Retour au menu de recherche"]
         choix = inquirer.select(
             message="Sélectionnez une recette pour plus de détails ou retournez au menu :",
             choices=choix_menu,
@@ -108,6 +107,7 @@ class RechercheRecetteConnecte(VueAbstraite):
                 (recette for recette in recettes if recette.nom_recette == choix), None
             )
             if recette_selectionnee:
+                Session().ouvrir_recette(recette_selectionnee)
                 from view.secondaire_connecte.vue_detail_recette import VueDetailRecette
 
                 return VueDetailRecette(recette_selectionnee).afficher()

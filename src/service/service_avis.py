@@ -1,8 +1,6 @@
 from datetime import datetime
 from dao.avis_dao import AvisDAO
 from models.avis import Avis
-from InquirerPy import inquirer
-from datetime import datetime
 
 
 class ServiceAvis:
@@ -51,11 +49,12 @@ class ServiceAvis:
                 )
             )
         if not avis:
-            print("Aucun avis trouvé pour cet utilisateur.")
+            print("Aucun avis trouvé.")
             return
 
         for a in avis:
-            return self._afficher_avis(a)
+            print(self._afficher_avis(a))
+        return avis
 
     def _afficher_avis(self, avis: Avis):
         """Affiche les détails d'un avis."""
@@ -66,8 +65,40 @@ class ServiceAvis:
         print(f"Auteur: {avis.nom_auteur}")
         print(f"Date de publication: {avis.date_publication}")
         print(f"Commentaire: {avis.commentaire}")
-        print(f"Note: {avis.note}")
+        print(f"Note: {avis.note}/5")
         print("-" * 40)  # Ligne de séparation
+
+    def afficher_notes_par_utilisateur(self, id_utilisateur):
+        """Affiche tous les avis d'un utilisateur donné."""
+        avi = self.avis_dao.get_avis_by_user_id(id_utilisateur)
+        avis = []
+        for i in range(len(avi)):
+            avis.append(
+                Avis(
+                    id_avis=avi[i]["id_avis"],
+                    id_recette=avi[i]["id_recette"],
+                    id_utilisateur=avi[i]["id_utilisateur"],
+                    titre_avis=avi[i]["titre_avis"],
+                    nom_auteur=avi[i]["nom_auteur"],
+                    date_publication=avi[i]["date_publication"],
+                    commentaire=avi[i]["commentaire"],
+                    note=avi[i]["note"],
+                )
+            )
+        if not avis:
+            print("Aucune note trouvée.")
+            return
+
+        for a in avis:
+            print(self._afficher_notes(a))
+        return avis
+
+    def _afficher_notes(self, avis: Avis):
+        """Affiche les notes."""
+
+        print(f"Recette: {avis.id_recette}")
+        print(f"Note: {avis.note}/5")
+        print("-" * 40)
 
     def ajouter_avis(
         self,
@@ -90,9 +121,9 @@ class ServiceAvis:
         print(f"Avis avec ID {avis_id} supprimé.")
 
     def modifier_avis(self, avis_id, **kwargs):
-        """Modifie un avis."""
-        return self.avis_dao.update_avis(avis_id, **kwargs)
+        result = self.avis_dao.update_avis(avis_id, **kwargs)
         print(f"Avis avec ID {avis_id} mis à jour.")
+        return result
 
 
 if __name__ == "__main__":

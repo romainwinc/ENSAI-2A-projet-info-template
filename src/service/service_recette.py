@@ -137,15 +137,22 @@ class ServiceRecette:
         Supprime une recette des favoris de l'utilisateur et renvoie un message de confirmation.
         """
         self.recette_favorite_dao.delete_recette_favorite(nom_recette, id_utilisateur)
-        print(
-            f"La recette '{nom_recette}' a été supprimée des favoris de l'utilisateur {id_utilisateur}."
-        )
+        # print(
+        #     f"La recette '{nom_recette}' a été supprimée des favoris de l'utilisateur {id_utilisateur}."
+        # )
 
     def afficher_recettes_favorites(self, id_utilisateur: int) -> list[str]:
         """
         Affiche toutes les recettes favorites d'un utilisateur.
         """
-        return self.recette_favorite_dao.get_favoris_by_user_id(id_utilisateur)
+        favoris = self.recette_favorite_dao.get_favoris_by_user_id(id_utilisateur)
+
+        if not favoris:
+            print("Vous n'avez pas de recettes favorites.")
+        else:
+            print("Voici vos recettes favorites")
+            print(favoris)
+            return favoris
 
 
 if __name__ == "__main__":
