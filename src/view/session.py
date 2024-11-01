@@ -42,3 +42,11 @@ class Session(metaclass=Singleton):
     def fermer_recette(self):
         """Suppression des données d'une recette quand on la ferme"""
         self.recette = None
+
+    def ouvrir_ingredient(self, ingredient):
+        """Enregistrement des données d'un ingredient quand on l'ouvre"""
+        self.ingredient = ingredient
+
+    def fermer_ingredient(self):
+        """Suppression des données d'un ingredient quand on la ferme"""
+        self.ingredient = None

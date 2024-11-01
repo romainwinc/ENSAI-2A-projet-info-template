@@ -127,10 +127,16 @@ class ServiceRecette:
 
     def ajouter_recette_favorite(self, nom_recette: str, id_utilisateur: int) -> str:
         """Ajoute une recette aux favoris de l'utilisateur et renvoie un message de confirmation."""
+        if self.recette_favorite_dao.is_recette_in_favoris(nom_recette, id_utilisateur):
+            print(f"La recette '{nom_recette}' est déjà dans vos favoris.")
+            return False
+
+        # Ajouter la recette si elle n'est pas déjà en favoris
         self.recette_favorite_dao.add_recette_favorite(nom_recette, id_utilisateur)
         print(
             f"La recette '{nom_recette}' a été ajoutée aux favoris de l'utilisateur {id_utilisateur}."
         )
+        return True
 
     def supprimer_recette_favorite(self, nom_recette: str, id_utilisateur: int) -> str:
         """

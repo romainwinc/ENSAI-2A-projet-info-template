@@ -40,6 +40,17 @@ class ServiceIngredient:
         self.ingredient_dao.update_by_ingredient_id(ingredient_id, **kwargs)
         print(f"L'ingrédient avec ID {ingredient_id} a été modifié avec succès.")
 
+    def rechercher_par_nom_ingredient(self, nom_ingredient: str) -> list[Ingredient]:
+        """
+        Recherche les ingredients par leur nom.
+        """
+        ingredients = self.ingredient_dao.get_all_ingredients()
+        return [
+            Ingredient(**ingredient)
+            for ingredient in ingredients
+            if nom_ingredient.lower() in ingredient["nom_ingredient"].lower()
+        ]
+
     # Méthodes pour les ingrédients favoris
     def recuperer_ingredients_favoris_utilisateur(self, utilisateur_id: int):
         """Récupère les ingrédients favoris d'un utilisateur."""
@@ -52,11 +63,12 @@ class ServiceIngredient:
         print("\nVoici vos ingrédients favoris :\n")
         for ingredient in ingredients_favoris:
             print(f"- {ingredient}")
+        return ingredients_favoris
 
     def supprimer_ingredients_favoris(self, utilisateur_id: int, nom_ingredient: str):
         """Supprime un ingrédient favori d'un utilisateur."""
         self.ingredients_favoris_dao.delete_ingredient_favori(nom_ingredient, utilisateur_id)
-        print(f"L'ingrédient favori '{nom_ingredient}' a été supprimé.")
+        print(f"L'ingrédient '{nom_ingredient}' a été supprimé des favoris.")
 
     def ajouter_ingredients_favoris(self, utilisateur_id: int, nom_ingredient: str):
         """Ajoute un ingrédient favori à un utilisateur."""
@@ -77,13 +89,14 @@ class ServiceIngredient:
         print("\nVoici vos ingrédients non-désirés :\n")
         for ingredient in ingredients_non_desires:
             print(f"- {ingredient}")
+        return ingredients_non_desires
 
     def supprimer_ingredients_non_desires(self, utilisateur_id: int, nom_ingredient: str):
         """Supprime un ingrédient non-désiré d'un utilisateur."""
         self.ingredients_non_desires_dao.delete_ingredient_non_desire(
             nom_ingredient, utilisateur_id
         )
-        print(f"L'ingrédient non-désiré '{nom_ingredient}' a été supprimé.")
+        print(f"L'ingrédient '{nom_ingredient}' a été supprimé des non-désirés.")
 
     def ajouter_ingredients_non_desires(self, utilisateur_id: int, nom_ingredient: str):
         """Ajoute un ingrédient non-désiré à un utilisateur."""
@@ -104,6 +117,7 @@ class ServiceIngredient:
         print("\nVoici les ingrédients de votre liste de courses :\n")
         for ingredient in ingredients_liste_courses:
             print(f"- {ingredient}")
+        return ingredients_liste_courses
 
     def supprimer_ingredients_liste_courses(self, utilisateur_id: int, nom_ingredient: str):
         """Supprime un ingrédient de la liste de courses d'un utilisateur."""

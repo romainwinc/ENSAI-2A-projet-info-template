@@ -72,11 +72,9 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
                 return ConsulterNotesAvis()
             case "Mes ingrédients favoris et non-désirés":
-                from view.secondaire_connecte.ingredients_favoris_et_non_desires import (
-                    IngredientsFavorisEtNonDesires,
-                )
+                from view.secondaire_connecte.ingredients_fav_et_nd import IngredientsFavEtND
 
-                return IngredientsFavorisEtNonDesires()
+                return IngredientsFavEtND()
             case "Proposer une recette":
                 from service.demande import proposer_recette
 

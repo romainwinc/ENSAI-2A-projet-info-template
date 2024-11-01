@@ -4,6 +4,8 @@ from view.session import Session
 from dao.recette_favorite_dao import RecetteFavoriteDAO
 from dao.recette_dao import RecetteDAO
 from service.service_recette import ServiceRecette
+from service.service_avis import ServiceAvis
+from dao.avis_dao import AvisDAO
 
 
 class VueDetailRecette(VueAbstraite):
@@ -25,6 +27,7 @@ class VueDetailRecette(VueAbstraite):
         choix = inquirer.select(
             message="Que souhaitez-vous faire ensuite ?",
             choices=[
+                "Voir les avis de la recette",
                 "Ajouter la recette à mes favoris",
                 "Ajouter un avis",
                 "Retour à la recherche",
@@ -38,8 +41,13 @@ class VueDetailRecette(VueAbstraite):
 
         match choix:
             case "Ajouter la recette à mes favoris":
-                recette_service.ajouter_recette_favorite(recette.nom_recette, utilisateur_id)
-                print("La recette a bien été ajoutée à vos favoris.")
+                if recette_service.ajouter_recette_favorite(recette.nom_recette, utilisateur_id):
+                    print("La recette a bien été ajoutée à vos favoris.")
+                else:
+                    inquirer.select(
+                        message="",
+                        choices=["OK"],
+                    ).execute()
                 return self
             case "Ajouter un avis":
                 from view.secondaire_connecte.vue_ajouter_avis import VueAjouterAvis
@@ -47,6 +55,16 @@ class VueDetailRecette(VueAbstraite):
                 vue_avis = VueAjouterAvis()
                 vue_avis.afficher()
                 return vue_avis
+            case "Voir les avis de la recette":
+                recette_id = Session().recette.id_recette
+                dao = AvisDAO()
+                avis_service = ServiceAvis(dao)
+                avis_service.afficher_avis_par_recette(recette_id)
+                inquirer.select(
+                    message="",
+                    choices=["Retour"],
+                ).execute()
+                return self
             case "Retour à la recherche":
                 Session().fermer_recette()
                 return RechercheRecetteConnecte()

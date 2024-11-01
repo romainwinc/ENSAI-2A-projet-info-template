@@ -7,7 +7,7 @@ from service.service_recette import ServiceRecette
 
 
 class DetailRecetteFav(VueAbstraite):
-    """Vue pour afficher les détails d'une recette."""
+    """Vue pour afficher les détails d'une recette favorite."""
 
     def choisir_menu(self):
         """Implémentation requise de la méthode abstraite, sans effet ici."""
@@ -41,6 +41,6 @@ class DetailRecetteFav(VueAbstraite):
                 recette_service.supprimer_recette_favorite(recette.nom_recette, utilisateur_id)
                 print("La recette a bien été retirée de vos favoris.")
                 return self
-            case "Retour aux recettes favorites":
+            case "Retour au menu principal":
                 Session().fermer_recette()
                 return MenuUtilisateurConnecte()
