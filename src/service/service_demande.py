@@ -2,7 +2,7 @@ from dao.demande_dao import DemandeDAO
 from models.demande import Demande
 
 
-class DemandeService:
+class ServiceDemande:
     def __init__(self, demande_dao):
         self.demande_dao = demande_dao
 
@@ -29,34 +29,26 @@ class DemandeService:
             return Demande(*demande_data)
         return None
 
-    def recherche_demande_par_id_utilisateur(self, id_utilisateur):
-        """Récupère toutes les demandes d'un utilisateur donné en utilisant le DAO."""
-        return self.demande_dao.get_demande_by_id_utilisateur(id_utilisateur)
-
-    def modifier_demande(self, demande_id, **kwargs):
-        """Modifie les attributs d'une demande existante."""
-        self.demande_dao.update_demande(demande_id, **kwargs)
-
-    def supprimer_demande(self, demande_id):
-        """Supprime une demande de la base de données."""
-        self.demande_dao.delete_demande(demande_id)
-
     def afficher_demande(self, demande_id):
-        """Affiche les détails d'une demande."""
+        """Affiche les détails d'une demande en montrant les valeurs des attributs."""
         demande = self.recuperer_demande(demande_id)
         if demande:
-            demande.afficher_demande()
+            print(f"ID Demande: {demande.id_demande}")
+            print(f"Type de Demande: {demande.type_demande}")
+            print(f"Attribut Modifié: {demande.attribut_modifie}")
+            print(f"Attribut Corrigé: {demande.attribut_corrige}")
+            print(f"Commentaire: {demande.commentaire_demande}")
         else:
             print("Demande non trouvée.")
 
     def afficher_demandes_par_id_utilisateur(self, id_utilisateur):
-        """Affiche toutes les demandes d'un utilisateur donné."""
-        demandes = self.recherche_demande_par_id_utilisateur(id_utilisateur)
+        """Affiche toutes les demandes d'un utilisateur donné en montrant les valeurs des attributs."""
+        demandes = self.demande_dao.get_demande_by_id_utilisateur(id_utilisateur)
 
         if demandes:
             print(f"Demandes pour l'utilisateur {id_utilisateur} :")
             for demande in demandes:
-                # On suppose que chaque 'demande' est un RealDictRow, donc on peut accéder aux attributs comme un dictionnaire
+                # On suppose que chaque 'demande' est un dictionnaire avec les valeurs accessibles par clé
                 print(f"ID Demande: {demande['id_demande']}")
                 print(f"Type de Demande: {demande['type_demande']}")
                 print(f"Attribut Modifié: {demande['attribut_modifie']}")
@@ -71,7 +63,7 @@ if __name__ == "__main__":
     dao = DemandeDAO()
 
     # print(
-    #     DemandeService(dao).creer_demande(
+    #     ServiceDemande(dao).creer_demande(
     #         id_utilisateur=1,
     #         type_demande="modification utilisateur",
     #         attribut_modifie="nom",
@@ -80,14 +72,12 @@ if __name__ == "__main__":
     #     )
     # )  # Marche
 
-    # print(DemandeService(dao).recuperer_demande(4))
+    print(ServiceDemande(dao).recuperer_demande(1))
 
-    # print(DemandeService(dao).modifier_demande(4, type_demande="Modification"))
+    # print(ServiceDemande(dao).supprimer_demande(1))
 
-    # print(DemandeService(dao).supprimer_demande(5))
+    # print(ServiceDemande(dao).afficher_demande(1))
 
-    # print(DemandeService(dao).afficher_demande(4))
+    # print(ServiceDemande(dao).recherche_demande_par_id_utilisateur(1))
 
-    # print(DemandeService(dao).recherche_demande_par_id_utilisateur(1))
-
-    # print(DemandeService(dao).afficher_demandes_par_id_utilisateur(1))
+    # print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))

@@ -165,6 +165,7 @@ if __name__ == "__main__":
     dao = RecetteDAO()
     recette_favorite_dao = RecetteFavoriteDAO()  # Instanciation de la DAO des recettes favorites
     service_recette = ServiceRecette(dao, recette_favorite_dao)
+    pass
 
     # print("id")
     # print(service_recette.rechercher_par_id_recette(1))  # marche
@@ -226,8 +227,8 @@ if __name__ == "__main__":
 
     # Nouvelles fonctionnalitées ici qui marchent
     # Exemple d'utilisation des nouvelles méthodes
-    service_recette.ajouter_recette_favorite(
-        "Apple Frangipan Tart", 2
-    )  # Ajoute 'Apple Frangipan Tart' aux favoris de l'utilisateur 1
+    # service_recette.ajouter_recette_favorite(
+    #     "Apple Frangipan Tart", 2
+    # )  # Ajoute 'Apple Frangipan Tart' aux favoris de l'utilisateur 1
     # # print(service_recette.afficher_recettes_favorites(1))  # Affiche les recettes favorites de l'utilisateur 1
     # service_recette.enlever_recette_favorite("Apple Frangipan Tart", 1)  # Enlève 'Apple Frangipan Tart' des favoris de l'utilisateur 1

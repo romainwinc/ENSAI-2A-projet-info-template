@@ -72,7 +72,7 @@ class DemandeDAO(metaclass=Singleton):
 
 
 if __name__ == "__main__":
-
+    pass
     # print(
     #     DemandeDAO().add_demande(
     #         id_utilisateur=1,
