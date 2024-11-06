@@ -4,8 +4,6 @@ from dao.ingredients_non_desires_dao import IngredientsNonDesiresDAO
 from dao.liste_de_courses_dao import ListeDeCoursesDAO
 from dao.recette_dao import RecetteDAO
 from dao.recette_favorite_dao import RecetteFavoriteDAO
-from models.recette import Recette
-from models.ingredient import Ingredient
 from service.service_ingredient import ServiceIngredient
 from service.service_recette import ServiceRecette
 
