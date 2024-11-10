@@ -8,9 +8,15 @@ class Consultation:
         self.date_consultation = date_consultation
 
     def __str__(self):
-        return f"Consultation(id_recette={self.id_recette}, id_utilisateur={self.id_utilisateur}, date_consultation={self.date_consultation})"
+        return (
+            f"Consultation(id_recette={self.id_recette}, "
+            f"id_utilisateur={self.id_utilisateur}, "
+            f"date_consultation={self.date_consultation})"
+        )
 
     def afficher_consultation(self):
         print(
-            f"Recette ID: {self.id_recette}, Utilisateur ID: {self.id_utilisateur}, Date de consultation: {self.date_consultation}"
+            f"Recette ID: {self.id_recette}, "
+            f"Utilisateur ID: {self.id_utilisateur}, "
+            f"Date de consultation: {self.date_consultation}"
         )

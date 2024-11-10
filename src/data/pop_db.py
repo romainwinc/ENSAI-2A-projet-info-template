@@ -224,7 +224,8 @@ try:
                             exists = cursor.fetchone()
 
                             if not exists:
-                                # Insérer dans la table recette_ingredient si la paire n'existe pas encore
+                                # Insérer dans la table recette_ingredient si la paire n'existe pas
+                                # encore
                                 cursor.execute(
                                     sql.SQL(
                                         """

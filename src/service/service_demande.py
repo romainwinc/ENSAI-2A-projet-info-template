@@ -42,13 +42,16 @@ class ServiceDemande:
             print("Demande non trouvée.")
 
     def afficher_demandes_par_id_utilisateur(self, id_utilisateur):
-        """Affiche toutes les demandes d'un utilisateur donné en montrant les valeurs des attributs."""
+        """
+        Affiche toutes les demandes d'un utilisateur donné en montrant les valeurs des attributs.
+        """
         demandes = self.demande_dao.get_demande_by_id_utilisateur(id_utilisateur)
 
         if demandes:
             print(f"Demandes pour l'utilisateur {id_utilisateur} :")
             for demande in demandes:
-                # On suppose que chaque 'demande' est un dictionnaire avec les valeurs accessibles par clé
+                # On suppose que chaque 'demande' est un dictionnaire avec les valeurs
+                # accessibles par clé
                 print(f"ID Demande: {demande['id_demande']}")
                 print(f"Type de Demande: {demande['type_demande']}")
                 print(f"Attribut Modifié: {demande['attribut_modifie']}")

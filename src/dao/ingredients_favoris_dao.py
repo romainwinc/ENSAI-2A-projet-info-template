@@ -16,7 +16,7 @@ class IngredientsFavorisDAO(metaclass=Singleton):
             """
             INSERT INTO {}.ingredients_favoris (id_ingredient, id_utilisateur)
             VALUES (
-                (SELECT id_ingredient FROM {}.ingredient WHERE nom_ingredient = %s), 
+                (SELECT id_ingredient FROM {}.ingredient WHERE nom_ingredient = %s),
                 %s
             )
             """
@@ -30,7 +30,7 @@ class IngredientsFavorisDAO(metaclass=Singleton):
         """Récupère les noms des ingrédients favoris d'un utilisateur."""
         query = (
             """
-            SELECT i.nom_ingredient 
+            SELECT i.nom_ingredient
             FROM {}.ingredients_favoris f
             JOIN {}.ingredient i ON f.id_ingredient = i.id_ingredient
             WHERE f.id_utilisateur = %s
@@ -43,13 +43,15 @@ class IngredientsFavorisDAO(metaclass=Singleton):
                 return [row["nom_ingredient"] for row in cursor.fetchall()]
 
     def delete_ingredient_favori(self, nom_ingredient, id_utilisateur):
-        """Supprime un ingrédient des favoris d'un utilisateur en utilisant le nom de l'ingrédient."""
+        """
+        Supprime un ingrédient des favoris d'un utilisateur en utilisant le nom de l'ingrédient.
+        """
         query = (
             """
-            DELETE FROM {}.ingredients_favoris 
+            DELETE FROM {}.ingredients_favoris
             WHERE id_ingredient = (
-                SELECT id_ingredient 
-                FROM {}.ingredient 
+                SELECT id_ingredient
+                FROM {}.ingredient
                 WHERE nom_ingredient = %s
             ) AND id_utilisateur = %s
             """
@@ -64,6 +66,9 @@ if __name__ == "__main__":
     dao = IngredientsFavorisDAO()
 
     # # Exemple d'utilisation :
-    # dao.add_ingredient_favori('Chicken', 1)  # Ajoute 'Chicken' aux favoris de l'utilisateur 1
-    # print(dao.get_favoris_by_user_id(1))  # Renvoie les noms des ingrédients favoris de l'utilisateur 1
-    # dao.delete_ingredient_favori('Chicken', 1)  # Supprime l'ingrédient 'Chicken' des favoris de l'utilisateur 1
+    # dao.add_ingredient_favori('Chicken', 1)
+    # # Ajoute 'Chicken' aux favoris de l'utilisateur 1
+    # print(dao.get_favoris_by_user_id(1))
+    # # Renvoie les noms des ingrédients favoris de l'utilisateur 1
+    # dao.delete_ingredient_favori('Chicken', 1)
+    # # Supprime l'ingrédient 'Chicken' des favoris de l'utilisateur 1

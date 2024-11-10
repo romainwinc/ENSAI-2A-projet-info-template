@@ -134,7 +134,8 @@ class ServiceRecette:
         # Ajouter la recette si elle n'est pas déjà en favoris
         self.recette_favorite_dao.add_recette_favorite(nom_recette, id_utilisateur)
         print(
-            f"La recette '{nom_recette}' a été ajoutée aux favoris de l'utilisateur {id_utilisateur}."
+            f"La recette '{nom_recette}' a été ajoutée aux favoris de l'utilisateur "
+            f"{id_utilisateur}."
         )
         return True
 
@@ -144,7 +145,8 @@ class ServiceRecette:
         """
         self.recette_favorite_dao.delete_recette_favorite(nom_recette, id_utilisateur)
         # print(
-        #     f"La recette '{nom_recette}' a été supprimée des favoris de l'utilisateur {id_utilisateur}."
+        #     f"La recette '{nom_recette}' a été supprimée des favoris de l'utilisateur
+        #     f"{id_utilisateur}."
         # )
 
     def afficher_recettes_favorites(self, id_utilisateur: int) -> list[str]:
@@ -178,7 +180,8 @@ if __name__ == "__main__":
     # print("modifier un argument")
     # print(service_recette.modifier_recette_id(1, nom_recette="Tarte crème"))  # marche
     # print("modifier un argument")
-    # print(service_recette.modifier_recette_nom_recette("Ayam Percik", categorie="Viande"))  # marche
+    # print(service_recette.modifier_recette_nom_recette("Ayam Percik", categorie="Viande"))
+    # # marche
 
     # print("stock dans la base de donnée")
     # print(service_recette.creer_recette(
@@ -192,9 +195,10 @@ if __name__ == "__main__":
     # # Afficher une recette
     # print(service_recette.afficher_recette(1))  # Marche mais est peut être redondant
 
-    #########################################################################################################################
-    ###### Ancien code est obsolete donc à changer dans les views les bonne traductions sont au dessus et marchent mtnt #####
-    #########################################################################################################################
+    ###########################################################################
+    # Ancien code est obsolete donc à changer dans les views les bonnes #######
+    #         traductions sont au dessus et marchent mtnt               #######
+    ###########################################################################
 
     # print("id")
     # print(ServiceRecette(dao).rechercher_par_id_recette(1))  # marche
@@ -230,5 +234,7 @@ if __name__ == "__main__":
     # service_recette.ajouter_recette_favorite(
     #     "Apple Frangipan Tart", 2
     # )  # Ajoute 'Apple Frangipan Tart' aux favoris de l'utilisateur 1
-    # # print(service_recette.afficher_recettes_favorites(1))  # Affiche les recettes favorites de l'utilisateur 1
-    # service_recette.enlever_recette_favorite("Apple Frangipan Tart", 1)  # Enlève 'Apple Frangipan Tart' des favoris de l'utilisateur 1
+    # # print(service_recette.afficher_recettes_favorites(1))
+    # # Affiche les recettes favorites de l'utilisateur 1
+    # service_recette.enlever_recette_favorite("Apple Frangipan Tart", 1)
+    # # Enlève 'Apple Frangipan Tart' des favoris de l'utilisateur 1

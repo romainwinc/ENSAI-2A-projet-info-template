@@ -1,6 +1,4 @@
-from models.recette import Recette
 from datetime import datetime
-from models.ingredient import Ingredient
 
 
 class Utilisateur:

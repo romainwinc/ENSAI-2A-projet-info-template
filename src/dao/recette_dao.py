@@ -17,8 +17,8 @@ class RecetteDAO(metaclass=Singleton):
         """Récupère toutes les recettes de la table 'recette'."""
         query = (
             """
-            SELECT id_recette, nom_recette, categorie, origine, instructions, 
-                   mots_cles, url_image, liste_ingredients, nombre_avis, 
+            SELECT id_recette, nom_recette, categorie, origine, instructions,
+                   mots_cles, url_image, liste_ingredients, nombre_avis,
                    note_moyenne, date_derniere_modif
             FROM {}.recette
         """
@@ -51,8 +51,8 @@ class RecetteDAO(metaclass=Singleton):
         """Récupère une recette spécifique par son ID."""
         query = (
             """
-            SELECT id_recette, nom_recette, categorie, origine, instructions, 
-                   mots_cles, url_image, liste_ingredients, nombre_avis, 
+            SELECT id_recette, nom_recette, categorie, origine, instructions,
+                   mots_cles, url_image, liste_ingredients, nombre_avis,
                    note_moyenne, date_derniere_modif
             FROM {}.recette
             WHERE id_recette = %s
@@ -84,8 +84,8 @@ class RecetteDAO(metaclass=Singleton):
         """Récupère une recette spécifique par son nom."""
         query = (
             """
-            SELECT id_recette, nom_recette, categorie, origine, instructions, 
-                   mots_cles, url_image, liste_ingredients, nombre_avis, 
+            SELECT id_recette, nom_recette, categorie, origine, instructions,
+                   mots_cles, url_image, liste_ingredients, nombre_avis,
                    note_moyenne, date_derniere_modif
             FROM {}.recette
             WHERE nom_recette = %s
@@ -142,10 +142,10 @@ class RecetteDAO(metaclass=Singleton):
                     },
                 )
                 res = cursor.fetchone()
-            created = False
+            # created = False
             if res:
                 recette.id_recette = res["id_recette"]
-                created = True
+                # created = True
 
         except Exception as e:
             self.connection.rollback()
@@ -195,7 +195,7 @@ class RecetteDAO(metaclass=Singleton):
     def delete_recette(self, recette_id):
         """Supprime une recette par son ID."""
         query = (
-            """DELETE FROM {}.recette 
+            """DELETE FROM {}.recette
                 WHERE id_recette = %s
                 """
         ).format(self.schema)

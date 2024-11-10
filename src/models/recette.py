@@ -68,11 +68,11 @@ class Recette:
         self.date_derniere_modif = date_derniere_modif
 
     def __repr__(self) -> str:
-        ingredients = []
+        # ingredients = []
 
-        ingredients_str = ", ".join(
-            [f"{ingredient[0]}: {ingredient[1]}" for ingredient in self.liste_ingredients]
-        )
+        # ingredients_str = ", ".join(
+        #     [f"{ingredient[0]}: {ingredient[1]}" for ingredient in self.liste_ingredients]
+        # )
 
         # avis_str = ", ".join(
         #     [f"{avis.auteur}: {avis.note}/5 - {avis.commentaire}" for avis in self.liste_avis]

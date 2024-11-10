@@ -2,7 +2,8 @@ import os
 import dotenv
 import psycopg2
 from psycopg2 import sql
-import json  # Import nécessaire pour manipuler les données JSON
+
+# import json  # Import nécessaire pour manipuler les données JSON
 
 # Variables d'environnement
 dotenv.load_dotenv()
@@ -142,7 +143,8 @@ try:
                 attribut_modifie VARCHAR(255),
                 attribut_corrige VARCHAR(255),
                 commentaire_demande TEXT,
-                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur)
+                ON DELETE CASCADE
             );
             """
         ).format(
@@ -163,7 +165,8 @@ try:
                 date_consultation DATE,
                 PRIMARY KEY (id_recette, id_utilisateur),
                 FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
-                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur)
+                ON DELETE CASCADE
             );
             """
         ).format(
@@ -185,7 +188,8 @@ try:
                 mesure VARCHAR(255),
                 PRIMARY KEY (id_recette, id_ingredient),
                 FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
-                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE
+                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient)
+                ON DELETE CASCADE
             );
             """
         ).format(
@@ -206,7 +210,8 @@ try:
                 id_utilisateur INT,
                 PRIMARY KEY (id_recette, id_utilisateur),
                 FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
-                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur)
+                ON DELETE CASCADE
             );
             """
         ).format(
@@ -225,8 +230,10 @@ try:
                 id_ingredient INT,
                 id_utilisateur INT,
                 PRIMARY KEY (id_ingredient, id_utilisateur),
-                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE,
-                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
+                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient)
+                ON DELETE CASCADE,
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur)
+                ON DELETE CASCADE
             );
             """
         ).format(
@@ -245,8 +252,10 @@ try:
                 id_ingredient INT,
                 id_utilisateur INT,
                 PRIMARY KEY (id_ingredient, id_utilisateur),
-                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE,
-                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
+                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient)
+                ON DELETE CASCADE,
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur)
+                ON DELETE CASCADE
             );
             """
         ).format(
@@ -265,8 +274,10 @@ try:
                 id_ingredient INT,
                 id_utilisateur INT,
                 PRIMARY KEY (id_ingredient, id_utilisateur),
-                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient) ON DELETE CASCADE,
-                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur) ON DELETE CASCADE
+                FOREIGN KEY (id_ingredient) REFERENCES {}.ingredient(id_ingredient)
+                ON DELETE CASCADE,
+                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur)
+                ON DELETE CASCADE
             );
             """
         ).format(

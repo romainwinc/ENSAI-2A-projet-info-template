@@ -31,8 +31,8 @@ class DetailRecetteFav(VueAbstraite):
         choix = inquirer.select(
             message="Que souhaitez-vous faire ?",
             choices=[
-                "Supprimer la recette de mes favoris",
                 "Retour au menu principal",
+                "Supprimer la recette de mes favoris",
             ],
         ).execute()
 
