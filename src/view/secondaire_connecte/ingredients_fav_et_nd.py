@@ -41,7 +41,7 @@ class IngredientsFavEtND(VueAbstraite):
                 "Ajouter des ingrédients favoris ou non-désirés",
                 "Consulter mes ingrédients favoris",
                 "Consulter mes ingrédients non-désirés",
-                "Consulter ma liste de course",
+                # "Consulter ma liste de course",
                 "Retour au menu principal",
             ],
         ).execute()
@@ -62,9 +62,9 @@ class IngredientsFavEtND(VueAbstraite):
                 self.afficher_non_desires()
                 return self
 
-            case "Consulter ma liste de course":
-                self.afficher_liste_courses()
-                return self
+            # case "Consulter ma liste de course":
+            #     self.afficher_liste_courses()
+            #     return self
 
             case "Retour au menu principal":
                 from view.menus_principaux.menu_connecte import MenuUtilisateurConnecte
@@ -151,43 +151,43 @@ class IngredientsFavEtND(VueAbstraite):
             # Retourner au menu précédent
             return self
 
-    def afficher_liste_courses(self):
-        """Affiche les ingrédients de la liste de course."""
-        id_utilisateur = Session().utilisateur.id_utilisateur
-        ingredient_dao = IngredientDAO()
-        favoris_dao = IngredientsFavorisDAO()
-        non_desires_dao = IngredientsNonDesiresDAO()
-        liste_courses_dao = ListeDeCoursesDAO()
-        service_ingredient = ServiceIngredient(
-            ingredient_dao, favoris_dao, non_desires_dao, liste_courses_dao
-        )
+    # def afficher_liste_courses(self):
+    #     """Affiche les ingrédients de la liste de course."""
+    #     id_utilisateur = Session().utilisateur.id_utilisateur
+    #     ingredient_dao = IngredientDAO()
+    #     favoris_dao = IngredientsFavorisDAO()
+    #     non_desires_dao = IngredientsNonDesiresDAO()
+    #     liste_courses_dao = ListeDeCoursesDAO()
+    #     service_ingredient = ServiceIngredient(
+    #         ingredient_dao, favoris_dao, non_desires_dao, liste_courses_dao
+    #     )
 
-        liste = service_ingredient.afficher_ingredients_liste_courses(id_utilisateur)
+    #     liste = service_ingredient.afficher_ingredients_liste_courses(id_utilisateur)
 
-        # Vérifiez si l'utilisateur a des ingrédients dans sa liste de course
-        if not liste:
-            inquirer.select(
-                message="",
-                choices=["OK"],
-            ).execute()
-            return self
+    #     # Vérifiez si l'utilisateur a des ingrédients dans sa liste de course
+    #     if not liste:
+    #         inquirer.select(
+    #             message="",
+    #             choices=["OK"],
+    #         ).execute()
+    #         return self
 
-        # Afficher les ingredients de la liste de course
-        choix_menu = liste + ["Retour au menu principal"]
-        choix = inquirer.select(
-            message="Sélectionnez un ingrédient pour plus de détails ou retournez au menu :",
-            choices=choix_menu,
-        ).execute()
+    #     # Afficher les ingredients de la liste de course
+    #     choix_menu = liste + ["Retour au menu principal"]
+    #     choix = inquirer.select(
+    #         message="Sélectionnez un ingrédient pour plus de détails ou retournez au menu :",
+    #         choices=choix_menu,
+    #     ).execute()
 
-        if choix in liste:
-            # Afficher les détails de l'ingrédient sélectionné
-            ingredient_selectionne = choix
-            Session().ouvrir_ingredient(ingredient_selectionne)
-            from view.secondaire_connecte.vue_detail_ingredient_liste_courses import (
-                DetailIngredientListeCourses,
-            )
+    #     if choix in liste:
+    #         # Afficher les détails de l'ingrédient sélectionné
+    #         ingredient_selectionne = choix
+    #         Session().ouvrir_ingredient(ingredient_selectionne)
+    #         from view.secondaire_connecte.vue_detail_ingredient_liste_courses import (
+    #             DetailIngredientListeCourses,
+    #         )
 
-            return DetailIngredientListeCourses().afficher()
-        else:
-            # Retourner au menu précédent
-            return self
+    #         return DetailIngredientListeCourses().afficher()
+    #     else:
+    #         # Retourner au menu précédent
+    #         return self

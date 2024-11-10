@@ -136,7 +136,7 @@ class ConsulterNotesAvis(VueAbstraite):
 
             if choix in liste:
                 nouvelle_note = inquirer.select(
-                    message="Indiquer la nouvelle note que vous voulez attribuer",
+                    message="Indiquer la nouvelle note que vous voulez attribuer :",
                     choices=[0, 1, 2, 3, 4, 5],
                 ).execute()
                 # Trouver la recette correspondante
@@ -173,7 +173,7 @@ class ConsulterNotesAvis(VueAbstraite):
 
             if choix in liste:
                 nouveau_com = inquirer.text(
-                    message="Indiquer le nouveau commentaire que vous voulez.",
+                    message="Indiquer le nouveau commentaire que vous voulez :",
                 ).execute()
                 # Trouver la recette correspondante
                 avis_service.modifier_avis(choix, commentaire=str(nouveau_com))
