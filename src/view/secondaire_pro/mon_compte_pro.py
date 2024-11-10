@@ -2,6 +2,8 @@ from InquirerPy import inquirer
 
 from view.vue_abstraite import VueAbstraite
 from view.session import Session
+from service.service_utilisateur import ServiceUtilisateur
+from dao.utilisateur_dao import UtilisateurDao
 
 
 class MonComptePro(VueAbstraite):
@@ -36,9 +38,9 @@ class MonComptePro(VueAbstraite):
 
         match choix:
             case "Retour au menu professionnel":
-                from view.menus_principaux.menu_professionnel_vue import MenuProfessionnelVue
+                from view.menus_principaux.menu_professionnel import MenuProfessionnel
 
-                return MenuProfessionnelVue("Retour au menu")
+                return MenuProfessionnel("Retour au menu")
 
             case "Déconnexion":
                 Session().deconnexion()
@@ -47,4 +49,9 @@ class MonComptePro(VueAbstraite):
                 return MenuNonConnecte()
 
             case "Supprimer mon compte":
-                pass
+                id_utilisateur = Session().utilisateur.id_utilisateur
+                ServiceUtilisateur(UtilisateurDao()).supprimer_utilisateur(id_utilisateur)
+                Session().deconnexion()
+                from view.menu_non_connecte import MenuNonConnecte
+
+                return MenuNonConnecte()

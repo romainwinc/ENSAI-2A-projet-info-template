@@ -32,14 +32,14 @@ class ConnexionVue(VueAbstraite):
                 return MenuUtilisateurConnecte(message)
 
             elif utilisateur.role == "Professionnel":
-                from view.menus_principaux.menu_professionnel_vue import MenuProfessionnelVue
+                from view.menus_principaux.menu_professionnel import MenuProfessionnel
 
-                return MenuProfessionnelVue(message)
+                return MenuProfessionnel(message)
 
             elif utilisateur.role == "Administrateur":
-                from view.menus_principaux.menu_administrateur import MenuAdministrateurVue
+                from view.menus_principaux.menu_administrateur import MenuAdministrateur
 
-                return MenuAdministrateurVue(message)
+                return MenuAdministrateur(message)
 
         message = "Erreur de connexion (nom d'utilisateur ou mot de passe invalide)"
         from view.accueil.accueil_vue import AccueilVue

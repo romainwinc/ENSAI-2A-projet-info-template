@@ -27,14 +27,14 @@ try:
     )
 
     user4 = Utilisateur(
-        nom_utilisateur="Helene_Darroze",
+        nom_utilisateur="Lea",
         mot_de_passe="1234",
         id_utilisateur=None,
         role=None,
     )
 
     user5 = Utilisateur(
-        nom_utilisateur="Pierre_Moreau",
+        nom_utilisateur="Marc",
         mot_de_passe="1234",
         id_utilisateur=None,
         role=None,

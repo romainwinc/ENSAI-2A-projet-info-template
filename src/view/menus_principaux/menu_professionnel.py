@@ -6,21 +6,19 @@ from service.service_recette import ServiceRecette
 from view.vue_abstraite import VueAbstraite
 
 
-class MenuUtilisateurConnecte(VueAbstraite):
-    """Vue du menu d'un utilisateur connecté (qui n'a pas de rôle spécial
-    comme administrateur ou profeissionnel)
-    """
+class MenuProfessionnel(VueAbstraite):
+    """Vue d'accueil pour un professionnel"""
 
     def choisir_menu(self):
-        """Choix du menu suivant de l'utilisateur
+        """Choix du menu suivant pour un professionnel
 
         Return
         ------
-        vue
-            Retourne la vue choisie par l'utilisateur dans le terminal
+        view
+            Retourne la vue choisie par le professionnel dans le terminal
         """
 
-        print("\n" + "-" * 50 + "\nMenu Principal\n" + "-" * 50 + "\n")
+        print("\n" + "-" * 50 + "\nMenu Professionnel\n" + "-" * 50 + "\n")
 
         choix = inquirer.select(
             message="Faites votre choix : ",
@@ -31,10 +29,10 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 "Mes ingrédients favoris et non-désirés",
                 "Ma liste de course",
                 "Proposer une recette",
+                "Demander la suppression d'une recette",
                 "Mon compte",
                 "Quitter",
             ],
-            max_height=15,
         ).execute()
 
         match choix:
@@ -43,17 +41,17 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 return self
 
             case "Chercher une recette":
-                from view.secondaire_connecte.recherche_recette import RechercheRecetteConnecte
+                from view.secondaire_pro.recherche_recette import RechercheRecettePro
 
-                return RechercheRecetteConnecte()
+                return RechercheRecettePro()
 
             case "Consulter mes notes et avis":
-                from view.secondaire_connecte.consulter_notes_avis import ConsulterNotesAvis
+                from view.secondaire_pro.consulter_notes_avis import ConsulterNotesAvis
 
                 return ConsulterNotesAvis()
 
             case "Mes ingrédients favoris et non-désirés":
-                from view.secondaire_connecte.ingredients_fav_et_nd import IngredientsFavEtND
+                from view.secondaire_pro.ingredients_fav_et_nd import IngredientsFavEtND
 
                 return IngredientsFavEtND()
 
@@ -61,14 +59,17 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 pass
 
             case "Ma liste de course":
-                from view.secondaire_connecte.liste_courses import ListeCourses
+                from view.secondaire_pro.liste_courses import ListeCourses
 
                 return ListeCourses()
 
-            case "Mon compte":
-                from view.secondaire_connecte.mon_compte_connecte import MonCompteConnecte
+            case "Demander la suppression d'une recette":
+                pass
 
-                return MonCompteConnecte()
+            case "Mon compte":
+                from view.secondaire_pro.mon_compte_pro import MonComptePro
+
+                return MonComptePro()
 
             case "Quitter":
                 print("Merci d'avoir utilisé Recipe-Makers. À bientôt !")
@@ -102,7 +103,7 @@ class MenuUtilisateurConnecte(VueAbstraite):
             # Afficher les détails de la recette sélectionnée
             recette_selectionnee = choix
             Session().ouvrir_recette(recette_selectionnee)
-            from view.secondaire_connecte.vue_detail_recette_fav import DetailRecetteFav
+            from view.secondaire_pro.vue_detail_recette_fav import DetailRecetteFav
 
             return DetailRecetteFav().afficher()
         else:
