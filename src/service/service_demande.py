@@ -29,36 +29,18 @@ class ServiceDemande:
             return Demande(*demande_data)
         return None
 
-    def recuperer_demandes_by_role(self, attribut_modifie_value="role"):
+    def recuperer_demandes_with_role(self):
         """
         Récupère toutes les demandes de la table 'demande'
-        où l'attribut_modifie est égal à une valeur donnée (par défaut : "role").
+        où l'attribut_modifie est égal à "role".
+
+        Returns:
+            List[dict] | None: Liste des demandes correspondantes, ou None si aucune n'existe.
         """
-        query = (
-            """
-            SELECT id_demande, id_utilisateur, type_demande, attribut_modifie, 
-                attribut_corrige, commentaire_demande
-            FROM {}.demande
-            WHERE attribut_modifie = %s
-            """
-        ).format(self.schema)
+        demandes = self.demande_dao.get_demandes_with_role()
 
-        with self.connection as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(query, (attribut_modifie_value,))
-                rows = cursor.fetchall()
-
-        demandes = []
-        for row in rows:
-            demande = {
-                "id_demande": row["id_demande"],
-                "id_utilisateur": row["id_utilisateur"],
-                "type_demande": row["type_demande"],
-                "attribut_modifie": row["attribut_modifie"],
-                "attribut_corrige": row["attribut_corrige"],
-                "commentaire_demande": row["commentaire_demande"],
-            }
-            demandes.append(demande)
+        if not demandes:  # Vérifie si la liste est vide
+            return None
 
         return demandes
 
@@ -94,6 +76,26 @@ class ServiceDemande:
         else:
             print(f"Aucune demande trouvée pour l'utilisateur {id_utilisateur}.")
 
+    def supprimer_demande(self, demande_id):
+        """
+        Supprime une demande par son ID.
+
+        Args:
+            demande_id (int): L'ID de la demande à supprimer.
+
+        Returns:
+            bool: True si la demande a été supprimée, False si aucune demande avec cet ID n'existe.
+        """
+        # Vérifie si la demande existe avant de tenter de la supprimer
+        demande_existe = self.demande_dao.get_demande_by_id(demande_id)
+
+        if not demande_existe:
+            return False  # La demande n'existe pas, retour False
+
+        # Supprime la demande
+        self.dao.delete_demande(demande_id)
+        return True
+
 
 if __name__ == "__main__":
     dao = DemandeDAO()
@@ -117,3 +119,5 @@ if __name__ == "__main__":
     # print(ServiceDemande(dao).recherche_demande_par_id_utilisateur(1))
 
     # print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))
+
+    print(ServiceDemande(dao).recuperer_demandes_with_role())

@@ -41,19 +41,25 @@ class DemandeDAO(metaclass=Singleton):
                 )
                 return cursor.fetchone()["id_demande"]
 
-    def get_all_demandes(self):
-        """Récupère toutes les demandes de la table 'demande'."""
+    def get_demandes_with_role(self):
+        """
+        Récupère toutes les demandes où attribut_modifie est égal à 'role'.
+
+        Returns:
+            List[dict]: Liste des demandes correspondantes.
+        """
         query = (
             """
             SELECT id_demande, id_utilisateur, type_demande, attribut_modifie, 
                 attribut_corrige, commentaire_demande
             FROM {}.demande
+            WHERE attribut_modifie = %s
             """
         ).format(self.schema)
 
         with self.connection as connection:
             with connection.cursor() as cursor:
-                cursor.execute(query)
+                cursor.execute(query, ("role",))
                 rows = cursor.fetchall()
 
         demandes = []
