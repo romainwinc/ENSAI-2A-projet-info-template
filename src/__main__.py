@@ -16,6 +16,7 @@ if __name__ == "__main__":
             print("Le programme recense trop d'erreurs et va s'arrêter")
             break
         try:
+            print(vue_courante)
             # Affichage du menu
             vue_courante.afficher()
 

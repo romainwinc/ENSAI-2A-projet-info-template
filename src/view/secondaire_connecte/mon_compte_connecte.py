@@ -35,16 +35,18 @@ class MonCompteConnecte(VueAbstraite):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Demande de compte professionnel",
+                "Demande de compte professionnel ou administrateur",
                 "Déconnexion",
                 "Supprimer mon compte",
-                "Retour au menu professionnel",
+                "Retour au menu principal",
             ],
         ).execute()
 
         match choix:
-            case "Demande de compte professionnel":
-                return self
+            case "Demande de compte professionnel ou administrateur":
+                from view.secondaire_connecte.demande_changer_role import DemandeChangerRole
+
+                return DemandeChangerRole()
 
             case "Déconnexion":
                 Session().deconnexion()
