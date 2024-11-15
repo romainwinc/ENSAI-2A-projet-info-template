@@ -1,5 +1,7 @@
 # ENSAI-2A-projet-info-template
 
+# modifier les .env
+# excécuter le init_dp.py
 Template du projet informatique de 2e année de l'ENSAI.
 
 Cette application très simple comporte quelques éléments qui peuvent aider pour le projet info 2A :

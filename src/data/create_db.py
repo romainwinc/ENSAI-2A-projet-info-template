@@ -154,29 +154,6 @@ try:
         )
     )
 
-    # Suppression si elle existe et Création de la table consultation (historique des consultations)
-    cursor.execute(
-        sql.SQL(
-            """
-            DROP TABLE IF EXISTS {}.consultation CASCADE;
-            CREATE TABLE {}.consultation (
-                id_recette INT,
-                id_utilisateur INT,
-                date_consultation DATE,
-                PRIMARY KEY (id_recette, id_utilisateur),
-                FOREIGN KEY (id_recette) REFERENCES {}.recette(id_recette) ON DELETE CASCADE,
-                FOREIGN KEY (id_utilisateur) REFERENCES {}.utilisateur(id_utilisateur)
-                ON DELETE CASCADE
-            );
-            """
-        ).format(
-            sql.Identifier(POSTGRES_SCHEMA),
-            sql.Identifier(POSTGRES_SCHEMA),
-            sql.Identifier(POSTGRES_SCHEMA),
-            sql.Identifier(POSTGRES_SCHEMA),
-        )
-    )
-
     # Suppression si elle existe et Création de la recette_ingredient
     cursor.execute(
         sql.SQL(

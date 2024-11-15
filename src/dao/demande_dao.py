@@ -41,6 +41,35 @@ class DemandeDAO(metaclass=Singleton):
                 )
                 return cursor.fetchone()["id_demande"]
 
+    def get_all_demandes(self):
+        """Récupère toutes les demandes de la table 'demande'."""
+        query = (
+            """
+            SELECT id_demande, id_utilisateur, type_demande, attribut_modifie, 
+                attribut_corrige, commentaire_demande
+            FROM {}.demande
+            """
+        ).format(self.schema)
+
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query)
+                rows = cursor.fetchall()
+
+        demandes = []
+        for row in rows:
+            demande = {
+                "id_demande": row["id_demande"],
+                "id_utilisateur": row["id_utilisateur"],
+                "type_demande": row["type_demande"],
+                "attribut_modifie": row["attribut_modifie"],
+                "attribut_corrige": row["attribut_corrige"],
+                "commentaire_demande": row["commentaire_demande"],
+            }
+            demandes.append(demande)
+
+        return demandes
+
     def get_demande_by_id(self, demande_id):
         """Récupère une demande par son ID."""
         query = ("SELECT * FROM {}.demande WHERE id_demande = %s").format(self.schema)

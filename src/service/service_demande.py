@@ -29,6 +29,39 @@ class ServiceDemande:
             return Demande(*demande_data)
         return None
 
+    def recuperer_demandes_by_role(self, attribut_modifie_value="role"):
+        """
+        Récupère toutes les demandes de la table 'demande'
+        où l'attribut_modifie est égal à une valeur donnée (par défaut : "role").
+        """
+        query = (
+            """
+            SELECT id_demande, id_utilisateur, type_demande, attribut_modifie, 
+                attribut_corrige, commentaire_demande
+            FROM {}.demande
+            WHERE attribut_modifie = %s
+            """
+        ).format(self.schema)
+
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (attribut_modifie_value,))
+                rows = cursor.fetchall()
+
+        demandes = []
+        for row in rows:
+            demande = {
+                "id_demande": row["id_demande"],
+                "id_utilisateur": row["id_utilisateur"],
+                "type_demande": row["type_demande"],
+                "attribut_modifie": row["attribut_modifie"],
+                "attribut_corrige": row["attribut_corrige"],
+                "commentaire_demande": row["commentaire_demande"],
+            }
+            demandes.append(demande)
+
+        return demandes
+
     def afficher_demande(self, demande_id):
         """Affiche les détails d'une demande en montrant les valeurs des attributs."""
         demande = self.recuperer_demande(demande_id)
@@ -83,4 +116,4 @@ if __name__ == "__main__":
 
     # print(ServiceDemande(dao).recherche_demande_par_id_utilisateur(1))
 
-    print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))
+    # print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))
