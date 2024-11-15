@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock
-from service_consultation import ConsultationService
+from service.service_consultation import ConsultationService
 from dao.consultation_dao import ConsultationDAO
 from models.consultation import Consultation
 from datetime import date
