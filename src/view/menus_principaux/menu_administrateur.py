@@ -3,6 +3,8 @@ from view.session import Session
 from dao.recette_dao import RecetteDAO
 from dao.recette_favorite_dao import RecetteFavoriteDAO
 from service.service_recette import ServiceRecette
+from service.service_demande import ServiceDemande
+from dao.demande_dao import DemandeDAO
 from view.vue_abstraite import VueAbstraite
 
 
@@ -32,6 +34,7 @@ class MenuAdministrateur(VueAbstraite):
                 "Mes ingrédients favoris ou non-désirés",
                 "Ma liste de course",
                 "Proposer une recette",
+                "Consulter les demandes de changement de role",
                 "Consulter les demandes de suppression de recette",
                 "Mon compte",
                 "Quitter",
@@ -69,6 +72,10 @@ class MenuAdministrateur(VueAbstraite):
 
             case "Consulter les demandes de suppression de recette":
                 pass
+
+            case "Consulter les demandes de changement de role":
+                self.traiter_demande_role()
+                return self
 
             case "Mon compte":
                 from view.secondaire_admin.mon_compte_admin import MonCompteAdmin
@@ -113,3 +120,52 @@ class MenuAdministrateur(VueAbstraite):
         else:
             # Retourner au menu précédent
             return self
+
+    def traiter_demande_role(self):
+        dao_demande = DemandeDAO()
+        demande_service = ServiceDemande(dao_demande)
+        liste = []
+
+        demandes = demande_service.afficher()
+
+        if demande:
+            for demande in demandes:
+                liste.append(demande.id_demande)
+
+            choix_menu = liste + ["Retour au menu principal"]
+            choix = inquirer.select(
+                message="Sélectionnez la demande que vous voulez traiter :",
+                choices=choix_menu,
+            ).execute()
+
+            if choix in liste:
+                demande_selectionnee = next(
+                    (demande for demande in demandes if demande.id_demande == choix), None
+                )
+                if demande_selectionnee:
+                    demande_service.afficher_demande(demande_selectionnee.id_demande)
+                    # Demander à l'utilisateur s'il souhaite accepter ou refuser la demande
+                    action = inquirer.select(
+                        message="Que voulez-vous faire avec cette demande ?",
+                        choices=["Accepter", "Refuser"],
+                    ).execute()
+
+                    if action == "Accepter":
+                        utilisateur_service.changer_role_utilisateur(
+                            demande_selectionnee.id_utilisateur,
+                            demande_selectionnee.attribut_corrige,
+                        )
+                        print(f"La demande {demande_selectionnee.id_demande} a été acceptée.")
+
+                    elif action == "Refuser":
+                        # Traiter le refus
+                        print(f"La demande {demande_selectionnee.id_demande} a été refusée.")
+                    demande_service.supprimer_demande(demande_selectionnee.id_demande)
+            else:
+                # Retourner à la vue principal
+                return self
+        else:
+            inquirer.select(
+                message="",
+                choices=["Retour au menu principal"],
+            ).execute()
