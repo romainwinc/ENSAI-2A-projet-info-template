@@ -10,8 +10,5 @@ import data.pop_utilisateur
 print("---- Initialisation des préférences ----")
 import data.pop_preference
 
-# print("---- Initialisation des Demandes et avis  ----")
-# import data.pop_demandes_avis
-
-# print("---- Initialisation des Consultations ----")
-# import data.pop_consultation
+print("---- Initialisation des Demandes et avis  ----")
+import data.pop_demandes_avis

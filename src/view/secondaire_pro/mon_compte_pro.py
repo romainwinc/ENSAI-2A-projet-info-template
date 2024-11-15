@@ -33,10 +33,20 @@ class MonComptePro(VueAbstraite):
 
         choix = inquirer.select(
             message="Faites votre choix : ",
-            choices=["Déconnexion", "Supprimer mon compte", "Retour au menu professionnel"],
+            choices=[
+                "Demande de compte administrateur ou abandonner le role de professionnel",
+                "Déconnexion",
+                "Supprimer mon compte",
+                "Retour au menu professionnel",
+            ],
         ).execute()
 
         match choix:
+            case "Demande de compte administrateur ou abandonner le role de professionnel":
+                from view.secondaire_pro.demande_changer_role import DemandeChangerRole
+
+                return DemandeChangerRole()
+
             case "Retour au menu professionnel":
                 from view.menus_principaux.menu_professionnel import MenuProfessionnel
 

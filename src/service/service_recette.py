@@ -120,7 +120,7 @@ class ServiceRecette:
         """
         recette = self.recette_dao.get_recette_by_id(recette_id)
         if recette:
-            return recette.__str__()
+            return recette.__repr__()
         return f"Aucune recette trouvée avec l'ID {recette_id}."
 
     # Section recette favorites
@@ -167,7 +167,6 @@ if __name__ == "__main__":
     dao = RecetteDAO()
     recette_favorite_dao = RecetteFavoriteDAO()  # Instanciation de la DAO des recettes favorites
     service_recette = ServiceRecette(dao, recette_favorite_dao)
-    pass
 
     # print("id")
     # print(service_recette.rechercher_par_id_recette(1))  # marche
@@ -193,7 +192,7 @@ if __name__ == "__main__":
     # ))
 
     # # Afficher une recette
-    # print(service_recette.afficher_recette(1))  # Marche mais est peut être redondant
+    print(service_recette.afficher_recette(1))  # Marche mais est peut être redondant
 
     ###########################################################################
     # Ancien code est obsolete donc à changer dans les views les bonnes #######
