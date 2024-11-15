@@ -75,7 +75,7 @@ if __name__ == "__main__":
     #     )
     # )  # Marche
 
-    print(ServiceDemande(dao).recuperer_demande(1))
+    # print(ServiceDemande(dao).recuperer_demande(1))
 
     # print(ServiceDemande(dao).supprimer_demande(1))
 
@@ -83,4 +83,4 @@ if __name__ == "__main__":
 
     # print(ServiceDemande(dao).recherche_demande_par_id_utilisateur(1))
 
-    # print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))
+    print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))

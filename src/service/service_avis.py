@@ -151,4 +151,4 @@ if __name__ == "__main__":
     )
     # ServiceAvis(dao)._afficher_avis(avis1)
     # ServiceAvis(dao).afficher_avis_par_recette(1)
-    # ServiceAvis(dao).afficher_avis_par_utilisateur(8)
+    ServiceAvis(dao).afficher_avis_par_utilisateur(8)
