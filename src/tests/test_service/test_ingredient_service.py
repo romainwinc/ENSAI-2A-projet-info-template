@@ -1,108 +1,148 @@
 import unittest
-from unittest.mock import MagicMock
-from service.service_ingredient import IngredientService
-from dao.ingredient_dao import IngredientDAO
+from unittest.mock import MagicMock, patch
+from service.service_ingredient import ServiceIngredient
 
 
-class TestIngredientService(unittest.TestCase):
-
+class TestServiceIngredient(unittest.TestCase):
     def setUp(self):
-        # Créer une instance de IngredientService avec des mocks de DAO
-        self.ingredients_non_desires_dao = MagicMock()
-        self.ingredients_favoris_dao = MagicMock()
-        self.service = IngredientService(
-            self.ingredients_non_desires_dao, self.ingredients_favoris_dao
+        # Création des mocks pour les DAO
+        self.ingredients_favoris_dao_mock = MagicMock()
+        self.ingredients_non_desires_dao_mock = MagicMock()
+        self.liste_de_courses_dao_mock = MagicMock()
+
+        # Création de l'instance de ServiceIngredient avec les mocks
+        self.service_ingredient = ServiceIngredient(
+            ingredient_dao=None,  # Si cette dépendance n'est pas utilisée, laissez-la comme None
+            ingredients_favoris_dao=self.ingredients_favoris_dao_mock,
+            ingredients_non_desires_dao=self.ingredients_non_desires_dao_mock,
+            liste_de_courses_dao=self.liste_de_courses_dao_mock,
         )
 
-    def test_recuperer_ingredients_non_desires_utilisateur(self):
-        # Cas où l'utilisateur n'a pas d'ingrédients non-désirés
-        self.ingredients_non_desires_dao.get_non_desires_by_user_id.return_value = []
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.recuperer_ingredients_non_desires_utilisateur(1)
-            self.assertIn("Vous n'avez aucun ingrédient non-désiré.", log.output[0])
-
-        # Cas où l'utilisateur a des ingrédients non-désirés
-        ingr_mock_1 = MagicMock(nom="Tomate")
-        ingr_mock_2 = MagicMock(nom="Oignon")
-        self.ingredients_non_desires_dao.get_non_desires_by_user_id.return_value = [
-            ingr_mock_1,
-            ingr_mock_2,
+    @patch("sys.stdout", new_callable=MagicMock)
+    def test_recuperer_ingredients_favoris_utilisateur(self, mock_stdout):
+        self.ingredients_favoris_dao_mock.get_favoris_by_user_id.return_value = [
+            MagicMock(nom="Tomate"),
+            MagicMock(nom="Carotte"),
         ]
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.recuperer_ingredients_non_desires_utilisateur(1)
-            self.assertIn("Voici vos ingrédients non-désirés :", log.output[0])
 
-    def test_recuperer_ingredients_favoris_utilisateur(self):
-        # Cas où l'utilisateur n'a pas d'ingrédients favoris
-        self.ingredients_favoris_dao.get_favoris_by_user_id.return_value = []
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.recuperer_ingredients_favoris_utilisateur(1)
-            self.assertIn("Vous n'avez aucun ingrédient favoris.", log.output[0])
+        self.service_ingredient.recuperer_ingredients_favoris_utilisateur(utilisateur_id=1)
 
-        # Cas où l'utilisateur a des ingrédients favoris
-        ingr_fav_mock_1 = MagicMock(nom="Basilic")
-        ingr_fav_mock_2 = MagicMock(nom="Persil")
-        self.ingredients_favoris_dao.get_favoris_by_user_id.return_value = [
-            ingr_fav_mock_1,
-            ingr_fav_mock_2,
+        self.ingredients_favoris_dao_mock.get_favoris_by_user_id.assert_called_once_with(1)
+
+        # Vérification de l'impression
+        mock_stdout.assert_called_with(
+            "\nVoici vos ingrédients favoris :\n", "- Tomate\n", "- Carotte\n"
+        )
+
+    @patch("sys.stdout", new_callable=MagicMock)
+    def test_supprimer_ingredients_favoris(self, mock_stdout):
+        self.ingredients_favoris_dao_mock.delete_favori.return_value = True
+
+        self.service_ingredient.supprimer_ingredients_favoris(utilisateur_id=1, ingredient_id=2)
+
+        self.ingredients_favoris_dao_mock.delete_favori.assert_called_once_with(1, 2)
+
+        # Vérification de l'impression
+        mock_stdout.assert_called_with(f"L'ingrédient favori avec l'ID 2 a été supprimé.")
+
+    @patch("sys.stdout", new_callable=MagicMock)
+    def test_ajouter_ingredients_favoris(self, mock_stdout):
+        self.ingredients_favoris_dao_mock.add_favori.return_value = (
+            True  # Assurez-vous que la méthode est correcte
+        )
+
+        self.service_ingredient.ajouter_ingredients_favoris(utilisateur_id=1, ingredient_id=2)
+
+        self.ingredients_favoris_dao_mock.add_favori.assert_called_once_with(1, 2)
+
+        # Vérification de l'impression
+        mock_stdout.assert_called_with(f"L'ingrédient favori avec l'ID 2 a été ajouté.")
+
+    @patch("sys.stdout", new_callable=MagicMock)
+    def test_recuperer_ingredients_non_desires_utilisateur(self, mock_stdout):
+        self.ingredients_non_desires_dao_mock.get_non_desires_by_user_id.return_value = [
+            MagicMock(nom="Oignon"),
+            MagicMock(nom="Poivron"),
         ]
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.recuperer_ingredients_favoris_utilisateur(1)
-            self.assertIn("Voici vos ingrédients favoris :", log.output[0])
 
-    def test_supprimer_ingredients_non_desires(self):
-        # Tester la suppression d'un ingrédient non-désiré
-        self.ingredients_non_desires_dao.delete_non_desire.return_value = True
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.supprimer_ingredients_non_desires(1, 123)
-            self.assertIn("L'ingrédient non-désiré avec l'ID 123 a été supprimé.", log.output[0])
+        self.service_ingredient.recuperer_ingredients_non_desires_utilisateur(utilisateur_id=1)
 
-        # Tester la suppression échouée
-        self.ingredients_non_desires_dao.delete_non_desire.return_value = False
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.supprimer_ingredients_non_desires(1, 123)
-            self.assertIn(
-                "Erreur lors de la suppression de l'ingrédient non-désiré.", log.output[0]
-            )
+        self.ingredients_non_desires_dao_mock.get_non_desires_by_user_id.assert_called_once_with(1)
 
-    def test_supprimer_ingredients_favoris(self):
-        # Tester la suppression d'un ingrédient favori
-        self.ingredients_favoris_dao.delete_favori.return_value = True
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.supprimer_ingredients_favoris(1, 456)
-            self.assertIn("L'ingrédient favori avec l'ID 456 a été supprimé.", log.output[0])
+        # Vérification de l'impression
+        mock_stdout.assert_called_with(
+            "\nVoici vos ingrédients non-désirés :\n", "- Oignon\n", "- Poivron\n"
+        )
 
-        # Tester la suppression échouée
-        self.ingredients_favoris_dao.delete_favori.return_value = False
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.supprimer_ingredients_favoris(1, 456)
-            self.assertIn("Erreur lors de la suppression de l'ingrédient favori.", log.output[0])
+    @patch("sys.stdout", new_callable=MagicMock)
+    def test_supprimer_ingredients_non_desires(self, mock_stdout):
+        self.ingredients_non_desires_dao_mock.delete_non_desire.return_value = True
 
-    def test_ajouter_ingredients_non_desires(self):
-        # Tester l'ajout d'un ingrédient non-désiré
-        self.ingredients_non_desires_dao.add_ingredient_non_desire.return_value = True
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.ajouter_ingredients_non_desires(1, 789)
-            self.assertIn("L'ingrédient non-désiré avec l'ID 789 a été ajouté.", log.output[0])
+        self.service_ingredient.supprimer_ingredients_non_desires(utilisateur_id=1, ingredient_id=2)
 
-        # Tester l'ajout échoué
-        self.ingredients_non_desires_dao.add_ingredient_non_desire.return_value = False
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.ajouter_ingredients_non_desires(1, 789)
-            self.assertIn("Erreur lors de l'ajout de l'ingrédient non-désiré.", log.output[0])
+        self.ingredients_non_desires_dao_mock.delete_non_desire.assert_called_once_with(1, 2)
 
-    def test_ajouter_ingredients_favoris(self):
-        # Tester l'ajout d'un ingrédient favori
-        self.ingredients_favoris_dao.add_ingredient_favori.return_value = True
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.ajouter_ingredients_favoris(1, 321)
-            self.assertIn("L'ingrédient favori avec l'ID 321 a été ajouté.", log.output[0])
+        # Vérification de l'impression
+        mock_stdout.assert_called_with(f"L'ingrédient non-désiré avec l'ID 2 a été supprimé.")
 
-        # Tester l'ajout échoué
-        self.ingredients_favoris_dao.add_ingredient_favori.return_value = False
-        with self.assertLogs("service.service_ingredient", level="INFO") as log:
-            self.service.ajouter_ingredients_favoris(1, 321)
-            self.assertIn("Erreur lors de l'ajout de l'ingrédient favori.", log.output[0])
+    @patch("sys.stdout", new_callable=MagicMock)
+    def test_ajouter_ingredients_non_desires(self, mock_stdout):
+        self.ingredients_non_desires_dao_mock.add_ingredient_non_desire.return_value = True
+
+        self.service_ingredient.ajouter_ingredients_non_desires(utilisateur_id=1, ingredient_id=2)
+
+        self.ingredients_non_desires_dao_mock.add_ingredient_non_desire.assert_called_once_with(
+            1, 2
+        )
+
+        # Vérification de l'impression
+        mock_stdout.assert_called_with(f"L'ingrédient non-désiré avec l'ID 2 a été ajouté.")
+
+    @patch("sys.stdout", new_callable=MagicMock)
+    def test_afficher_ingredients_liste_courses(self, mock_stdout):
+        self.liste_de_courses_dao_mock.get_liste_by_user_id.return_value = [
+            MagicMock(nom="Pâtes"),
+            MagicMock(nom="Sauce tomate"),
+        ]
+
+        self.service_ingredient.afficher_ingredients_liste_courses(utilisateur_id=1)
+
+        self.liste_de_courses_dao_mock.get_liste_by_user_id.assert_called_once_with(1)
+
+        # Vérification de l'impression
+        mock_stdout.assert_called_with(
+            "\nVoici les ingrédients de votre liste de courses :\n", "- Pâtes\n", "- Sauce tomate\n"
+        )
+
+    @patch("sys.stdout", new_callable=MagicMock)
+    def test_supprimer_ingredients_liste_courses(self, mock_stdout):
+        self.liste_de_courses_dao_mock.delete_from_liste.return_value = True
+
+        self.service_ingredient.supprimer_ingredients_liste_courses(
+            utilisateur_id=1, recette_id=1, ingredient_id=2
+        )
+
+        self.liste_de_courses_dao_mock.delete_from_liste.assert_called_once_with(2, 1, 1)
+
+        # Vérification de l'impression
+        mock_stdout.assert_called_with(
+            f"L'ingrédient avec l'ID 2 a été supprimé de la liste de courses."
+        )
+
+    @patch("sys.stdout", new_callable=MagicMock)
+    def test_ajouter_ingredients_liste_courses(self, mock_stdout):
+        self.liste_de_courses_dao_mock.add_liste_de_courses.return_value = True
+
+        self.service_ingredient.ajouter_ingredients_liste_courses(
+            utilisateur_id=1, recette_id=1, ingredient_id=2
+        )
+
+        self.liste_de_courses_dao_mock.add_liste_de_courses.assert_called_once_with(2, 1, 1)
+
+        # Vérification de l'impression
+        mock_stdout.assert_called_with(
+            f"L'ingrédient avec l'ID 2 a été ajouté à la liste de courses."
+        )
 
 
 if __name__ == "__main__":

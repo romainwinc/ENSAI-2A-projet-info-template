@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock
-from service_demande import DemandeService
+from service.service_demande import ServiceDemande
 from dao.demande_dao import DemandeDAO
 from models.demande import Demande
 
@@ -14,7 +14,7 @@ def test_creer_demande_ok():
 
     mock_demande_dao = MagicMock(spec=DemandeDAO)
     mock_demande_dao.add_demande.return_value = id_demande
-    demande_service = DemandeService(mock_demande_dao)
+    demande_service = ServiceDemande(mock_demande_dao)
 
     # WHEN
     demande = demande_service.creer_demande(
@@ -41,7 +41,7 @@ def test_recuperer_demande():
 
     mock_demande_dao = MagicMock(spec=DemandeDAO)
     mock_demande_dao.get_demande_by_id.return_value = demande_data
-    demande_service = DemandeService(mock_demande_dao)
+    demande_service = ServiceDemande(mock_demande_dao)
 
     # WHEN
     demande = demande_service.recuperer_demande(id_demande)
@@ -60,7 +60,7 @@ def test_modifier_demande():
     kwargs = {"attribut_modifie": "nom", "attribut_corrige": "nom_corrige"}
 
     mock_demande_dao = MagicMock(spec=DemandeDAO)
-    demande_service = DemandeService(mock_demande_dao)
+    demande_service = ServiceDemande(mock_demande_dao)
 
     # WHEN
     demande_service.modifier_demande(id_demande, **kwargs)
@@ -75,7 +75,7 @@ def test_supprimer_demande():
     id_demande = 1
 
     mock_demande_dao = MagicMock(spec=DemandeDAO)
-    demande_service = DemandeService(mock_demande_dao)
+    demande_service = ServiceDemande(mock_demande_dao)
 
     # WHEN
     demande_service.supprimer_demande(id_demande)
@@ -93,7 +93,7 @@ def test_afficher_demande(capsys):
     )
 
     mock_demande_dao = MagicMock(spec=DemandeDAO)
-    demande_service = DemandeService(mock_demande_dao)
+    demande_service = ServiceDemande(mock_demande_dao)
 
     # Simuler la récupération de la demande
     demande_service.recuperer_demande = MagicMock(return_value=demande_data)
