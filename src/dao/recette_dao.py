@@ -203,9 +203,25 @@ class RecetteDAO(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(query, (recette_id,))
 
+    def somme_note_by_recette(self, recette_id):
+        """Réalise la somme des notes d'une recette données"""
+        query = """ SELECT note FROM projet_informatique.avis
+                WHERE id_recette = %s """
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, (recette_id,))
+                rows = cursor.fetchall()
+        notes = [row["note"] for row in rows]
+        somme = 0
+        for note in notes:
+            somme += note
+        somme = somme / len(notes)
+        return somme
+
 
 if __name__ == "__main__":
     pass
+    # RecetteDAO().somme_note_by_recette(1)
     # print(RecetteDAO().get_recette_by_id(1))
     # print(RecetteDAO().get_all_recettes())
 

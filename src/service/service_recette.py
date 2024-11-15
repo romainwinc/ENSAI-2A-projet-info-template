@@ -118,6 +118,9 @@ class ServiceRecette:
         """
         Affiche une recette formatée par son ID.
         """
+        note = self.recette_dao.somme_note_by_recette(recette_id)
+        print(note)
+        recette = self.recette_dao.update_by_recette_id(recette_id, note_moyenne=note)
         recette = self.recette_dao.get_recette_by_id(recette_id)
         if recette:
             return recette.__repr__()
