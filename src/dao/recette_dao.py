@@ -205,7 +205,7 @@ class RecetteDAO(metaclass=Singleton):
 
 
 if __name__ == "__main__":
-
+    pass
     # print(RecetteDAO().get_recette_by_id(1))
     # print(RecetteDAO().get_all_recettes())
 
@@ -215,17 +215,15 @@ if __name__ == "__main__":
     # print("update par nom")
     # print(RecetteDAO().update_by_nom_recette("Burek", categorie="exemple de dessert"))  # marche
 
-    # print(
-    #     RecetteDAO().ajouter_recette(
-    #         "Exemple Recette",  # nom_recette
-    #         "Dessert",  # categorie
-    #         "British",  # origine
-    #         "Touiller / Remuer / Mélanger / Agiter",  # instructions
-    #         None,  # mots_cles (ici None, donc NULL en base)
-    #         None,  # url_image (None si non fourni)
-    #         ["Butter", "Jam"],  # liste_ingredients (un tableau en Python)
-    #         None,  # nombre_avis (None signifie pas encore d'avis)
-    #         None,  # note_moyenne (pas encore de notes)
-    #         datetime.now(),  # date_derniere_modif (date d'aujourd'hui)
-    #     )
+    # RecetteDAO().ajouter_recette(
+    #     "Exemple Recette",  # nom_recette
+    #     "Dessert",  # categorie
+    #     "British",  # origine
+    #     "Touiller / Remuer / Mélanger / Agiter",  # instructions
+    #     None,  # mots_cles (ici None, donc NULL en base)
+    #     None,  # url_image (None si non fourni)
+    #     ["Butter", "Jam"],  # liste_ingredients (un tableau en Python)
+    #     None,  # nombre_avis (None signifie pas encore d'avis)
+    #     None,  # note_moyenne (pas encore de notes)
+    #     datetime.now(),  # date_derniere_modif (date d'aujourd'hui)
     # )

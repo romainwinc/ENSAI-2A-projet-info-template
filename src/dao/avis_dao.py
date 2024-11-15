@@ -132,14 +132,15 @@ class AvisDAO(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(query, (recette_id,))
                 rows = cursor.fetchall()
-        somme = 0
-        for i in rows:
-            somme += rows[i]
-        return somme
+        return rows
+        # somme = 0
+        # for i in rows:
+        #     somme += rows[i]
+        # return somme
 
 
 if __name__ == "__main__":
     # print(AvisDAO().get_avis_by_recette_id(1))
     # print(AvisDAO().get_avis_by_user_id(8))
-    AvisDAO().count_nb_avis(1)
-    AvisDAO().somme_note_by_recette(1)
+    print(AvisDAO().count_nb_avis(1))
+    # AvisDAO().somme_note_by_recette(1)
