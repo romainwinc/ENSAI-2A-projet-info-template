@@ -128,27 +128,29 @@ class ServiceAvis:
 
 if __name__ == "__main__":
     dao = AvisDAO()
-    # ServiceAvis(dao).ajouter_avis(
+    print(
+        ServiceAvis(dao).ajouter_avis(
+            id_recette=1,
+            id_utilisateur=11,
+            titre_avis="Test",
+            nom_auteur="Kobe",
+            date_publication=datetime.now(),
+            commentaire="Bon",
+            note=5,
+        )
+    )
+    # ServiceAvis(dao).supprimer_avis(2)
+    # ServiceAvis(dao).modifier_avis(avis_id=3, note=9)
+    # avis1 = Avis(
     #     id_recette=1,
-    #     id_utilisateur=1,
+    #     id_utilisateur=8,
     #     titre_avis="Test",
     #     nom_auteur="Tata",
     #     date_publication=datetime.now(),
     #     commentaire="Bon",
-    #     note=5,
+    #     note=9,
+    #     id_avis=3,
     # )
-    # ServiceAvis(dao).supprimer_avis(2)
-    # ServiceAvis(dao).modifier_avis(avis_id=3, note=9)
-    avis1 = Avis(
-        id_recette=1,
-        id_utilisateur=8,
-        titre_avis="Test",
-        nom_auteur="Tata",
-        date_publication=datetime.now(),
-        commentaire="Bon",
-        note=9,
-        id_avis=3,
-    )
     # ServiceAvis(dao)._afficher_avis(avis1)
     # ServiceAvis(dao).afficher_avis_par_recette(1)
     # ServiceAvis(dao).afficher_avis_par_utilisateur(8)
