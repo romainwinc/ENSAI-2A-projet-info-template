@@ -1,113 +1,87 @@
+import unittest
 from unittest.mock import MagicMock
 from service.service_demande import ServiceDemande
-from dao.demande_dao import DemandeDAO
 from models.demande import Demande
 
 
-def test_creer_demande_ok():
-    """Test de la création d'une demande réussie"""
-    # GIVEN
-    id_utilisateur, type_demande = 42, "Modification"
-    attribut_modifie, attribut_corrige = "nom", "nouveau_nom"
-    commentaire_demande = "Correction du nom"
-    id_demande = 1
+class TestServiceDemande(unittest.TestCase):
+    def setUp(self):
+        self.mock_dao = MagicMock()
+        self.service = ServiceDemande(self.mock_dao)
 
-    mock_demande_dao = MagicMock(spec=DemandeDAO)
-    mock_demande_dao.add_demande.return_value = id_demande
-    demande_service = ServiceDemande(mock_demande_dao)
+    def test_creer_demande(self):
+        # Given
+        self.mock_dao.add_demande.return_value = 1
+        id_utilisateur = 1
+        type_demande = "modification utilisateur"
+        attribut_modifie = "nom"
+        attribut_corrige = "Xavier"
+        commentaire_demande = "Changer le nom"
 
-    # WHEN
-    demande = demande_service.creer_demande(
-        id_utilisateur, type_demande, attribut_modifie, attribut_corrige, commentaire_demande
-    )
+        # When
+        demande = self.service.creer_demande(
+            id_utilisateur, type_demande, attribut_modifie, attribut_corrige, commentaire_demande
+        )
 
-    # THEN
-    assert demande.id_demande == id_demande
-    assert demande.id_utilisateur == id_utilisateur
-    assert demande.type_demande == type_demande
-    assert demande.attribut_modifie == attribut_modifie
-    assert demande.attribut_corrige == attribut_corrige
-    assert demande.commentaire_demande == commentaire_demande
-    mock_demande_dao.add_demande.assert_called_once_with(
-        id_utilisateur, type_demande, attribut_modifie, attribut_corrige, commentaire_demande
-    )
+        # Then
+        self.mock_dao.add_demande.assert_called_once_with(
+            id_utilisateur, type_demande, attribut_modifie, attribut_corrige, commentaire_demande
+        )
+        self.assertIsInstance(demande, Demande)
+        self.assertEqual(demande.id_demande, 1)
+        self.assertEqual(demande.type_demande, type_demande)
 
+    def test_recuperer_demande(self):
+        # Given
+        demande_id = 1
+        self.mock_dao.get_demande_by_id.return_value = (
+            1,
+            1,
+            "modification utilisateur",
+            "nom",
+            "Xavier",
+            "Commentaire",
+        )
 
-def test_recuperer_demande():
-    """Test de la récupération d'une demande par ID"""
-    # GIVEN
-    id_demande = 1
-    demande_data = (id_demande, 42, "Modification", "nom", "nouveau_nom", "Correction du nom")
+        # When
+        demande = self.service.recuperer_demande(demande_id)
 
-    mock_demande_dao = MagicMock(spec=DemandeDAO)
-    mock_demande_dao.get_demande_by_id.return_value = demande_data
-    demande_service = ServiceDemande(mock_demande_dao)
+        # Then
+        self.mock_dao.get_demande_by_id.assert_called_once_with(demande_id)
+        self.assertIsInstance(demande, Demande)
+        self.assertEqual(demande.type_demande, "modification utilisateur")
 
-    # WHEN
-    demande = demande_service.recuperer_demande(id_demande)
+    def test_afficher_demandes_par_id_utilisateur(self):
+        # Given
+        id_utilisateur = 1
+        self.mock_dao.get_demande_by_id_utilisateur.return_value = [
+            {
+                "id_demande": 1,
+                "type_demande": "modification utilisateur",
+                "attribut_modifie": "nom",
+                "attribut_corrige": "Xavier",
+                "commentaire_demande": "Changer le nom",
+            }
+        ]
 
-    # THEN
-    assert demande.id_demande == demande_data[0]
-    assert demande.id_utilisateur == demande_data[1]
-    assert demande.type_demande == demande_data[2]
-    mock_demande_dao.get_demande_by_id.assert_called_once_with(id_demande)
+        # When
+        self.service.afficher_demandes_par_id_utilisateur(id_utilisateur)
 
+        # Then
+        self.mock_dao.get_demande_by_id_utilisateur.assert_called_once_with(id_utilisateur)
 
-def test_modifier_demande():
-    """Test de la modification d'une demande"""
-    # GIVEN
-    id_demande = 1
-    kwargs = {"attribut_modifie": "nom", "attribut_corrige": "nom_corrige"}
+    def test_recuperer_demande_non_existante(self):
+        # Given
+        demande_id = 99
+        self.mock_dao.get_demande_by_id.return_value = None
 
-    mock_demande_dao = MagicMock(spec=DemandeDAO)
-    demande_service = ServiceDemande(mock_demande_dao)
+        # When
+        demande = self.service.recuperer_demande(demande_id)
 
-    # WHEN
-    demande_service.modifier_demande(id_demande, **kwargs)
-
-    # THEN
-    mock_demande_dao.update_demande.assert_called_once_with(id_demande, **kwargs)
-
-
-def test_supprimer_demande():
-    """Test de la suppression d'une demande"""
-    # GIVEN
-    id_demande = 1
-
-    mock_demande_dao = MagicMock(spec=DemandeDAO)
-    demande_service = ServiceDemande(mock_demande_dao)
-
-    # WHEN
-    demande_service.supprimer_demande(id_demande)
-
-    # THEN
-    mock_demande_dao.delete_demande.assert_called_once_with(id_demande)
-
-
-def test_afficher_demande(capsys):
-    """Test de l'affichage des détails d'une demande"""
-    # GIVEN
-    id_demande = 1
-    demande_data = Demande(
-        id_demande, 42, "Modification", "nom", "nouveau_nom", "Correction du nom"
-    )
-
-    mock_demande_dao = MagicMock(spec=DemandeDAO)
-    demande_service = ServiceDemande(mock_demande_dao)
-
-    # Simuler la récupération de la demande
-    demande_service.recuperer_demande = MagicMock(return_value=demande_data)
-
-    # WHEN
-    demande_service.afficher_demande(id_demande)
-
-    # THEN
-    captured = capsys.readouterr()
-    assert "Modification" in captured.out
-    demande_service.recuperer_demande.assert_called_once_with(id_demande)
+        # Then
+        self.mock_dao.get_demande_by_id.assert_called_once_with(demande_id)
+        self.assertIsNone(demande)
 
 
 if __name__ == "__main__":
-    import pytest
-
-    pytest.main([__file__])
+    unittest.main()
