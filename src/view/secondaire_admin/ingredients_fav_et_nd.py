@@ -11,7 +11,7 @@ from service.service_ingredient import ServiceIngredient
 
 class IngredientsFavEtND(VueAbstraite):
     """Vue du menu des ingrédient favoris et des ingrédients non-désirés pour
-    un utilisateur connecté
+    un administrateur
 
     Attributes
     ----------
@@ -21,11 +21,11 @@ class IngredientsFavEtND(VueAbstraite):
     Returns
     ------
     view
-        retourne la prochaine vue, celle qui est choisie par l'utilisateur
+        retourne la prochaine vue, celle qui est choisie par l'administrateur
     """
 
     def choisir_menu(self):
-        """Choix du menu suivant de l'utilisateur
+        """Choix du menu suivant de l'administrateur
 
         Return
         ------
@@ -48,11 +48,11 @@ class IngredientsFavEtND(VueAbstraite):
 
         match choix:
             case "Ajouter des ingrédients favoris ou non-désirés":
-                from view.secondaire_connecte.recherche_ingredient import (
-                    RechercheIngredientConnecte,
+                from view.secondaire_admin.recherche_ingredient import (
+                    RechercheIngredientAdmin,
                 )
 
-                return RechercheIngredientConnecte()
+                return RechercheIngredientAdmin()
 
             case "Consulter mes ingrédients favoris":
                 self.afficher_favoris()
@@ -67,9 +67,9 @@ class IngredientsFavEtND(VueAbstraite):
             #     return self
 
             case "Retour au menu principal":
-                from view.menus_principaux.menu_connecte import MenuUtilisateurConnecte
+                from view.menus_principaux.menu_administrateur import MenuAdministrateur
 
-                return MenuUtilisateurConnecte()
+                return MenuAdministrateur()
 
     def afficher_favoris(self):
         """Affiche les ingrédients favoris."""
@@ -103,7 +103,7 @@ class IngredientsFavEtND(VueAbstraite):
             # Afficher les détails de l'ingrédient sélectionné
             ingredient_selectionne = choix
             Session().ouvrir_ingredient(ingredient_selectionne)
-            from view.secondaire_connecte.vue_detail_ingredient_fav import DetailIngredientFav
+            from view.secondaire_admin.vue_detail_ingredient_fav import DetailIngredientFav
 
             return DetailIngredientFav().afficher()
         else:
@@ -144,7 +144,7 @@ class IngredientsFavEtND(VueAbstraite):
             # Afficher les détails de l'ingrédient sélectionné
             ingredient_selectionne = choix
             Session().ouvrir_ingredient(ingredient_selectionne)
-            from view.secondaire_connecte.vue_detail_ingredient_nd import DetailIngredientND
+            from view.secondaire_admin.vue_detail_ingredient_nd import DetailIngredientND
 
             return DetailIngredientND().afficher()
         else:
@@ -183,7 +183,7 @@ class IngredientsFavEtND(VueAbstraite):
     #         # Afficher les détails de l'ingrédient sélectionné
     #         ingredient_selectionne = choix
     #         Session().ouvrir_ingredient(ingredient_selectionne)
-    #         from view.secondaire_connecte.vue_detail_ingredient_liste_courses import (
+    #         from view.secondaire_admin.vue_detail_ingredient_liste_courses import (
     #             DetailIngredientListeCourses,
     #         )
 

@@ -8,10 +8,10 @@ from service.service_ingredient import ServiceIngredient
 from view.session import Session
 
 
-class RechercheIngredientConnecte(VueAbstraite):
+class RechercheIngredientAdmin(VueAbstraite):
     """Vue pour rechercher un ingrédient.
 
-    Permet à l'utilisateur de rechercher un ingrédient.
+    Permet à l'administrateur de rechercher un ingrédient.
     """
 
     def choisir_menu(self):
@@ -20,7 +20,7 @@ class RechercheIngredientConnecte(VueAbstraite):
         Return
         ------
         vue
-            Retourne la vue suivante en fonction de la recherche de l'utilisateur.
+            Retourne la vue suivante en fonction de la recherche de l'administrateur.
         """
         print("\n" + "-" * 50 + "\nRecherche d'ingrédient\n" + "-" * 50 + "\n")
 
@@ -38,7 +38,7 @@ class RechercheIngredientConnecte(VueAbstraite):
                 self.rechercher_ingredient()
                 return self
             case "Retour au menu Ingrédient":
-                from view.secondaire_connecte.ingredients_fav_et_nd import IngredientsFavEtND
+                from view.secondaire_admin.ingredients_fav_et_nd import IngredientsFavEtND
 
                 return IngredientsFavEtND()
 
@@ -76,7 +76,7 @@ class RechercheIngredientConnecte(VueAbstraite):
             )
             if ingredient_selectionne:
                 Session().ouvrir_ingredient(ingredient_selectionne)
-                from view.secondaire_connecte.vue_detail_ingredient import (
+                from view.secondaire_admin.vue_detail_ingredient import (
                     VueDetailIngredient,
                 )
 

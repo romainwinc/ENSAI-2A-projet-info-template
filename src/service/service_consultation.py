@@ -39,13 +39,14 @@ class ServiceConsultation:
         consultation_existante = self.consultation_dao.get_consultation(id_recette, id_utilisateur)
         if not consultation_existante:
             print(
-                f"Consultation non trouvée pour Recette ID {id_recette} et Utilisateur ID {id_utilisateur}."
+                f"Consultation non trouvée pour Recette ID {id_recette} "
+                f"et Utilisateur ID {id_utilisateur}."
             )
             return False
-
         self.consultation_dao.delete_consultation(id_recette, id_utilisateur)
         print(
-            f"Consultation pour Recette ID {id_recette} et Utilisateur ID {id_utilisateur} supprimée."
+            f"Consultation pour Recette ID {id_recette} et Utilisateur "
+            f"ID {id_utilisateur} supprimée."
         )
         return True
 
@@ -56,7 +57,10 @@ class ServiceConsultation:
         consultation = self.recuperer_consultation(id_recette, id_utilisateur)
         if consultation:
             return consultation.__str__()
-        return f"Aucune consultation trouvée pour Recette ID {id_recette} et Utilisateur ID {id_utilisateur}."
+        return (
+            f"Aucune consultation trouvée pour Recette ID {id_recette} "
+            f"et Utilisateur ID {id_utilisateur}."
+        )
 
     def afficher_consultations_par_utilisateur(self, id_utilisateur: int) -> list[str]:
         """

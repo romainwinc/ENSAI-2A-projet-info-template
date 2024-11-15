@@ -33,7 +33,7 @@ class DetailIngredientListeCourses(VueAbstraite):
         print("\n" + "-" * 50 + "\nDétails de l'ingrédient\n" + "-" * 50 + "\n")
         print(f"{ingredient}")
 
-        from view.secondaire_connecte.ingredients_fav_et_nd import IngredientsFavEtND
+        from view.secondaire_pro.ingredients_fav_et_nd import IngredientsFavEtND
 
         choix = inquirer.select(
             message="Que souhaitez-vous faire ?",

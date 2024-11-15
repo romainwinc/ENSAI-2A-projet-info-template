@@ -11,10 +11,7 @@ class ListeDeCoursesDAO(metaclass=Singleton):
         self.schema = os.getenv("POSTGRES_SCHEMA")
 
     def add_liste_de_courses(self, nom_ingredient, id_utilisateur):
-        """
-        Ajoute un ingrédient à la liste de courses d'un utilisateur en
-        utilisant le nom de l'ingrédient.
-        """
+        """Ajoute un ingrédient à la liste de courses d'un utilisateur en utilisant le nom de l'ingrédient."""
         query = (
             """
             INSERT INTO {}.liste_de_courses (id_ingredient, id_utilisateur)
@@ -46,10 +43,7 @@ class ListeDeCoursesDAO(metaclass=Singleton):
                 return [row["nom_ingredient"] for row in cursor.fetchall()]
 
     def delete_ingredient_from_liste_de_courses(self, nom_ingredient, id_utilisateur):
-        """
-        Supprime un ingrédient de la liste de courses d'un utilisateur
-        en utilisant le nom de l'ingrédient.
-        """
+        """Supprime un ingrédient de la liste de courses d'un utilisateur en utilisant le nom de l'ingrédient."""
         query = (
             """
             DELETE FROM {}.liste_de_courses

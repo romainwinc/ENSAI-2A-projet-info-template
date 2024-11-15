@@ -1,8 +1,12 @@
 from InquirerPy import inquirer
+from view.session import Session
+from dao.recette_dao import RecetteDAO
+from dao.recette_favorite_dao import RecetteFavoriteDAO
+from service.service_recette import ServiceRecette
 from view.vue_abstraite import VueAbstraite
 
 
-class MenuAdministrateurVue(VueAbstraite):
+class MenuAdministrateur(VueAbstraite):
     """Vue du menu de l'administrateur
 
     Permet à l'administrateur de gérer ses recettes, avis, ingrédients, etc.
@@ -24,12 +28,12 @@ class MenuAdministrateurVue(VueAbstraite):
             choices=[
                 "Consulter mes recettes favorites",
                 "Consulter une recette",
-                "Consulter mes notes/avis",
-                "Consulter mes ingrédients favoris ou non désirés",
+                "Consulter mes notes et avis",
+                "Mes ingrédients favoris ou non-désirés",
+                "Ma liste de course",
                 "Proposer une recette",
-                "Regarder la liste de course",
                 "Consulter les demandes de suppression de recette",
-                "Gestion de compte",
+                "Mon compte",
                 "Quitter",
             ],
         ).execute()
@@ -37,45 +41,75 @@ class MenuAdministrateurVue(VueAbstraite):
         # Gestion des choix de l'administrateur avec 'match case'
         match choix:
             case "Consulter mes recettes favorites":
-                from view.secondaire_admin.recettes_favorites import RecettesFavoritesVue
-
-                return RecettesFavoritesVue()
+                self.afficher_recette_fav()
+                return self
 
             case "Consulter une recette":
-                from view.secondaire_admin.recherche_recette import ConsulterRecette
+                from view.secondaire_admin.recherche_recette import RechercheRecetteAdmin
 
-                return ConsulterRecette()
+                return RechercheRecetteAdmin()
 
-            case "Consulter mes notes/avis":
-                from view.notes_avis_vue import NotesAvisVue
+            case "Consulter mes notes et avis":
+                from view.secondaire_admin.consulter_notes_avis import ConsulterNotesAvis
 
-                return NotesAvisVue()
+                return ConsulterNotesAvis()
 
-            case "Consulter mes ingrédients favoris ou non désirés":
-                from view.ingredients_vue import IngredientsVue
+            case "Mes ingrédients favoris ou non-désirés":
+                from view.secondaire_admin.ingredients_fav_et_nd import IngredientsFavEtND
 
-                return IngredientsVue()
+                return IngredientsFavEtND()
 
             case "Proposer une recette":
-                from view.proposer_recette_vue import ProposerRecetteVue
+                pass
 
-                return ProposerRecetteVue()
+            case "Ma liste de course":
+                from view.secondaire_admin.liste_courses import ListeCourses
 
-            case "Regarder la liste de course":
-                from view.liste_course_vue import ListeCourseVue
-
-                return ListeCourseVue()
+                return ListeCourses()
 
             case "Consulter les demandes de suppression de recette":
-                from view.demandes_suppression_vue import DemandesSuppressionVue
+                pass
 
-                return DemandesSuppressionVue()
+            case "Mon compte":
+                from view.secondaire_admin.mon_compte_admin import MonCompteAdmin
 
-            case "Gestion de compte":
-                from view.gestion_compte_vue import GestionCompteVue
-
-                return GestionCompteVue()
+                return MonCompteAdmin()
 
             case "Quitter":
-                print("Merci d'avoir utilisé l'application. À bientôt !")
+                print("Merci d'avoir utilisé Recipe-Makers. À bientôt !")
                 exit()
+
+    def afficher_recette_fav(self):
+        """Affiche les recettes favorites et l'administrateur peut sélectionner une recette."""
+        id_utilisateur = Session().utilisateur.id_utilisateur
+        dao_recette = RecetteDAO()
+        dao_recette_fav = RecetteFavoriteDAO()
+        service_recette = ServiceRecette(dao_recette, dao_recette_fav)
+
+        favoris = service_recette.afficher_recettes_favorites(id_utilisateur)
+
+        # Vérifiez si l'utilisateur a des recettes favorites
+        if not favoris:
+            inquirer.select(
+                message="",
+                choices=["OK"],
+            ).execute()
+            return self
+
+        # Afficher les recettes favorites
+        choix_menu = favoris + ["Retour au menu principal"]
+        choix = inquirer.select(
+            message="Sélectionnez une recette pour plus de détails ou retournez au menu :",
+            choices=choix_menu,
+        ).execute()
+
+        if choix in favoris:
+            # Afficher les détails de la recette sélectionnée
+            recette_selectionnee = choix
+            Session().ouvrir_recette(recette_selectionnee)
+            from view.secondaire_admin.vue_detail_recette_fav import DetailRecetteFav
+
+            return DetailRecetteFav().afficher()
+        else:
+            # Retourner au menu précédent
+            return self

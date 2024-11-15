@@ -6,10 +6,8 @@ from service.service_utilisateur import ServiceUtilisateur
 from dao.utilisateur_dao import UtilisateurDao
 
 
-class MonCompteConnecte(VueAbstraite):
-    """Vue de la gestion du compte d'un utilisateur connecté (qui n'a pas de rôle spécial
-    comme administrateur ou professionnel)
-
+class MonCompteAdmin(VueAbstraite):
+    """Vue de la gestion du compte d'un administrateur
     Attributes
     ----------
     message=''
@@ -18,16 +16,16 @@ class MonCompteConnecte(VueAbstraite):
     Returns
     ------
     view
-        retourne la prochaine vue, celle qui est choisie par l'utilisateur
+        retourne la prochaine vue, celle qui est choisie par l'administrateur
     """
 
     def choisir_menu(self):
-        """Choix du menu suivant de l'utilisateur
+        """Choix du menu suivant de l'administrateur
 
         Return
         ------
         vue
-            Retourne la vue choisie par l'utilisateur dans le terminal
+            Retourne la vue choisie par l'administrateur dans le terminal
         """
 
         print("\n" + "-" * 50 + "\nMon Compte\n" + "-" * 50 + "\n")
@@ -35,7 +33,6 @@ class MonCompteConnecte(VueAbstraite):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Demande de compte professionnel",
                 "Déconnexion",
                 "Supprimer mon compte",
                 "Retour au menu professionnel",
@@ -43,8 +40,6 @@ class MonCompteConnecte(VueAbstraite):
         ).execute()
 
         match choix:
-            case "Demande de compte professionnel":
-                return self
 
             case "Déconnexion":
                 Session().deconnexion()
@@ -60,7 +55,7 @@ class MonCompteConnecte(VueAbstraite):
 
                 return MenuNonConnecte()
 
-            case "Retour au menu principal":
-                from view.menus_principaux.menu_connecte import MenuUtilisateurConnecte
+            case "Retour au menu professionnel":
+                from view.menus_principaux.menu_administrateur import MenuAdministrateur
 
-                return MenuUtilisateurConnecte("Retour au menu")
+                return MenuAdministrateur("Retour au menu")

@@ -16,9 +16,16 @@ class DemandeDAO(metaclass=Singleton):
         """Ajoute une nouvelle demande."""
         query = (
             """
-            INSERT INTO {}.demande (id_utilisateur, type_demande, attribut_modifie, attribut_corrige, commentaire_demande)
-            VALUES (%s, %s, %s, %s, %s) RETURNING id_demande
-        """
+            INSERT INTO {}.demande (
+                id_utilisateur,
+                type_demande,
+                attribut_modifie,
+                attribut_corrige,
+                commentaire_demande
+            )
+            VALUES (%s, %s, %s, %s, %s)
+            RETURNING id_demande
+            """
         ).format(self.schema)
         with self.connection as connection:
             with connection.cursor() as cursor:

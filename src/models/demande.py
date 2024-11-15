@@ -17,9 +17,12 @@ class Demande:
 
     def __str__(self):
         return (
-            f"Demande(id_demande={self.id_demande}, id_utilisateur={self.id_utilisateur}, "
-            f"type_demande='{self.type_demande}', attribut_modifie='{self.attribut_modifie}', "
-            f"attribut_corrige='{self.attribut_corrige}', commentaire_demande='{self.commentaire_demande}')"
+            f"Demande(id_demande={self.id_demande}, "
+            f"id_utilisateur={self.id_utilisateur}, "
+            f"type_demande='{self.type_demande}', "
+            f"attribut_modifie='{self.attribut_modifie}', "
+            f"attribut_corrige='{self.attribut_corrige}', "
+            f"commentaire_demande='{self.commentaire_demande}')"
         )
 
     def afficher_demande(self):

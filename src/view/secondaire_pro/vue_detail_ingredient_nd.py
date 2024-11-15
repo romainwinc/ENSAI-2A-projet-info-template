@@ -8,8 +8,8 @@ from dao.liste_de_courses_dao import ListeDeCoursesDAO
 from service.service_ingredient import ServiceIngredient
 
 
-class DetailIngredientListeCourses(VueAbstraite):
-    """Vue pour afficher les détails d'un ingredient d'une liste de course."""
+class DetailIngredientND(VueAbstraite):
+    """Vue pour afficher les détails d'un ingredient non-désiré."""
 
     def choisir_menu(self):
         """Implémentation requise de la méthode abstraite, sans effet ici."""
@@ -33,19 +33,19 @@ class DetailIngredientListeCourses(VueAbstraite):
         print("\n" + "-" * 50 + "\nDétails de l'ingrédient\n" + "-" * 50 + "\n")
         print(f"{ingredient}")
 
-        from view.secondaire_connecte.ingredients_fav_et_nd import IngredientsFavEtND
+        from view.secondaire_pro.ingredients_fav_et_nd import IngredientsFavEtND
 
         choix = inquirer.select(
             message="Que souhaitez-vous faire ?",
             choices=[
                 "Retour au menu ingrédient",
-                "Supprimer l'ingrédient de ma liste de course",
+                "Supprimer l'ingrédient de mes non-désirés",
             ],
         ).execute()
 
         match choix:
-            case "Supprimer l'ingrédient de ma liste de course":
-                ingredient_service.supprimer_ingredients_liste_courses(
+            case "Supprimer l'ingrédient de mes non-désirés":
+                ingredient_service.supprimer_ingredients_non_desires(
                     utilisateur_id, ingredient.nom_ingredient
                 )
                 inquirer.select(

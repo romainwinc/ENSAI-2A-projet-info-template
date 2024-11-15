@@ -11,7 +11,7 @@ from service.service_ingredient import ServiceIngredient
 
 class ListeCourses(VueAbstraite):
     """Vue pour afficher et modifier les ingrédients de la liste de courses
-    d'un utilisateur
+    d'un administrateur
 
     Attributes
     ----------
@@ -21,16 +21,16 @@ class ListeCourses(VueAbstraite):
     Returns
     ------
     view
-        retourne la prochaine vue, celle qui est choisie par l'utilisateur
+        retourne la prochaine vue, celle qui est choisie par l'administrateur
     """
 
     def choisir_menu(self):
-        """Choix du menu suivant de l'utilisateur
+        """Choix du menu suivant de l'administrateur
 
         Return
         ------
         vue
-            Retourne la vue choisie par l'utilisateur dans le terminal
+            Retourne la vue choisie par l'administrateur dans le terminal
         """
 
         print("\n" + "-" * 50 + "\nMa liste de courses\n" + "-" * 50 + "\n")
@@ -50,15 +50,15 @@ class ListeCourses(VueAbstraite):
                 return self
 
             case "Ajouter des ingrédients à ma liste de courses":
-                from view.secondaire_connecte.ajout_ingredient_liste_courses import (
+                from view.secondaire_admin.ajout_ingredient_liste_courses import (
                     AjoutIngredientListeCousrses,
                 )
 
                 return AjoutIngredientListeCousrses()
             case "Retour au menu principal":
-                from view.menus_principaux.menu_connecte import MenuUtilisateurConnecte
+                from view.menus_principaux.menu_administrateur import MenuAdministrateur
 
-                return MenuUtilisateurConnecte()
+                return MenuAdministrateur()
 
     def afficher_liste_courses(self):
         """Affiche les ingrédients de la liste de course."""
@@ -95,7 +95,7 @@ class ListeCourses(VueAbstraite):
             # Afficher les détails de l'ingrédient sélectionné
             ingredient_selectionne = choix
             Session().ouvrir_ingredient(ingredient_selectionne)
-            from view.secondaire_connecte.vue_detail_ingredient_liste_courses import (
+            from view.secondaire_admin.vue_detail_ingredient_liste_courses import (
                 DetailIngredientListeCourses,
             )
 

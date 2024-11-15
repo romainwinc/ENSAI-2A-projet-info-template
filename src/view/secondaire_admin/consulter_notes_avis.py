@@ -7,7 +7,7 @@ from dao.avis_dao import AvisDAO
 
 
 class ConsulterNotesAvis(VueAbstraite):
-    """Vue du menu d'un utilisateur pour regarder ses notes et avis
+    """Vue du menu d'un administrateur pour regarder ses notes et avis
     Attributes
     ----------
     message=''
@@ -16,16 +16,16 @@ class ConsulterNotesAvis(VueAbstraite):
     Returns
     ------
     view
-        retourne la prochaine vue, celle qui est choisie par l'utilisateur
+        retourne la prochaine vue, celle qui est choisie par l'administrateur
     """
 
     def choisir_menu(self):
-        """Choix du menu suivant de l'utilisateur
+        """Choix du menu suivant de l'administrateur
 
         Return
         ------
         vue
-            Retourne la vue choisie par l'utilisateur dans le terminal
+            Retourne la vue choisie par l'administrateur dans le terminal
         """
 
         print("\n" + "-" * 50 + "\nMes Notes et Avis\n" + "-" * 50 + "\n")
@@ -76,9 +76,9 @@ class ConsulterNotesAvis(VueAbstraite):
                 return self
 
             case "Retour au menu principal":
-                from view.menus_principaux.menu_connecte import MenuUtilisateurConnecte
+                from view.menus_principaux.menu_administrateur import MenuAdministrateur
 
-                return MenuUtilisateurConnecte()
+                return MenuAdministrateur()
 
     def supprimer_avis(self):
         """Affiche les avis à supprimer."""

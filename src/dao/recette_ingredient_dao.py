@@ -1,6 +1,5 @@
 from dao.db_connection import DBConnection
 from utils.singleton import Singleton
-from psycopg2 import sql
 from dotenv import load_dotenv
 import os
 
@@ -52,12 +51,13 @@ class RecetteIngredientDAO(metaclass=Singleton):
 
 
 if __name__ == "__main__":
+    dao = RecetteIngredientDAO()
 
-    # print(RecetteIngredientDAO().get_ingredients_by_recette_id(2)) # Marche
-    # print(RecetteIngredientDAO().add_recette_ingredient(2, 245, "1kilo")) # Marche
+    # print(dao.get_ingredients_by_recette_id(2)) # Marche
+    # print(dao.add_recette_ingredient(2, 245, "1kilo")) # Marche
 
     # print("update par id")
-    # print(RecetteIngredientDAO().update_recette_ingredient(2, 245, mesure="3kilo"))  # marche
+    # print(dao.update_recette_ingredient(2, 245, mesure="3kilo"))  # marche
 
     # print("delete with id")
-    # print(RecetteIngredientDAO().delete_recette_ingredient(2, 245))  # marche
+    # print(dao.delete_recette_ingredient(2, 245))  # marche

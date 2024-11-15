@@ -38,8 +38,8 @@ class DetailIngredientND(VueAbstraite):
         choix = inquirer.select(
             message="Que souhaitez-vous faire ?",
             choices=[
-                "Supprimer l'ingrédient de mes non-désirés",
                 "Retour au menu ingrédient",
+                "Supprimer l'ingrédient de mes non-désirés",
             ],
         ).execute()
 

@@ -4,12 +4,13 @@ from dao.recette_dao import RecetteDAO
 from dao.recette_favorite_dao import RecetteFavoriteDAO
 from service.service_recette import ServiceRecette
 from models.recette import Recette
+from view.session import Session
 
 
-class ConsulterRecette(VueAbstraite):
+class RechercheRecetteAdmin(VueAbstraite):
     """Vue pour rechercher une recette.
 
-    Permet à l'dministrateur de rechercher une recette par nom ou ingrédient.
+    Permet à l'administrateur de rechercher une recette par nom ou ingrédient.
     """
 
     def choisir_menu(self):
@@ -18,7 +19,7 @@ class ConsulterRecette(VueAbstraite):
         Return
         ------
         vue
-            Retourne la vue suivante en fonction de la recherche de l'utilisateur.
+            Retourne la vue suivante en fonction de la recherche de l'administrateur.
         """
         print("\n" + "-" * 50 + "\nRecherche de Recette\n" + "-" * 50 + "\n")
 
@@ -29,7 +30,7 @@ class ConsulterRecette(VueAbstraite):
                 "Rechercher par nom de recette",
                 "Rechercher par ingrédient",
                 "Rechercher par id",
-                "Retour au menu principal",
+                "Retour au menu Administrateur",
             ],
         ).execute()
 
@@ -43,10 +44,10 @@ class ConsulterRecette(VueAbstraite):
             case "Rechercher par id":
                 self.rechercher_recette("id")
                 return self
-            case "Retour au menu principal":
-                from view.menus_principaux.menu_administrateur import MenuAdministrateurVue
+            case "Retour au menu Administrateur":
+                from view.menus_principaux.menu_administrateur import MenuAdministrateur
 
-                return MenuAdministrateurVue()
+                return MenuAdministrateur()
 
     def rechercher_recette(self, type_recherche: str):
         """Recherche une recette en fonction du type de recherche sélectionné.
@@ -94,9 +95,7 @@ class ConsulterRecette(VueAbstraite):
             print("Aucune recette trouvée.")
 
         # Afficher le menu avec les noms des recettes trouvées ou une option de retour
-        choix_menu = r + [
-            "Retour au menu de recherche"
-        ]  # Ajouter une option pour retourner au menu de recherche
+        choix_menu = r + ["Retour au menu de recherche"]
         choix = inquirer.select(
             message="Sélectionnez une recette pour plus de détails ou retournez au menu :",
             choices=choix_menu,
@@ -108,6 +107,7 @@ class ConsulterRecette(VueAbstraite):
                 (recette for recette in recettes if recette.nom_recette == choix), None
             )
             if recette_selectionnee:
+                Session().ouvrir_recette(recette_selectionnee)
                 from view.secondaire_admin.vue_detail_recette import VueDetailRecette
 
                 return VueDetailRecette(recette_selectionnee).afficher()

@@ -26,7 +26,7 @@ class DetailRecetteFav(VueAbstraite):
         print("\n" + "-" * 50 + "\nDétails de la Recette\n" + "-" * 50 + "\n")
         print(f"{recette}")
 
-        from view.menus_principaux.menu_connecte import MenuUtilisateurConnecte
+        from view.menus_principaux.menu_professionnel import MenuProfessionnel
 
         choix = inquirer.select(
             message="Que souhaitez-vous faire ?",
@@ -43,4 +43,4 @@ class DetailRecetteFav(VueAbstraite):
                 return self
             case "Retour au menu principal":
                 Session().fermer_recette()
-                return MenuUtilisateurConnecte()
+                return MenuProfessionnel()
