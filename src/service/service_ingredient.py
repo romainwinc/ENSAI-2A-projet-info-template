@@ -142,7 +142,7 @@ if __name__ == "__main__":
 
     # Exemple d'utilisation :
     # service.ajouter_ingredient("Tomate", "Légume rouge utilisé dans de nombreux plats.")
-    # service.afficher_ingredient(1)  # Affiche l'ingrédient avec ID 1
+    service.afficher_ingredient(1)  # Affiche l'ingrédient avec ID 1
     # service.modifier_ingredient(
     #  1, nom_ingredient="Chicken", description_ingredient="Légume rouge et juteux."
     # )
