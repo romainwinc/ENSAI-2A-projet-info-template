@@ -31,18 +31,28 @@ class ServiceDemande:
 
     def recuperer_demandes_with_role(self):
         """
-        Récupère toutes les demandes de la table 'demande'
+        Récupère et affiche toutes les demandes de la table 'demande'
         où l'attribut_modifie est égal à "role".
 
         Returns:
-            List[dict] | None: Liste des demandes correspondantes, ou None si aucune n'existe.
+            None
         """
         demandes = self.demande_dao.get_demandes_with_role()
 
         if not demandes:  # Vérifie si la liste est vide
-            return None
+            print("Aucune demande avec l'attribut modifié égal à 'role'.")
+            return
 
-        return demandes
+        print("Demandes où 'attribut_modifie' est égal à 'role' :")
+        print("=" * 50)
+        for demande in demandes:
+            print(f"ID Demande       : {demande['id_demande']}")
+            print(f"ID Utilisateur   : {demande['id_utilisateur']}")
+            print(f"Type de Demande  : {demande['type_demande']}")
+            print(f"Attribut Modifié : {demande['attribut_modifie']}")
+            print(f"Attribut Corrigé : {demande['attribut_corrige']}")
+            print(f"Commentaire      : {demande['commentaire_demande']}")
+            print("-" * 50)
 
     def afficher_demande(self, demande_id):
         """Affiche les détails d'une demande en montrant les valeurs des attributs."""
@@ -93,7 +103,7 @@ class ServiceDemande:
             return False  # La demande n'existe pas, retour False
 
         # Supprime la demande
-        self.dao.delete_demande(demande_id)
+        self.demande_dao.delete_demande(demande_id)
         return True
 
 
@@ -121,3 +131,5 @@ if __name__ == "__main__":
     # print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))
 
     print(ServiceDemande(dao).recuperer_demandes_with_role())
+
+    # print(ServiceDemande(dao).supprimer_demande(1))
