@@ -55,6 +55,32 @@ class ServiceDemande:
             print("-" * 50)
         return demandes
 
+    def recuperer_demandes_with_recette(self):
+        """
+        Récupère et affiche toutes les demandes de la table 'demande'
+        où le type de demande est "Suppression recette".
+
+        Returns:
+            None
+        """
+        demandes = self.demande_dao.get_demandes_with_recette()
+
+        if not demandes:  # Vérifie si la liste est vide
+            print("Aucune demande de suppression de recettes.")
+            return
+
+        print("Demandes de suppressions de recettes :")
+        print("=" * 50)
+        for demande in demandes:
+            print(f"ID Demande       : {demande['id_demande']}")
+            print(f"ID Utilisateur   : {demande['id_utilisateur']}")
+            print(f"Type de Demande  : {demande['type_demande']}")
+            print(f"Attribut Modifié : {demande['attribut_modifie']}")
+            print(f"Attribut Corrigé : {demande['attribut_corrige']}")
+            print(f"Commentaire      : {demande['commentaire_demande']}")
+            print("-" * 50)
+        return demandes
+
     def afficher_demande(self, demande_id):
         """Affiche les détails d'une demande en montrant les valeurs des attributs."""
         demande = self.recuperer_demande(demande_id)
@@ -86,6 +112,7 @@ class ServiceDemande:
                 print("-" * 40)  # Ligne de séparation pour chaque demande
         else:
             print(f"Aucune demande trouvée pour l'utilisateur {id_utilisateur}.")
+            return False
 
     def supprimer_demande(self, demande_id):
         """

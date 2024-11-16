@@ -50,7 +50,7 @@ class DemandeDAO(metaclass=Singleton):
         """
         query = (
             """
-            SELECT id_demande, id_utilisateur, type_demande, attribut_modifie, 
+            SELECT id_demande, id_utilisateur, type_demande, attribut_modifie,
                 attribut_corrige, commentaire_demande
             FROM {}.demande
             WHERE attribut_modifie = %s
@@ -60,6 +60,41 @@ class DemandeDAO(metaclass=Singleton):
         with self.connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(query, ("role",))
+                rows = cursor.fetchall()
+
+        demandes = []
+        for row in rows:
+            demande = {
+                "id_demande": row["id_demande"],
+                "id_utilisateur": row["id_utilisateur"],
+                "type_demande": row["type_demande"],
+                "attribut_modifie": row["attribut_modifie"],
+                "attribut_corrige": row["attribut_corrige"],
+                "commentaire_demande": row["commentaire_demande"],
+            }
+            demandes.append(demande)
+
+        return demandes
+
+    def get_demandes_with_recette(self):
+        """
+        Récupère toutes les demandes où typ_demande est égal à 'Suppression recette'.
+
+        Returns:
+            List[dict]: Liste des demandes correspondantes.
+        """
+        query = (
+            """
+            SELECT id_demande, id_utilisateur, type_demande, attribut_modifie,
+                attribut_corrige, commentaire_demande
+            FROM {}.demande
+            WHERE type_demande = %s
+            """
+        ).format(self.schema)
+
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(query, ("Suppression recette",))
                 rows = cursor.fetchall()
 
         demandes = []
