@@ -53,6 +53,7 @@ class ServiceDemande:
             print(f"Attribut Corrigé : {demande['attribut_corrige']}")
             print(f"Commentaire      : {demande['commentaire_demande']}")
             print("-" * 50)
+        return demandes
 
     def afficher_demande(self, demande_id):
         """Affiche les détails d'une demande en montrant les valeurs des attributs."""

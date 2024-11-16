@@ -6,6 +6,8 @@ from service.service_recette import ServiceRecette
 from service.service_demande import ServiceDemande
 from dao.demande_dao import DemandeDAO
 from view.vue_abstraite import VueAbstraite
+from service.service_utilisateur import ServiceUtilisateur
+from dao.utilisateur_dao import UtilisateurDao
 
 
 class MenuAdministrateur(VueAbstraite):
@@ -124,13 +126,17 @@ class MenuAdministrateur(VueAbstraite):
     def traiter_demande_role(self):
         dao_demande = DemandeDAO()
         demande_service = ServiceDemande(dao_demande)
+        dao_utilisateur = UtilisateurDao()
+        utilisateur_service = ServiceUtilisateur(dao_utilisateur)
         liste = []
 
-        demandes = demande_service.afficher()
+        demandes = demande_service.recuperer_demandes_with_role()
 
-        if demande:
+        if demandes:
             for demande in demandes:
-                liste.append(demande.id_demande)
+                liste.append(demande["id_demande"])
+
+            print(liste)
 
             choix_menu = liste + ["Retour au menu principal"]
             choix = inquirer.select(
@@ -140,10 +146,10 @@ class MenuAdministrateur(VueAbstraite):
 
             if choix in liste:
                 demande_selectionnee = next(
-                    (demande for demande in demandes if demande.id_demande == choix), None
+                    (demande for demande in demandes if demande["id_demande"] == choix), None
                 )
                 if demande_selectionnee:
-                    demande_service.afficher_demande(demande_selectionnee.id_demande)
+                    demande_service.afficher_demande(demande_selectionnee["id_demande"])
                     # Demander à l'utilisateur s'il souhaite accepter ou refuser la demande
                     action = inquirer.select(
                         message="Que voulez-vous faire avec cette demande ?",
@@ -152,15 +158,15 @@ class MenuAdministrateur(VueAbstraite):
 
                     if action == "Accepter":
                         utilisateur_service.changer_role_utilisateur(
-                            demande_selectionnee.id_utilisateur,
-                            demande_selectionnee.attribut_corrige,
+                            demande_selectionnee["id_utilisateur"],
+                            demande_selectionnee["attribut_corrige"],
                         )
-                        print(f"La demande {demande_selectionnee.id_demande} a été acceptée.")
+                        print(f"La demande {demande_selectionnee['id_demande']} a été acceptée.")
 
                     elif action == "Refuser":
                         # Traiter le refus
-                        print(f"La demande {demande_selectionnee.id_demande} a été refusée.")
-                    demande_service.supprimer_demande(demande_selectionnee.id_demande)
+                        print(f"La demande {demande_selectionnee['id_demande']} a été refusée.")
+                    demande_service.supprimer_demande(demande_selectionnee["id_demande"])
             else:
                 # Retourner à la vue principal
                 return self
