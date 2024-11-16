@@ -164,12 +164,25 @@ class ServiceRecette:
             print(favoris)
             return favoris
 
+    def proposition_recette(self, id_utilisateur):
+        """
+        Donne un ou des noms de recette qu'un utilisateur n'a pas en
+        recettes favorites et qui contient au moins un igredient favori
+        et aucun ingredient non désiré.
+        """
+        liste = self.recette_favorite_dao.proposition_recette_sans_ingredient_non_désire(
+            id_utilisateur
+        )
+        return liste
+        # for i in range(len(liste)):
+        #     return self.rechercher_par_nom_recette(liste[i])
+
 
 if __name__ == "__main__":
     dao = RecetteDAO()
     recette_favorite_dao = RecetteFavoriteDAO()  # Instanciation de la DAO des recettes favorites
     service_recette = ServiceRecette(dao, recette_favorite_dao)
-
+    service_recette.proposition_recette(1)
     # print("id")
     # print(service_recette.rechercher_par_id_recette(1))  # marche
     # print("Nom")
