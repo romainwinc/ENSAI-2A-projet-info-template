@@ -209,38 +209,6 @@ if __name__ == "__main__":
     # # Afficher une recette
     print(service_recette.afficher_recette(1))  # Marche mais est peut être redondant
 
-    ###########################################################################
-    # Ancien code est obsolete donc à changer dans les views les bonnes #######
-    #         traductions sont au dessus et marchent mtnt               #######
-    ###########################################################################
-
-    # print("id")
-    # print(ServiceRecette(dao).rechercher_par_id_recette(1))  # marche
-    # print("Nom")
-    # print(ServiceRecette(dao).rechercher_par_nom_recette("Apple Frangipan Tart"))  # marche
-    # print("ingredient")
-    # print(ServiceRecette(dao).rechercher_par_ingredient("digestive biscuits")) # marche
-    # print("supprimer")
-    # print(ServiceRecette(dao).supprimer_recette(2))  # marche
-    # print("modifier un argument")
-    # print(ServiceRecette(dao).modifier_recette_id(1, nom_recette="Tarte crème"))  # marche
-    # print("modifier un argument")
-    # print(
-    #     ServiceRecette(dao).modifier_recette_nom_recette("Ayam Percik", categorie="Viande")
-    # )  # marche
-
-    # print("stock dans la base de donnée")
-    # print(
-    #     ServiceRecette(dao).creer_recette(
-    #         "Exemple Recette",
-    #         "Dessert",
-    #         "British",
-    #         "Touiller / Remuer / Mélanger / Agiter",
-    #         ["Butter", "Jam"],
-    #     )
-    # )
-
-    # print(representation)
     # ServiceRecette(dao).afficher_recette(1)  # Marche mais est peut être redondant
 
     # Nouvelles fonctionnalitées ici qui marchent

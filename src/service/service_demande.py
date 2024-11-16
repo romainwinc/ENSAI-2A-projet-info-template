@@ -109,7 +109,7 @@ class ServiceDemande:
 
 if __name__ == "__main__":
     dao = DemandeDAO()
-
+    pass
     # print(
     #     ServiceDemande(dao).creer_demande(
     #         id_utilisateur=1,
@@ -130,6 +130,6 @@ if __name__ == "__main__":
 
     # print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))
 
-    print(ServiceDemande(dao).recuperer_demandes_with_role())
+    # print(ServiceDemande(dao).recuperer_demandes_with_role())
 
     # print(ServiceDemande(dao).supprimer_demande(1))
