@@ -65,10 +65,11 @@
 #         ]
 
 #         # When
-#         self.service.afficher_demandes_par_id_utilisateur(id_utilisateur)
+#         result = self.service.afficher_demandes_par_id_utilisateur(id_utilisateur)
 
 #         # Then
 #         self.mock_dao.get_demande_by_id_utilisateur.assert_called_once_with(id_utilisateur)
+#         self.assertIsNone(result)  # La méthode d'affichage ne retourne rien
 
 #     def test_recuperer_demande_non_existante(self):
 #         # Given
@@ -96,10 +97,11 @@
 #         ]
 
 #         # When
-#         self.service.recuperer_demandes_with_role()
+#         result = self.service.recuperer_demandes_with_role()
 
 #         # Then
 #         self.mock_dao.get_demandes_with_role.assert_called_once()
+#         self.assertEqual(len(result), 1)  # La méthode retourne une liste non vide
 
 #     def test_supprimer_demande_existe(self):
 #         # Given
@@ -130,20 +132,21 @@
 #     def test_afficher_demande(self):
 #         # Given
 #         demande_id = 1
-#         self.mock_dao.get_demande_by_id.return_value = (
-#             1,
-#             1,
-#             "modification utilisateur",
-#             "nom",
-#             "Xavier",
-#             "Commentaire",
-#         )
+#         self.mock_dao.get_demande_by_id.return_value = {
+#             "id_demande": 1,
+#             "id_utilisateur": 1,
+#             "type_demande": "modification utilisateur",
+#             "attribut_modifie": "nom",
+#             "attribut_corrige": "Xavier",
+#             "commentaire_demande": "Commentaire",
+#         }
 
 #         # When
-#         self.service.afficher_demande(demande_id)
+#         result = self.service.afficher_demande(demande_id)
 
 #         # Then
 #         self.mock_dao.get_demande_by_id.assert_called_once_with(demande_id)
+#         self.assertIsNone(result)  # Méthode d'affichage ne retourne rien
 
 #     def test_afficher_demande_non_existante(self):
 #         # Given
@@ -151,7 +154,12 @@
 #         self.mock_dao.get_demande_by_id.return_value = None
 
 #         # When
-#         self.service.afficher_demande(demande_id)
+#         result = self.service.afficher_demande(demande_id)
 
 #         # Then
 #         self.mock_dao.get_demande_by_id.assert_called_once_with(demande_id)
+#         self.assertIsNone(result)  # Méthode d'affichage ne retourne rien
+
+
+# if __name__ == "__main__":
+#     unittest.main()
