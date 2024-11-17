@@ -11,7 +11,10 @@ class ListeDeCoursesDAO(metaclass=Singleton):
         self.schema = os.getenv("POSTGRES_SCHEMA")
 
     def add_liste_de_courses(self, nom_ingredient, id_utilisateur):
-        """Ajoute un ingrédient à la liste de courses d'un utilisateur en utilisant le nom de l'ingrédient."""
+        """
+        Ajoute un ingrédient à la liste de courses d'un utilisateur en
+        utilisant le nom de l'ingrédient.
+        """
         query = (
             """
             INSERT INTO {}.liste_de_courses (id_ingredient, id_utilisateur)
@@ -43,7 +46,10 @@ class ListeDeCoursesDAO(metaclass=Singleton):
                 return [row["nom_ingredient"] for row in cursor.fetchall()]
 
     def delete_ingredient_from_liste_de_courses(self, nom_ingredient, id_utilisateur):
-        """Supprime un ingrédient de la liste de courses d'un utilisateur en utilisant le nom de l'ingrédient."""
+        """
+        Supprime un ingrédient de la liste de courses d'un utilisateur en
+        utilisant le nom de l'ingrédient.
+        """
         query = (
             """
             DELETE FROM {}.liste_de_courses
@@ -59,6 +65,25 @@ class ListeDeCoursesDAO(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(query, (nom_ingredient, id_utilisateur))
 
+    def is_ingredient_in_liste(self, nom_ingredient: str, id_utilisateur: int) -> bool:
+        query = (
+            """
+            SELECT 1
+            FROM {}.liste_de_courses
+            WHERE id_ingredient = (
+                SELECT id_ingredient
+                FROM {}.ingredient
+                WHERE nom_ingredient = %s LIMIT 1
+            ) AND id_utilisateur = %s
+            """
+        ).format(self.schema, self.schema)
+
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, (nom_ingredient, id_utilisateur))
+            return (
+                cursor.fetchone() is not None
+            )  # Retourne True si un résultat est trouvé, sinon False
+
 
 if __name__ == "__main__":
     dao = ListeDeCoursesDAO()
@@ -67,7 +92,8 @@ if __name__ == "__main__":
     dao.add_liste_de_courses(
         nom_ingredient="Apple", id_utilisateur=11
     )  # Ajoute 'Tomate' à la liste de courses de l'utilisateur 1
-    # print(dao.get_liste_de_courses_by_user_id(1))  # Renvoie la liste de courses de l'utilisateur 1
+    # print(dao.get_liste_de_courses_by_user_id(1))
+    # # Renvoie la liste de courses de l'utilisateur 1
     # dao.delete_ingredient_from_liste(
     #     "Chicken", 1
     # )  # Supprime l'ingrédient 'Tomate' de la liste de courses de l'utilisateur 1

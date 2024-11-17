@@ -61,6 +61,25 @@ class IngredientsFavorisDAO(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(query, (nom_ingredient, id_utilisateur))
 
+    def is_ingredient_in_favoris(self, nom_ingredient: str, id_utilisateur: int) -> bool:
+        query = (
+            """
+            SELECT 1
+            FROM {}.ingredients_favoris
+            WHERE id_ingredient = (
+                SELECT id_ingredient
+                FROM {}.ingredient
+                WHERE nom_ingredient = %s LIMIT 1
+            ) AND id_utilisateur = %s
+            """
+        ).format(self.schema, self.schema)
+
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, (nom_ingredient, id_utilisateur))
+            return (
+                cursor.fetchone() is not None
+            )  # Retourne True si un résultat est trouvé, sinon False
+
 
 if __name__ == "__main__":
     dao = IngredientsFavorisDAO()

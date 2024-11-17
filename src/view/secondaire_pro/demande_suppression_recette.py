@@ -5,33 +5,29 @@ from service.service_demande import ServiceDemande
 from dao.demande_dao import DemandeDAO
 
 
-class DemandeChangerRole(VueAbstraite):
-    """Vue pour effectuer une demande pour passer professionnel."""
+class DemandeSuppressionRecette(VueAbstraite):
+    """Vue pour effectuer une demande poursupprimer une recette."""
 
     def choisir_menu(self):
         """
-        Affiche les prompts pour ajouter une demande de passage professionnel et soumet les
-        informations.
+        Affiche les prompts pour ajouter une demande de suppression de recette
         """
         print(
             "\n"
             + "-" * 50
-            + "\nEffectuer une demande pour passer professionnel\n"
+            + "\nEffectuer une demande de suppression de recette\n"
             + "-" * 50
             + "\n"
         )
 
         # Collecte des informations d'avis
         id_utilisateur = Session().utilisateur.id_utilisateur
-        type_demande = inquirer.select(
-            message="Que souhaitez-vous faire ?",
-            choices=["Passer administrateur", "Abandonner le role de professionnel"],
-        ).execute()
-        attribut_modifie = "role"
-        if type_demande == "Abandonner le role de professionnel":
-            attribut_corrige = "Connecté"
-        elif type_demande == "Passer administrateur":
-            attribut_corrige = "Administrateur"
+        type_demande = "Suppression recette"
+        attribut_modifie = int(
+            inquirer.text(message="Entrez l'id de la recette à supprimer :").execute()
+        )
+
+        attribut_corrige = None
         commentaire_demande = inquirer.text(message="Entrez un commentaire :").execute()
 
         dao = DemandeDAO()
@@ -45,6 +41,6 @@ class DemandeChangerRole(VueAbstraite):
         )
 
         print("\nMerci ! Votre demande a été prise en compte et va être traitée.")
-        from view.secondaire_pro.mon_compte_pro import MonComptePro
+        from view.menus_principaux.menu_professionnel import MenuProfessionnel
 
-        return MonComptePro()
+        return MenuProfessionnel()

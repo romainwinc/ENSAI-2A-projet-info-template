@@ -78,7 +78,7 @@ class AjoutIngredientListeCousrses(VueAbstraite):
                 else:
                     inquirer.select(
                         message="",
-                        choices=["Suivant"],
+                        choices=["OK"],
                     ).execute()
                 return self
         else:
