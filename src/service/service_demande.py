@@ -56,13 +56,13 @@ class ServiceDemande:
 
     def afficher_demande(self, demande_id):
         """Affiche les détails d'une demande en montrant les valeurs des attributs."""
-        demande = self.recuperer_demande(demande_id)
+        demande = self.demande_dao.get_demande_by_id(demande_id)
         if demande:
-            print(f"ID Demande: {demande.id_demande}")
-            print(f"Type de Demande: {demande.type_demande}")
-            print(f"Attribut Modifié: {demande.attribut_modifie}")
-            print(f"Attribut Corrigé: {demande.attribut_corrige}")
-            print(f"Commentaire: {demande.commentaire_demande}")
+            print(f"ID Demande: {demande['id_demande']}")
+            print(f"Type de Demande: {demande['id_utilisateur']}")
+            print(f"Attribut Modifié: {demande['type_demande']}")
+            print(f"Attribut Corrigé: {demande['attribut_corrige']}")
+            print(f"Commentaire: {demande['commentaire_demande']}")
         else:
             print("Demande non trouvée.")
 
@@ -110,15 +110,6 @@ class ServiceDemande:
 if __name__ == "__main__":
     dao = DemandeDAO()
     pass
-    # print(
-    #     ServiceDemande(dao).creer_demande(
-    #         id_utilisateur=1,
-    #         type_demande="modification utilisateur",
-    #         attribut_modifie="nom",
-    #         attribut_corrige="Xavier",
-    #         commentaire_demande="changer nom de l'utilisateur 1 par Xavier",
-    #     )
-    # )  # Marche
 
     # print(ServiceDemande(dao).recuperer_demande(1))
 
@@ -126,7 +117,7 @@ if __name__ == "__main__":
 
     # print(ServiceDemande(dao).afficher_demande(1))
 
-    # print(ServiceDemande(dao).recherche_demande_par_id_utilisateur(1))
+    # print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))
 
     # print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))
 
