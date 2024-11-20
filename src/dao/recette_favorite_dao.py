@@ -112,14 +112,15 @@ class RecetteFavoriteDAO(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(query, {"id_utilisateur": id_utilisateur})
                 rows = cursor.fetchall()
+
         proposition = [row["nom_recette"] for row in rows]
-        return proposition
+        print(proposition)
 
 
 if __name__ == "__main__":
     dao = RecetteFavoriteDAO()
-    # pass
-    print(dao.proposition_recette_sans_ingredient_non_désire(1))
+    pass
+    # dao.proposition_recette_sans_ingredient_non_désire(1)
 
     # Exemple d'utilisation :
     # dao.add_recette_favorite(

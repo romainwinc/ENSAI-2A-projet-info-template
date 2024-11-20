@@ -30,7 +30,7 @@ class MenuUtilisateurConnecte(VueAbstraite):
                 "Consulter mes notes et avis",
                 "Mes ingrédients favoris et non-désirés",
                 "Ma liste de course",
-                "Proposer une recette",
+                "Proposer une recette avec ingredients favoris et aucun non désirés",
                 "Mon compte",
                 "Quitter",
             ],
@@ -57,7 +57,12 @@ class MenuUtilisateurConnecte(VueAbstraite):
 
                 return IngredientsFavEtND()
 
-            case "Proposer une recette":
+            case "Proposer une recette avec ingredients favoris et aucun non désirés":
+                # from view.secondaire_connecte.vue_detail_proposition_recette import (
+                #     VueDetailPropositionRecette,
+                # )
+
+                # return VueDetailPropositionRecette()
                 pass
 
             case "Ma liste de course":
