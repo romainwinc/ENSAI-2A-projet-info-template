@@ -26,8 +26,8 @@ class MenuAdministrateur(VueAbstraite):
         choix = inquirer.select(
             message="Que voulez-vous faire ?",
             choices=[
+                "Chercher une recette",
                 "Consulter mes recettes favorites",
-                "Consulter une recette",
                 "Consulter mes notes et avis",
                 "Mes ingrédients favoris ou non-désirés",
                 "Ma liste de course",
@@ -43,7 +43,7 @@ class MenuAdministrateur(VueAbstraite):
                 self.afficher_recette_fav()
                 return self
 
-            case "Consulter une recette":
+            case "Chercher une recette":
                 from view.secondaire_admin.recherche_recette import RechercheRecetteAdmin
 
                 return RechercheRecetteAdmin()

@@ -86,8 +86,9 @@ class ServiceDemande:
         demande = self.demande_dao.get_demande_by_id(demande_id)
         if demande:
             print(f"ID Demande: {demande['id_demande']}")
-            print(f"Type de Demande: {demande['id_utilisateur']}")
-            print(f"Attribut Modifié: {demande['type_demande']}")
+            print(f"ID Utilisateur: {demande['id_utilisateur']}")
+            print(f"Type de Demande: {demande['type_demande']}")
+            print(f"Attribut Modifié: {demande['attribut_modifie']}")
             print(f"Attribut Corrigé: {demande['attribut_corrige']}")
             print(f"Commentaire: {demande['commentaire_demande']}")
         else:

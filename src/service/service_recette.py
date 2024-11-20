@@ -66,10 +66,10 @@ class ServiceRecette:
             categorie,
             origine,
             instructions,
-            mots_cles,
-            url_image,
             liste_ingredients,
             nombre_avis,
+            mots_cles,
+            url_image,
             note_moyenne,
             date_derniere_modif,
         )

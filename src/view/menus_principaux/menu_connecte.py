@@ -25,12 +25,12 @@ class MenuUtilisateurConnecte(VueAbstraite):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Consulter mes recettes favorites",
                 "Chercher une recette",
+                "Consulter mes recettes favorites",
                 "Consulter mes notes et avis",
                 "Mes ingrédients favoris et non-désirés",
                 "Ma liste de course",
-                "Proposer une recette avec ingredients favoris et aucun non désirés",
+                # "Proposer une recette avec ingredients favoris et aucun non désirés",
                 "Mon compte",
                 "Quitter",
             ],

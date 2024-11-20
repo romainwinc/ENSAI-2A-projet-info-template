@@ -23,8 +23,8 @@ class MenuProfessionnel(VueAbstraite):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Consulter mes recettes favorites",
                 "Chercher une recette",
+                "Consulter mes recettes favorites",
                 "Consulter mes notes et avis",
                 "Mes ingrédients favoris et non-désirés",
                 "Ma liste de course",

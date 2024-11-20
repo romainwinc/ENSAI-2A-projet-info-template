@@ -131,14 +131,15 @@ class RechercheRecetteConnecte(VueAbstraite):
 
         # Vérifiez si l'utilisateur a des recettes favorites
         if not suggestions:
+            print("Aucune suggestion disponible.")
             inquirer.select(
                 message="",
                 choices=["OK"],
             ).execute()
             return self
 
-        # Afficher les recettes favorites
         choix_menu = suggestions + ["Retour au menu principal"]
+
         choix = inquirer.select(
             message="Sélectionnez une recette pour plus de détails ou retournez au menu :",
             choices=choix_menu,
@@ -148,9 +149,9 @@ class RechercheRecetteConnecte(VueAbstraite):
             # Afficher les détails de la recette sélectionnée
             recette_selectionnee = choix
             Session().ouvrir_recette(recette_selectionnee)
-            from view.secondaire_connecte.vue_detail_recette import VueDetailRecette
+            from view.secondaire_connecte.vue_detail_suggestion import DetailSuggestion
 
-            return VueDetailRecette().afficher()
+            return DetailSuggestion().afficher()
         else:
             # Retourner au menu précédent
             return self

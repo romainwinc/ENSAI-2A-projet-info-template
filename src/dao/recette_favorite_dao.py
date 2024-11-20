@@ -115,6 +115,7 @@ class RecetteFavoriteDAO(metaclass=Singleton):
 
         proposition = [row["nom_recette"] for row in rows]
         print(proposition)
+        return proposition
 
 
 if __name__ == "__main__":
