@@ -114,14 +114,14 @@ class TestServiceUtilisateur(unittest.TestCase):
         """
         self.utilisateur_dao_mock.lister_tous.return_value = [
             Utilisateur(
-                nom_utilisateur="JaneDoe",
+                nom_utilisateur="Daouda",
                 mot_de_passe="hashed",
                 role="Connecté",
                 date_inscription=datetime.now(),
             )
         ]
 
-        result = self.service_utilisateur.nom_utilisateur_deja_utilise("JohnDoe")
+        result = self.service_utilisateur.nom_utilisateur_deja_utilise("Daouda")
         self.assertFalse(result)
 
 
