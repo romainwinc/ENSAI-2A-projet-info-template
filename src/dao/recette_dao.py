@@ -250,6 +250,8 @@ class RecetteDAO(metaclass=Singleton):
                 cursor.execute(query, (recette_id,))
                 rows = cursor.fetchall()
         notes = [row["note"] for row in rows]
+        n = len(notes)
+        self.update_by_recette_id(recette_id, nombre_avis=n)
         somme = 0
         for note in notes:
             somme += note
@@ -259,7 +261,7 @@ class RecetteDAO(metaclass=Singleton):
 
 if __name__ == "__main__":
     pass
-    # RecetteDAO().somme_note_by_recette(1)
+    # print(RecetteDAO().somme_note_by_recette(1))
     # print(RecetteDAO().get_recette_by_id(1))
     # print(RecetteDAO().get_all_recettes())
 
