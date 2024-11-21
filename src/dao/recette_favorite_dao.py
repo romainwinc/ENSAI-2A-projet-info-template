@@ -114,7 +114,6 @@ class RecetteFavoriteDAO(metaclass=Singleton):
                 rows = cursor.fetchall()
 
         proposition = [row["nom_recette"] for row in rows]
-        print(proposition)
         return proposition
 
 
