@@ -1,42 +1,29 @@
-# ENSAI-2A-projet-info-template
+# ENSAI-2A-projet-info
 
 # modifier les .env
 # excécuter le init_dp.py
-Template du projet informatique de 2e année de l'ENSAI.
+2nd year computer science project at ENSAI.
 
-Cette application très simple comporte quelques éléments qui peuvent aider pour le projet info 2A :
+The Recipe Maker application includes :
 
-- Programmation en couche (DAO, service, view, business_object)
-- Connexion à une base de données
-- Interface dans le terminal (couche view) avec inquirerPy
-- Appel d'un Webservice
-- Création d'un Webservice
+- Layer programming (CAD, service, view, models)
+- Connection to a database
+- Terminal interface (view layer) with inquirerPy
+- Calling a Webservice
 
-## :arrow_forward: Logiciels requis
+## :arrow_forward: Software requirements
 
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Python 3.10](https://www.python.org/)
-- [Git](https://git-scm.com/)
 - Une base de données [PostgreSQL](https://www.postgresql.org/)
 
 ---
 
-## :arrow_forward: Clonez le dépôt
+## :arrow_forward: Open VSCode
 
-- [ ] Ouvrez **Git Bash**
-- [ ] Créez un dossier `P:/Cours2A/UE3-Projet-info` et positionnez-vous dedans
-  - `mkdir -p /p/Cours2A/UE3-Projet-info && cd $_`
-- [ ] Clonez ce dépôt
-  - `git clone https://github.com/ludo2ne/ENSAI-2A-projet-info-template.git`
-
----
-
-## :arrow_forward: Ouvrez le dépôt avec VSCode
-
-- [ ] Ouvrez **Visual Studio Code**
+- [ ] Download the zipped folder from moodle
+- [ ] After unzipping it, open **Visual Studio Code**
 - [ ] File > Open Folder
-- [ ] Cliquez une seule fois sur *ENSAI-2A-projet-info-template* et cliquez sur `Sélectionner un dossier`
-  - :warning: Si le dossier parent dans l'explorer VSCode (à gauche) n'est pas *ENSAI-2A-projet-info-template*, l'application ne fonctionnera pas
 
 ### Paramètres VScode
 
