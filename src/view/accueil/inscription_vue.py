@@ -6,6 +6,8 @@ from dao.utilisateur_dao import UtilisateurDao
 
 
 class InscriptionVue(VueAbstraite):
+    """Vue pour s'inscrire à l'application"""
+
     def choisir_menu(self):
         # Demande à l'utilisateur de saisir son nom d'utilisateur, mot de passe...
         nom_utilisateur = inquirer.text(message="Entrez votre nom d'utilsateur : ").execute()

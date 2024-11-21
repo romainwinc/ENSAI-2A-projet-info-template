@@ -4,12 +4,13 @@ from dao.recette_dao import RecetteDAO
 from dao.recette_favorite_dao import RecetteFavoriteDAO
 from service.service_recette import ServiceRecette
 from models.recette import Recette
+from view.session import Session
 
 
 class RechercheRecetteNonConnecte(VueAbstraite):
     """Vue pour rechercher une recette.
 
-    Permet à l'utilisateur non connecté de rechercher une recette par nom ou ingrédient.
+    Permet à l'utilisateur non connecté de rechercher une recette par nom, ingrédient ou id.
     """
 
     def choisir_menu(self):
@@ -108,6 +109,7 @@ class RechercheRecetteNonConnecte(VueAbstraite):
                 (recette for recette in recettes if recette.nom_recette == choix), None
             )
             if recette_selectionnee:
+                Session().ouvrir_recette(recette_selectionnee)
                 from view.accueil.vue_detail_recette import VueDetailRecette
 
                 return VueDetailRecette(recette_selectionnee).afficher()

@@ -1,10 +1,13 @@
 from view.vue_abstraite import VueAbstraite
 from InquirerPy import inquirer
 from models.recette import Recette
+from view.session import Session
+from dao.avis_dao import AvisDAO
+from service.service_avis import ServiceAvis
 
 
 class VueDetailRecette(VueAbstraite):
-    """Vue pour afficher les détails d'une recette."""
+    """Vue pour afficher les détails d'une recette pour un utilisateur non-connecté."""
 
     def __init__(self, recette: Recette):
         """Initialise la vue avec la recette sélectionnée.
@@ -28,11 +31,25 @@ class VueDetailRecette(VueAbstraite):
         # Permet de revenir au menu principal ou à la recherche
         from view.accueil.rechercher_recette_non_connecte import RechercheRecetteNonConnecte
 
-        inquirer.select(
+        choix = inquirer.select(
             message="Que souhaitez-vous faire ensuite ?",
             choices=[
+                "Voir les avis de la recette",
                 "Retour à la recherche",
             ],
         ).execute()
 
-        return RechercheRecetteNonConnecte()  # Retour à la vue de recherche
+        match choix:
+            case "Voir les avis de la recette":
+                recette_id = Session().recette.id_recette
+                dao = AvisDAO()
+                avis_service = ServiceAvis(dao)
+                avis_service.afficher_avis_par_recette(recette_id)
+                inquirer.select(
+                    message="",
+                    choices=["Retour"],
+                ).execute()
+                return self
+            case "Retour à la recherche":
+                Session().fermer_recette()
+                return RechercheRecetteNonConnecte()  # Retour à la vue de recherche
