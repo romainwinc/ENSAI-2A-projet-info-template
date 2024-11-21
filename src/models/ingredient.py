@@ -1,9 +1,9 @@
 class Ingredient:
     """
-    Classe représentant un ingrédient.
+    Représente un ingrédient utilisé dans une recette.
 
-    Attributes:
-        id_ingredient (int): L'identifiant unique de l'ingrédient.
+    Attributs :
+        id_ingredient (int ou None): L'identifiant unique de l'ingrédient (optionnel, peut être None si non attribué).
         nom_ingredient (str): Le nom de l'ingrédient.
         description_ingredient (str): La description de l'ingrédient.
     """
@@ -17,8 +17,9 @@ class Ingredient:
         """
         Initialise un nouvel ingrédient.
 
-        Parameters:
-            id_ingredient (int): L'identifiant unique de l'ingrédient.
+        Paramètres :
+            id_ingredient (int, optionnel): L'identifiant unique de l'ingrédient.
+                          Par défaut, il est défini sur None.
             nom_ingredient (str): Le nom de l'ingrédient.
             description_ingredient (str): La description de l'ingrédient.
         """
@@ -30,8 +31,9 @@ class Ingredient:
         """
         Retourne une représentation sous forme de chaîne de l'ingrédient.
 
-        Returns:
-            str: Une chaîne contenant les détails de l'ingrédient.
+        Returns :
+            str: Une chaîne de caractères contenant les détails de l'ingrédient,
+                 incluant son ID, son nom et sa description.
         """
         return (
             f"ID Ingrédient: {self.id_ingredient}\n"
