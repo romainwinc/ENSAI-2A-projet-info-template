@@ -1,5 +1,5 @@
 # import unittest
-# from unittest.mock import MagicMock, patch
+# from unittest.mock import MagicMock
 # from datetime import datetime
 # from service.service_utilisateur import ServiceUtilisateur
 # from models.utilisateur import Utilisateur
@@ -8,125 +8,118 @@
 
 # class TestServiceUtilisateur(unittest.TestCase):
 #     def setUp(self):
-#         self.mock_dao = MagicMock()
-#         self.service = ServiceUtilisateur(self.mock_dao)
+#         """
+#         Configure les mocks nécessaires pour chaque test.
+#         """
+#         self.utilisateur_dao_mock = MagicMock()
+#         self.service_utilisateur = ServiceUtilisateur(self.utilisateur_dao_mock)
 
-#     def test_creer_utilisateur(self):
-#         # Given
-#         nom = "Xavier"
-#         mdp = "securepassword"
-#         grade = "Connecté"
-#         date_inscrit = datetime(2024, 1, 1)
+#     def test_creer_utilisateur_succes(self):
+#         """
+#         Test de la méthode creer_utilisateur.
+#         # When given a valid username and password,
+#         # then it should create a user with the correct attributes.
+#         """
+#         self.utilisateur_dao_mock.add_user.return_value = True
 
-#         with patch("service.service_utilisateur.hash_password", return_value="hashedpassword"):
-#             self.mock_dao.add_user.return_value = True
+#         utilisateur = self.service_utilisateur.creer_utilisateur("Mbappe", "secure_password")
+#         self.assertIsNotNone(utilisateur)
+#         self.assertEqual(utilisateur.nom_utilisateur, "Mbappe")
+#         self.assertEqual(utilisateur.role, "Connecté")
+#         self.assertEqual(
+#             utilisateur.mot_de_passe,
+#             hash_password("secure_password", "Mbappe"),
+#         )
 
-#             # When
-#             utilisateur = self.service.creer_utilisateur(nom, mdp)
-
-#             # Then
-#             self.mock_dao.add_user.assert_called_once()
-#             self.assertEqual(utilisateur.nom_utilisateur, nom)
-#             self.assertEqual(utilisateur.mot_de_passe, "hashedpassword")
-#             self.assertEqual(utilisateur.role, grade)
-#             self.assertIsInstance(utilisateur.date_inscription, datetime)
-
-#     def test_creer_utilisateur_sans_mdp(self):
-#         # Given
-#         nom = "Xavier"
-#         mdp = ""
-
-#         # When & Then
+#     def test_creer_utilisateur_mdp_vide(self):
+#         """
+#         Vérifie qu'une exception est levée si le mot de passe est vide.
+#         # When given an empty password,
+#         # then it should raise a ValueError.
+#         """
 #         with self.assertRaises(ValueError):
-#             self.service.creer_utilisateur(nom, mdp)
+#             self.service_utilisateur.creer_utilisateur("Mbappe", "")
 
 #     def test_changer_role_utilisateur(self):
-#         # Given
-#         id_utilisateur = 1
-#         new_role = "Administrateur"
-
-#         # When
-#         self.service.changer_role_utilisateur(id_utilisateur, new_role)
-
-#         # Then
-#         self.mock_dao.update_user.assert_called_once_with(id_utilisateur, new_role)
+#         """
+#         Test de la méthode changer_role_utilisateur.
+#         # When given a valid user ID and a new role,
+#         # then it should call the DAO method to update the role.
+#         """
+#         self.service_utilisateur.changer_role_utilisateur("user123", "Admin")
+#         self.utilisateur_dao_mock.update_user.assert_called_once_with("user123", "Admin")
 
 #     def test_supprimer_utilisateur(self):
-#         # Given
-#         id_utilisateur = 1
+#         """
+#         Test de la méthode supprimer_utilisateur.
+#         # When given a valid user ID,
+#         # then it should call the DAO method to delete the user.
+#         """
+#         self.service_utilisateur.supprimer_utilisateur("user123")
+#         self.utilisateur_dao_mock.delete_user.assert_called_once_with("user123")
 
-#         # When
-#         self.service.supprimer_utilisateur(id_utilisateur)
-
-#         # Then
-#         self.mock_dao.delete_user.assert_called_once_with(id_utilisateur)
-
-#     def test_se_connecter_utilisateur(self):
-#         # Given
-#         pseudo = "Xavier"
-#         mdp = "securepassword"
-#         hashed_password = "hashedpassword"
-#         utilisateur_attendu = Utilisateur(
-#             nom_utilisateur=pseudo,
+#     def test_se_connecter_succes(self):
+#         """
+#         Test de la méthode se_connecter.
+#         # When given valid credentials,
+#         # then it should return a user object with the correct details.
+#         """
+#         hashed_password = hash_password("secure_password", "Mbappe")
+#         self.utilisateur_dao_mock.se_connecter.return_value = Utilisateur(
+#             nom_utilisateur="Mbappe",
 #             mot_de_passe=hashed_password,
 #             role="Connecté",
 #             date_inscription=datetime.now(),
 #         )
 
-#         with patch("service.service_utilisateur.hash_password", return_value=hashed_password):
-#             self.mock_dao.se_connecter.return_value = utilisateur_attendu
+#         utilisateur = self.service_utilisateur.se_connecter("Mbappe", "secure_password")
+#         self.assertIsNotNone(utilisateur)
+#         self.assertEqual(utilisateur.nom_utilisateur, "Mbappe")
+#         self.assertEqual(utilisateur.role, "Connecté")
 
-#             # When
-#             utilisateur = self.service.se_connecter(pseudo, mdp)
+#     def test_se_connecter_echec(self):
+#         """
+#         Vérifie qu'aucun utilisateur n'est retourné si les identifiants sont incorrects.
+#         # When given invalid credentials,
+#         # then it should return None.
+#         """
+#         self.utilisateur_dao_mock.se_connecter.return_value = None
 
-#             # Then
-#             self.mock_dao.se_connecter.assert_called_once_with(pseudo, hashed_password)
-#             self.assertEqual(utilisateur.nom_utilisateur, utilisateur_attendu.nom_utilisateur)
+#         utilisateur = self.service_utilisateur.se_connecter("Mbappe", "wrong_password")
+#         self.assertIsNone(utilisateur)
 
-#     def test_nom_utilisateur_deja_utilise(self):
-#         # Given
-#         utilisateurs_mock = [
+#     def test_nom_utilisateur_deja_utilise_vrai(self):
+#         """
+#         Test de la méthode nom_utilisateur_deja_utilise.
+#         # When given a username that already exists,
+#         # then it should return True.
+#         """
+#         self.utilisateur_dao_mock.lister_tous.return_value = [
 #             Utilisateur(
-#                 nom_utilisateur="Xavier",
+#                 nom_utilisateur="Mbappe",
 #                 mot_de_passe="hashed",
 #                 role="Connecté",
 #                 date_inscription=datetime.now(),
-#             ),
-#             Utilisateur(
-#                 nom_utilisateur="Alice",
-#                 mot_de_passe="hashed",
-#                 role="Connecté",
-#                 date_inscription=datetime.now(),
-#             ),
+#             )
 #         ]
-#         self.mock_dao.lister_tous.return_value = utilisateurs_mock
 
-#         # When
-#         resultat = self.service.nom_utilisateur_deja_utilise("Xavier")
+#         result = self.service_utilisateur.nom_utilisateur_deja_utilise("Mbappe")
+#         self.assertTrue(result)
 
-#         # Then
-#         self.mock_dao.lister_tous.assert_called_once()
-#         self.assertTrue(resultat)
-
-#     def test_nom_utilisateur_non_utilise(self):
-#         # Given
-#         utilisateurs_mock = [
+#     def test_nom_utilisateur_deja_utilise_faux(self):
+#         """
+#         Test de la méthode nom_utilisateur_deja_utilise.
+#         # When given a username that does not exist,
+#         # then it should return False.
+#         """
+#         self.utilisateur_dao_mock.lister_tous.return_value = [
 #             Utilisateur(
-#                 nom_utilisateur="Alice",
+#                 nom_utilisateur="Mbappe",
 #                 mot_de_passe="hashed",
 #                 role="Connecté",
 #                 date_inscription=datetime.now(),
-#             ),
+#             )
 #         ]
-#         self.mock_dao.lister_tous.return_value = utilisateurs_mock
 
-#         # When
-#         resultat = self.service.nom_utilisateur_deja_utilise("Bob")
-
-#         # Then
-#         self.mock_dao.lister_tous.assert_called_once()
-#         self.assertFalse(resultat)
-
-
-# if __name__ == "__main__":
-#     unittest.main()
+#         result = self.service_utilisateur.nom_utilisateur_deja_utilise("Mbappe")
+#         self.assertFalse(result)
