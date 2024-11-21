@@ -114,24 +114,8 @@ class AvisDAO(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(query, (id_avis, note))
 
-    def somme_note_by_recette(self, recette_id):
-        """Réalise la somme des notes d'une recette données"""
-        query = """ SELECT note FROM projet_informatique.avis
-                WHERE id_recette = %s """
-        with self.connection as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(query, (recette_id,))
-                rows = cursor.fetchall()
-        notes = [row["note"] for row in rows]
-        somme = 0
-        for note in notes:
-            somme += note
-        somme = somme / len(notes)
-        print(somme)
-
 
 if __name__ == "__main__":
     # print(AvisDAO().get_avis_by_recette_id(1))
     # print(AvisDAO().get_avis_by_user_id(8))
-    # print(AvisDAO().count_nb_avis(1))
-    AvisDAO().somme_note_by_recette(1)
+    pass

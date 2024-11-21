@@ -29,48 +29,68 @@ class ServiceDemande:
             return Demande(*demande_data)
         return None
 
-    def recuperer_demandes_by_role(self, attribut_modifie_value="role"):
+    def recuperer_demandes_with_role(self):
         """
-        Récupère toutes les demandes de la table 'demande'
-        où l'attribut_modifie est égal à une valeur donnée (par défaut : "role").
+        Récupère et affiche toutes les demandes de la table 'demande'
+        où l'attribut_modifie est égal à "role".
+
+        Returns:
+            None
         """
-        query = (
-            """
-            SELECT id_demande, id_utilisateur, type_demande, attribut_modifie, 
-                attribut_corrige, commentaire_demande
-            FROM {}.demande
-            WHERE attribut_modifie = %s
-            """
-        ).format(self.schema)
+        demandes = self.demande_dao.get_demandes_with_role()
 
-        with self.connection as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(query, (attribut_modifie_value,))
-                rows = cursor.fetchall()
+        if not demandes:  # Vérifie si la liste est vide
+            print("Aucune demande avec l'attribut modifié égal à 'role'.")
+            return
 
-        demandes = []
-        for row in rows:
-            demande = {
-                "id_demande": row["id_demande"],
-                "id_utilisateur": row["id_utilisateur"],
-                "type_demande": row["type_demande"],
-                "attribut_modifie": row["attribut_modifie"],
-                "attribut_corrige": row["attribut_corrige"],
-                "commentaire_demande": row["commentaire_demande"],
-            }
-            demandes.append(demande)
+        print("Demandes où 'attribut_modifie' est égal à 'role' :")
+        print("=" * 50)
+        for demande in demandes:
+            print(f"ID Demande       : {demande['id_demande']}")
+            print(f"ID Utilisateur   : {demande['id_utilisateur']}")
+            print(f"Type de Demande  : {demande['type_demande']}")
+            print(f"Attribut Modifié : {demande['attribut_modifie']}")
+            print(f"Attribut Corrigé : {demande['attribut_corrige']}")
+            print(f"Commentaire      : {demande['commentaire_demande']}")
+            print("-" * 50)
+        return demandes
 
+    def recuperer_demandes_with_recette(self):
+        """
+        Récupère et affiche toutes les demandes de la table 'demande'
+        où le type de demande est "Suppression recette".
+
+        Returns:
+            None
+        """
+        demandes = self.demande_dao.get_demandes_with_recette()
+
+        if not demandes:  # Vérifie si la liste est vide
+            print("Aucune demande de suppression de recettes.")
+            return
+
+        print("Demandes de suppressions de recettes :")
+        print("=" * 50)
+        for demande in demandes:
+            print(f"ID Demande       : {demande['id_demande']}")
+            print(f"ID Utilisateur   : {demande['id_utilisateur']}")
+            print(f"Type de Demande  : {demande['type_demande']}")
+            print(f"Attribut Modifié : {demande['attribut_modifie']}")
+            print(f"Attribut Corrigé : {demande['attribut_corrige']}")
+            print(f"Commentaire      : {demande['commentaire_demande']}")
+            print("-" * 50)
         return demandes
 
     def afficher_demande(self, demande_id):
         """Affiche les détails d'une demande en montrant les valeurs des attributs."""
-        demande = self.recuperer_demande(demande_id)
+        demande = self.demande_dao.get_demande_by_id(demande_id)
         if demande:
-            print(f"ID Demande: {demande.id_demande}")
-            print(f"Type de Demande: {demande.type_demande}")
-            print(f"Attribut Modifié: {demande.attribut_modifie}")
-            print(f"Attribut Corrigé: {demande.attribut_corrige}")
-            print(f"Commentaire: {demande.commentaire_demande}")
+            print(f"ID Demande: {demande['id_demande']}")
+            print(f"ID Utilisateur: {demande['id_utilisateur']}")
+            print(f"Type de Demande: {demande['type_demande']}")
+            print(f"Attribut Modifié: {demande['attribut_modifie']}")
+            print(f"Attribut Corrigé: {demande['attribut_corrige']}")
+            print(f"Commentaire: {demande['commentaire_demande']}")
         else:
             print("Demande non trouvée.")
 
@@ -93,20 +113,32 @@ class ServiceDemande:
                 print("-" * 40)  # Ligne de séparation pour chaque demande
         else:
             print(f"Aucune demande trouvée pour l'utilisateur {id_utilisateur}.")
+            return False
+
+    def supprimer_demande(self, demande_id):
+        """
+        Supprime une demande par son ID.
+
+        Args:
+            demande_id (int): L'ID de la demande à supprimer.
+
+        Returns:
+            bool: True si la demande a été supprimée, False si aucune demande avec cet ID n'existe.
+        """
+        # Vérifie si la demande existe avant de tenter de la supprimer
+        demande_existe = self.demande_dao.get_demande_by_id(demande_id)
+
+        if not demande_existe:
+            return False  # La demande n'existe pas, retour False
+
+        # Supprime la demande
+        self.demande_dao.delete_demande(demande_id)
+        return True
 
 
 if __name__ == "__main__":
     dao = DemandeDAO()
-
-    # print(
-    #     ServiceDemande(dao).creer_demande(
-    #         id_utilisateur=1,
-    #         type_demande="modification utilisateur",
-    #         attribut_modifie="nom",
-    #         attribut_corrige="Xavier",
-    #         commentaire_demande="changer nom de l'utilisateur 1 par Xavier",
-    #     )
-    # )  # Marche
+    pass
 
     # print(ServiceDemande(dao).recuperer_demande(1))
 
@@ -114,6 +146,10 @@ if __name__ == "__main__":
 
     # print(ServiceDemande(dao).afficher_demande(1))
 
-    # print(ServiceDemande(dao).recherche_demande_par_id_utilisateur(1))
+    # print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))
 
     # print(ServiceDemande(dao).afficher_demandes_par_id_utilisateur(1))
+
+    # print(ServiceDemande(dao).recuperer_demandes_with_role())
+
+    # print(ServiceDemande(dao).supprimer_demande(1))

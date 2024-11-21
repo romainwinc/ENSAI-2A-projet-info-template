@@ -13,7 +13,7 @@ try:
     ServiceDemande(demande_dao).creer_demande(
         id_utilisateur=1,
         type_demande="Passer professionnel",
-        attribut_modifie="",
+        attribut_modifie="role",
         attribut_corrige="Xavier",
         commentaire_demande=f"changer nom de l'utilisateurpar Xavier",
     )
@@ -21,7 +21,7 @@ try:
     ServiceDemande(demande_dao).creer_demande(
         id_utilisateur=2,
         type_demande="Passer Administrateur",
-        attribut_modifie="",
+        attribut_modifie="role",
         attribut_corrige="Xavier",
         commentaire_demande=f"changer nom de l'utilisateu par Xavier",
     )
@@ -29,7 +29,7 @@ try:
     ServiceDemande(demande_dao).creer_demande(
         id_utilisateur=3,
         type_demande="Passer administrateur",
-        attribut_modifie="",
+        attribut_modifie="role",
         attribut_corrige="Xavier",
         commentaire_demande=f"changer nom de l'utilisateurpar Xavier",
     )
@@ -37,7 +37,7 @@ try:
     ServiceDemande(demande_dao).creer_demande(
         id_utilisateur=4,
         type_demande="Passer administrateur",
-        attribut_modifie="",
+        attribut_modifie="role",
         attribut_corrige="Xavier",
         commentaire_demande=f"changer nom de l'utilisat par Xavier",
     )

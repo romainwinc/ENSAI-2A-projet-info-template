@@ -23,12 +23,12 @@ class MenuProfessionnel(VueAbstraite):
         choix = inquirer.select(
             message="Faites votre choix : ",
             choices=[
-                "Consulter mes recettes favorites",
                 "Chercher une recette",
+                "Consulter mes recettes favorites",
                 "Consulter mes notes et avis",
                 "Mes ingrédients favoris et non-désirés",
                 "Ma liste de course",
-                "Proposer une recette",
+                "Créer une recette",
                 "Demander la suppression d'une recette",
                 "Mon compte",
                 "Quitter",
@@ -55,8 +55,11 @@ class MenuProfessionnel(VueAbstraite):
 
                 return IngredientsFavEtND()
 
-            case "Proposer une recette":
-                pass
+            case "Créer une recette":
+                from view.secondaire_pro.creer_recette import CreerRecette
+
+                vue_creer_recette = CreerRecette()
+                return vue_creer_recette
 
             case "Ma liste de course":
                 from view.secondaire_pro.liste_courses import ListeCourses
@@ -64,7 +67,11 @@ class MenuProfessionnel(VueAbstraite):
                 return ListeCourses()
 
             case "Demander la suppression d'une recette":
-                pass
+                from view.secondaire_pro.demande_suppression_recette import (
+                    DemandeSuppressionRecette,
+                )
+
+                return DemandeSuppressionRecette()
 
             case "Mon compte":
                 from view.secondaire_pro.mon_compte_pro import MonComptePro

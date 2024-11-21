@@ -3,7 +3,6 @@ from utils.singleton import Singleton
 from psycopg2 import sql
 from dotenv import load_dotenv
 import os
-from datetime import datetime
 from models.recette import Recette
 
 
@@ -151,6 +150,45 @@ class RecetteDAO(metaclass=Singleton):
             self.connection.rollback()
             print(f"Erreur lors de l'insertion de la recette: {e}")
             return None
+
+    def add_recette(
+        self,
+        nom_recette,
+        categorie,
+        origine,
+        instructions,
+        liste_ingredients,
+        nombre_avis,
+        mots_cles,
+        url_image,
+        note_moyenne,
+        date_derniere_modif,
+    ):
+        """Ajoute une nouvelle recette."""
+        query = """
+            INSERT INTO projet_informatique.recette (nom_recette,categorie,origine,instructions,
+            liste_ingredients,nombre_avis,mots_cles,url_image,note_moyenne,date_derniere_modif)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING id_recette
+        """
+        with self.connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    query,
+                    (
+                        nom_recette,
+                        categorie,
+                        origine,
+                        instructions,
+                        liste_ingredients,
+                        nombre_avis,
+                        mots_cles,
+                        url_image,
+                        note_moyenne,
+                        date_derniere_modif,
+                    ),
+                )
+                return cursor.fetchone()
 
     def update_by_recette_id(self, recette_id, **kwargs):
         """Met à jour une recette existante."""

@@ -1,5 +1,5 @@
 # import unittest
-# from unittest.mock import Mock
+# from unittest.mock import Mock, patch
 # from models.ingredient import Ingredient
 # from service.service_ingredient import ServiceIngredient
 
@@ -38,21 +38,29 @@
 #             )
 #         )
 
-#     def test_afficher_ingredient_found(self):
+#     @patch("builtins.print")  # Cela permet de capturer les appels à print()
+#     def test_afficher_ingredient_found(self, mock_print):
 #         # Given: Un ingrédient avec l'ID 1 dans la base de données mockée
 #         self.ingredient_dao.get_ingredient_by_id.return_value = {
 #             "id_ingredient": 1,
-#             "nom_ingredient": "Tomate",
-#             "description_ingredient": "Légume rouge et juteux",
+#             "nom_ingredient": "Chicken",
+#             "description_ingredient": "The chicken is a type of domesticated fowl, ...",
 #         }
 
 #         # When: La méthode afficher_ingredient est appelée pour l'ID 1
 #         result = self.service.afficher_ingredient(1)
 
-#         # Then: Vérifier que get_ingredient_by_id a été appelé et que le résultat est correct
+#         # Then: Vérifier que get_ingredient_by_id a été appelé
 #         self.ingredient_dao.get_ingredient_by_id.assert_called_once_with(1)
-#         self.assertEqual(result["nom_ingredient"], "Tomate")
-#         self.assertEqual(result["description_ingredient"], "Légume rouge et juteux")
+
+#         # Vérifier que la méthode print() a bien été appelée avec les bonnes informations
+#         mock_print.assert_called_with(
+#             "Ingrédient ID: 1\nNom: Chicken\nDescription: The chicken is a type of domesticated fowl, ..."
+#         )
+
+#         # Vérifier que la méthode retourne bien les données sous forme de dictionnaire
+#         self.assertEqual(result["nom_ingredient"], "Chicken")
+#         self.assertTrue(result["description_ingredient"].startswith("The chicken"))
 
 #     def test_afficher_ingredient_not_found(self):
 #         # Given: Aucun ingrédient avec l'ID 99 dans la base de données mockée

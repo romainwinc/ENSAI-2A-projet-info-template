@@ -66,10 +66,10 @@ class ServiceRecette:
             categorie,
             origine,
             instructions,
-            mots_cles,
-            url_image,
             liste_ingredients,
             nombre_avis,
+            mots_cles,
+            url_image,
             note_moyenne,
             date_derniere_modif,
         )
@@ -164,12 +164,25 @@ class ServiceRecette:
             print(favoris)
             return favoris
 
+    def proposition_recette(self, id_user):
+        """
+        Donne un ou des noms de recette qu'un utilisateur n'a pas en
+        recettes favorites et qui contient au moins un igredient favori
+        et aucun ingredient non désiré.
+        """
+        liste = []
+        liste = self.recette_favorite_dao.proposition_recette_sans_ingredient_non_désire(
+            id_utilisateur=id_user
+        )
+        return liste
+
 
 if __name__ == "__main__":
     dao = RecetteDAO()
     recette_favorite_dao = RecetteFavoriteDAO()  # Instanciation de la DAO des recettes favorites
     service_recette = ServiceRecette(dao, recette_favorite_dao)
-
+    pass
+    # service_recette.proposition_recette(1)
     # print("id")
     # print(service_recette.rechercher_par_id_recette(1))  # marche
     # print("Nom")
@@ -194,40 +207,8 @@ if __name__ == "__main__":
     # ))
 
     # # Afficher une recette
-    print(service_recette.afficher_recette(1))  # Marche mais est peut être redondant
+    # print(service_recette.afficher_recette(1))  # Marche mais est peut être redondant
 
-    ###########################################################################
-    # Ancien code est obsolete donc à changer dans les views les bonnes #######
-    #         traductions sont au dessus et marchent mtnt               #######
-    ###########################################################################
-
-    # print("id")
-    # print(ServiceRecette(dao).rechercher_par_id_recette(1))  # marche
-    # print("Nom")
-    # print(ServiceRecette(dao).rechercher_par_nom_recette("Apple Frangipan Tart"))  # marche
-    # print("ingredient")
-    # print(ServiceRecette(dao).rechercher_par_ingredient("digestive biscuits")) # marche
-    # print("supprimer")
-    # print(ServiceRecette(dao).supprimer_recette(2))  # marche
-    # print("modifier un argument")
-    # print(ServiceRecette(dao).modifier_recette_id(1, nom_recette="Tarte crème"))  # marche
-    # print("modifier un argument")
-    # print(
-    #     ServiceRecette(dao).modifier_recette_nom_recette("Ayam Percik", categorie="Viande")
-    # )  # marche
-
-    # print("stock dans la base de donnée")
-    # print(
-    #     ServiceRecette(dao).creer_recette(
-    #         "Exemple Recette",
-    #         "Dessert",
-    #         "British",
-    #         "Touiller / Remuer / Mélanger / Agiter",
-    #         ["Butter", "Jam"],
-    #     )
-    # )
-
-    # print(representation)
     # ServiceRecette(dao).afficher_recette(1)  # Marche mais est peut être redondant
 
     # Nouvelles fonctionnalitées ici qui marchent

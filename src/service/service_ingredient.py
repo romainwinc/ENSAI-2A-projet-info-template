@@ -72,8 +72,12 @@ class ServiceIngredient:
 
     def ajouter_ingredients_favoris(self, utilisateur_id: int, nom_ingredient: str):
         """Ajoute un ingrédient favori à un utilisateur."""
+        if self.ingredients_favoris_dao.is_ingredient_in_favoris(nom_ingredient, utilisateur_id):
+            print(f"L'ingrédient '{nom_ingredient}' est déjà dans vos favoris.")
+            return False
         self.ingredients_favoris_dao.add_ingredient_favori(nom_ingredient, utilisateur_id)
         print(f"L'ingrédient favori '{nom_ingredient}' a été ajouté.")
+        return True
 
     # Méthodes pour les ingrédients non-désirés
     def recuperer_ingredients_non_desires_utilisateur(self, utilisateur_id: int):
@@ -100,8 +104,14 @@ class ServiceIngredient:
 
     def ajouter_ingredients_non_desires(self, utilisateur_id: int, nom_ingredient: str):
         """Ajoute un ingrédient non-désiré à un utilisateur."""
+        if self.ingredients_non_desires_dao.is_ingredient_in_non_desires(
+            nom_ingredient, utilisateur_id
+        ):
+            print(f"L'ingrédient '{nom_ingredient}' est déjà dans vos non désirés.")
+            return False
         self.ingredients_non_desires_dao.add_ingredient_non_desire(nom_ingredient, utilisateur_id)
         print(f"L'ingrédient non-désiré '{nom_ingredient}' a été ajouté.")
+        return True
 
     # Méthodes pour la liste de course
     def afficher_ingredients_liste_courses(self, utilisateur_id: int):
@@ -128,8 +138,12 @@ class ServiceIngredient:
 
     def ajouter_ingredients_liste_courses(self, utilisateur_id: int, nom_ingredient: str):
         """Ajoute un ingrédient à la liste de course d'un utilisateur."""
+        if self.liste_de_courses_dao.is_ingredient_in_liste(nom_ingredient, utilisateur_id):
+            print(f"L'ingrédient '{nom_ingredient}' est déjà dans votre liste de courses.")
+            return False
         self.liste_de_courses_dao.add_liste_de_courses(nom_ingredient, utilisateur_id)
         print(f"L'ingrédient '{nom_ingredient}' a été ajouté à la liste de courses.")
+        return True
 
 
 if __name__ == "__main__":
@@ -142,7 +156,7 @@ if __name__ == "__main__":
 
     # Exemple d'utilisation :
     # service.ajouter_ingredient("Tomate", "Légume rouge utilisé dans de nombreux plats.")
-    # service.afficher_ingredient(1)  # Affiche l'ingrédient avec ID 1
+    service.afficher_ingredient(1)  # Affiche l'ingrédient avec ID 1
     # service.modifier_ingredient(
     #  1, nom_ingredient="Chicken", description_ingredient="Légume rouge et juteux."
     # )

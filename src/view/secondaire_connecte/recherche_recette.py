@@ -30,6 +30,7 @@ class RechercheRecetteConnecte(VueAbstraite):
                 "Rechercher par nom de recette",
                 "Rechercher par ingrédient",
                 "Rechercher par id",
+                "Suggestions",
                 "Retour au menu Connecté",
             ],
         ).execute()
@@ -44,6 +45,10 @@ class RechercheRecetteConnecte(VueAbstraite):
             case "Rechercher par id":
                 self.rechercher_recette("id")
                 return self
+            case "Suggestions":
+                self.suggestion()
+                return self
+
             case "Retour au menu Connecté":
                 from view.menus_principaux.menu_connecte import MenuUtilisateurConnecte
 
@@ -113,4 +118,40 @@ class RechercheRecetteConnecte(VueAbstraite):
                 return VueDetailRecette(recette_selectionnee).afficher()
         else:
             # Retourner à la vue de recherche
+            return self
+
+    def suggestion(self):
+        """Affiche les recettes suggérées en fonction des ingrédients favoris et non-désirés."""
+        id_utilisateur = Session().utilisateur.id_utilisateur
+        dao_recette = RecetteDAO()
+        dao_recette_fav = RecetteFavoriteDAO()
+        service_recette = ServiceRecette(dao_recette, dao_recette_fav)
+
+        suggestions = service_recette.proposition_recette(id_utilisateur)
+
+        # Vérifiez si l'utilisateur a des recettes favorites
+        if not suggestions:
+            print("Aucune suggestion disponible.")
+            inquirer.select(
+                message="",
+                choices=["OK"],
+            ).execute()
+            return self
+
+        choix_menu = suggestions + ["Retour au menu principal"]
+
+        choix = inquirer.select(
+            message="Sélectionnez une recette pour plus de détails ou retournez au menu :",
+            choices=choix_menu,
+        ).execute()
+
+        if choix in suggestions:
+            # Afficher les détails de la recette sélectionnée
+            recette_selectionnee = choix
+            Session().ouvrir_recette(recette_selectionnee)
+            from view.secondaire_connecte.vue_detail_suggestion import DetailSuggestion
+
+            return DetailSuggestion().afficher()
+        else:
+            # Retourner au menu précédent
             return self
