@@ -31,6 +31,7 @@ class RechercheIngredientAdmin(VueAbstraite):
                 "Recherche par nom de l'ingrédient",
                 "Retour au menu Ingrédient",
             ],
+            max_height=10,
         ).execute()
 
         match type_recherche:

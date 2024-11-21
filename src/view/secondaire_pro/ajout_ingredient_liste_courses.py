@@ -25,6 +25,7 @@ class AjoutIngredientListeCousrses(VueAbstraite):
                 "Recherche par nom de l'ingrédient",
                 "Retour au menu à la liste de course",
             ],
+            max_height=10,
         ).execute()
 
         match type_recherche:

@@ -40,6 +40,7 @@ class MonCompteConnecte(VueAbstraite):
                 "Supprimer mon compte",
                 "Retour au menu principal",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

@@ -41,6 +41,7 @@ class DetailIngredientFav(VueAbstraite):
                 "Retour au menu ingrédient",
                 "Supprimer l'ingrédient de mes favoris",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

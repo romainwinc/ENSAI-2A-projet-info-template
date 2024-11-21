@@ -34,6 +34,7 @@ class DetailRecetteFav(VueAbstraite):
                 "Retour au menu principal",
                 "Supprimer la recette de mes favoris",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

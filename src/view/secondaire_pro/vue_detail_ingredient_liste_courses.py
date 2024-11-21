@@ -41,6 +41,7 @@ class DetailIngredientListeCourses(VueAbstraite):
                 "Retour au menu ingrédient",
                 "Supprimer l'ingrédient de ma liste de course",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

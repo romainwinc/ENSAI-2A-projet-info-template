@@ -39,6 +39,7 @@ class MonComptePro(VueAbstraite):
                 "Supprimer mon compte",
                 "Retour au menu professionnel",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

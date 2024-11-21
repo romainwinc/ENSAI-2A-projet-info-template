@@ -37,6 +37,7 @@ class VueDetailRecette(VueAbstraite):
                 "Voir les avis de la recette",
                 "Retour à la recherche",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

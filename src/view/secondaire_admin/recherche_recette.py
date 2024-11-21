@@ -33,6 +33,7 @@ class RechercheRecetteAdmin(VueAbstraite):
                 "Suggestions",
                 "Retour au menu Administrateur",
             ],
+            max_height=10,
         ).execute()
 
         match type_recherche:

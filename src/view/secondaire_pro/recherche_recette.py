@@ -33,6 +33,7 @@ class RechercheRecettePro(VueAbstraite):
                 "Suggestions",
                 "Retour au menu Professionnel",
             ],
+            max_height=10,
         ).execute()
 
         match type_recherche:

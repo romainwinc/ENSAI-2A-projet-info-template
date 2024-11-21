@@ -32,6 +32,7 @@ class VueDetailIngredient(VueAbstraite):
                 "Ajouter l'ingrédient à ma liste de course",
                 "Retour à la recherche",
             ],
+            max_height=10,
         ).execute()
 
         utilisateur_id = Session().utilisateur.id_utilisateur

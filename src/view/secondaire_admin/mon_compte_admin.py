@@ -35,8 +35,9 @@ class MonCompteAdmin(VueAbstraite):
             choices=[
                 "Déconnexion",
                 "Supprimer mon compte",
-                "Retour au menu professionnel",
+                "Retour au menu administrateur",
             ],
+            max_height=10,
         ).execute()
 
         match choix:
@@ -55,7 +56,7 @@ class MonCompteAdmin(VueAbstraite):
 
                 return MenuNonConnecte()
 
-            case "Retour au menu professionnel":
+            case "Retour au menu administrateur":
                 from view.menus_principaux.menu_administrateur import MenuAdministrateur
 
                 return MenuAdministrateur("Retour au menu")

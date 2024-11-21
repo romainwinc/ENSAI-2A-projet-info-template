@@ -31,6 +31,7 @@ class Demandes(VueAbstraite):
                 "Demandes de suppression de recette",
                 "Retour au menu principal",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

@@ -32,6 +32,7 @@ class VueDetailRecette(VueAbstraite):
                 "Ajouter un avis",
                 "Retour à la recherche",
             ],
+            max_height=10,
         ).execute()
 
         utilisateur_id = Session().utilisateur.id_utilisateur

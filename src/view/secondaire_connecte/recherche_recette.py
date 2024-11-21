@@ -33,6 +33,7 @@ class RechercheRecetteConnecte(VueAbstraite):
                 "Suggestions",
                 "Retour au menu Connecté",
             ],
+            max_height=10,
         ).execute()
 
         match type_recherche:

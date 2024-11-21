@@ -26,6 +26,7 @@ class DemandeChangerRole(VueAbstraite):
         type_demande = inquirer.select(
             message="Que souhaitez-vous faire ?",
             choices=["Passer administrateur", "Abandonner le role de professionnel"],
+            max_height=10,
         ).execute()
         attribut_modifie = "role"
         if type_demande == "Abandonner le role de professionnel":
