@@ -25,6 +25,7 @@ class CreerRecette(VueAbstraite):
             choix = inquirer.select(
                 message="Que voulez-vous faire avec les ingrédients ?",
                 choices=["Ajouter un ingrédient", "Terminer la liste des ingrédients"],
+                max_height=10,
             ).execute()
 
             if choix == "Ajouter un ingrédient":

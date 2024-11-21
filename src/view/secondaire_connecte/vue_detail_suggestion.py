@@ -35,6 +35,7 @@ class DetailSuggestion(VueAbstraite):
                 "Ajouter la recette à mes favoris",
                 "Retour à la recherche",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

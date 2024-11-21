@@ -42,6 +42,7 @@ class ListeCourses(VueAbstraite):
                 "Ajouter des ingrédients à ma liste de courses",
                 "Retour au menu principal",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

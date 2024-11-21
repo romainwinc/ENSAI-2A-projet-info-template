@@ -25,6 +25,7 @@ class AccueilVue(VueAbstraite):
                 "Rechercher une recette",
                 "Quitter",
             ],
+            max_height=10,
         ).execute()
 
         # Gestion des choix de l'utilisateur avec 'match case'

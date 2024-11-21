@@ -41,9 +41,9 @@ class IngredientsFavEtND(VueAbstraite):
                 "Ajouter des ingrédients favoris ou non-désirés",
                 "Consulter mes ingrédients favoris",
                 "Consulter mes ingrédients non-désirés",
-                # "Consulter ma liste de course",
                 "Retour au menu principal",
             ],
+            max_height=10,
         ).execute()
 
         match choix:
@@ -61,10 +61,6 @@ class IngredientsFavEtND(VueAbstraite):
             case "Consulter mes ingrédients non-désirés":
                 self.afficher_non_desires()
                 return self
-
-            # case "Consulter ma liste de course":
-            #     self.afficher_liste_courses()
-            #     return self
 
             case "Retour au menu principal":
                 from view.menus_principaux.menu_administrateur import MenuAdministrateur

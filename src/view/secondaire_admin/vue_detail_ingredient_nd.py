@@ -41,6 +41,7 @@ class DetailIngredientND(VueAbstraite):
                 "Retour au menu ingrédient",
                 "Supprimer l'ingrédient de mes non-désirés",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

@@ -40,6 +40,7 @@ class ConsulterNotesAvis(VueAbstraite):
                 "Modifier un commentaire",
                 "Retour au menu principal",
             ],
+            max_height=10,
         ).execute()
 
         utilisateur_id = Session().utilisateur.id_utilisateur

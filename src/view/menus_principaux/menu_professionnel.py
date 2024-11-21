@@ -34,6 +34,7 @@ class MenuProfessionnel(VueAbstraite):
                 "Mon compte",
                 "Quitter",
             ],
+            max_height=10,
         ).execute()
 
         match choix:

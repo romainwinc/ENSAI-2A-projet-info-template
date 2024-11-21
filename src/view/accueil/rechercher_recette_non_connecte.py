@@ -32,6 +32,7 @@ class RechercheRecetteNonConnecte(VueAbstraite):
                 "Rechercher par id",
                 "Retour au menu principal",
             ],
+            max_height=10,
         ).execute()
 
         match type_recherche:
