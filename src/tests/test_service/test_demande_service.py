@@ -159,7 +159,3 @@
 #         # Then
 #         self.mock_dao.get_demande_by_id.assert_called_once_with(demande_id)
 #         self.assertIsNone(result)  # Méthode d'affichage ne retourne rien
-
-
-# if __name__ == "__main__":
-#     unittest.main()

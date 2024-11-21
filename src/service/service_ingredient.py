@@ -115,19 +115,16 @@ class ServiceIngredient:
 
     # Méthodes pour la liste de course
     def afficher_ingredients_liste_courses(self, utilisateur_id: int):
-        """Récupère les ingrédients de la liste de course d'un utilisateur."""
-        ingredients_liste_courses = self.liste_de_courses_dao.get_liste_de_courses_by_user_id(
-            utilisateur_id
-        )
-
-        if not ingredients_liste_courses:
+        """Affiche les ingrédients de la liste de courses d'un utilisateur."""
+        liste_courses = self.liste_de_courses_dao.get_liste_de_courses_by_user_id(utilisateur_id)
+        if not liste_courses:
             print("Vous n'avez aucun ingrédient dans votre liste de courses.")
             return
 
         print("\nVoici les ingrédients de votre liste de courses :\n")
-        for ingredient in ingredients_liste_courses:
+        for ingredient in liste_courses:
             print(f"- {ingredient}")
-        return ingredients_liste_courses
+        return liste_courses
 
     def supprimer_ingredients_liste_courses(self, utilisateur_id: int, nom_ingredient: str):
         """Supprime un ingrédient de la liste de courses d'un utilisateur."""

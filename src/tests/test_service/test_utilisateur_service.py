@@ -114,12 +114,12 @@
 #         """
 #         self.utilisateur_dao_mock.lister_tous.return_value = [
 #             Utilisateur(
-#                 nom_utilisateur="Mbappe",
+#                 nom_utilisateur="Kylian",
 #                 mot_de_passe="hashed",
 #                 role="Connecté",
 #                 date_inscription=datetime.now(),
 #             )
 #         ]
 
-#         result = self.service_utilisateur.nom_utilisateur_deja_utilise("Mbappe")
+#         result = self.service_utilisateur.nom_utilisateur_deja_utilise("Kylian")
 #         self.assertFalse(result)
