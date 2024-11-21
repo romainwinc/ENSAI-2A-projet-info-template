@@ -15,7 +15,7 @@ try:
         type_demande="Passer professionnel",
         attribut_modifie="role",
         attribut_corrige="Professionnel",
-        commentaire_demande="changer nom de l'utilisateurpar Professionnel",
+        commentaire_demande="Je suis un utilisateur connecté et je souhaiterais devenir professionnel.",
     )
 
     ServiceDemande(demande_dao).creer_demande(
@@ -23,7 +23,7 @@ try:
         type_demande="Passer Administrateur",
         attribut_modifie="role",
         attribut_corrige="Administrateur",
-        commentaire_demande="changer nom de l'utilisateu par Xavier",
+        commentaire_demande="Je suis un utilisateur connecté et je souhaiterais devenir administrateur.",
     )
 
     ServiceDemande(demande_dao).creer_demande(
@@ -31,7 +31,7 @@ try:
         type_demande="Passer administrateur",
         attribut_modifie="role",
         attribut_corrige="Administrateur",
-        commentaire_demande="changer nom de l'utilisateurpar Xavier",
+        commentaire_demande="Je suis un utilisateur professionnel et je souhaiterais devenir administrateur.",
     )
 
     ServiceDemande(demande_dao).creer_demande(
@@ -39,7 +39,7 @@ try:
         type_demande="Abandonner le role de professionnel",
         attribut_modifie="role",
         attribut_corrige="Connecté",
-        commentaire_demande="changer nom de l'utilisat par Xavier",
+        commentaire_demande="Je suis un utilisateur professionnel et je souhaiterais devenir connecté.",
     )
 
     # Les demandes pour les recettes
@@ -49,7 +49,7 @@ try:
         type_demande="Suppression recette",
         attribut_modifie=2,
         attribut_corrige=None,
-        commentaire_demande="Supprime la recette 2",
+        commentaire_demande="Est-il possible de supprimer la recette 2 ? Je vous remercie d'avance.",
     )
 
     # Les avis
