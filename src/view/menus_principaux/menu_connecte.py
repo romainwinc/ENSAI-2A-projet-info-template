@@ -1,4 +1,5 @@
 from InquirerPy import inquirer
+
 from view.session import Session
 from dao.recette_dao import RecetteDAO
 from dao.recette_favorite_dao import RecetteFavoriteDAO

@@ -216,7 +216,8 @@ try:
                             cursor.execute(
                                 sql.SQL(
                                     """
-                                    SELECT 1 FROM {}.recette_ingredient WHERE id_recette = %s AND id_ingredient = %s
+                                    SELECT 1 FROM {}.recette_ingredient
+                                    WHERE id_recette = %s AND id_ingredient = %s
                                     """
                                 ).format(sql.Identifier(POSTGRES_SCHEMA)),
                                 (id_recette, id_ingredient),
@@ -229,7 +230,8 @@ try:
                                 cursor.execute(
                                     sql.SQL(
                                         """
-                                        INSERT INTO {}.recette_ingredient (id_recette, id_ingredient, mesure)
+                                        INSERT INTO {}.recette_ingredient
+                                        (id_recette, id_ingredient, mesure)
                                         VALUES (%s, %s, %s)
                                         """
                                     ).format(sql.Identifier(POSTGRES_SCHEMA)),

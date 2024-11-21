@@ -15,7 +15,7 @@ try:
         type_demande="Passer professionnel",
         attribut_modifie="role",
         attribut_corrige="Professionnel",
-        commentaire_demande=f"changer nom de l'utilisateurpar Professionnel",
+        commentaire_demande="changer nom de l'utilisateurpar Professionnel",
     )
 
     ServiceDemande(demande_dao).creer_demande(
@@ -23,7 +23,7 @@ try:
         type_demande="Passer Administrateur",
         attribut_modifie="role",
         attribut_corrige="Administrateur",
-        commentaire_demande=f"changer nom de l'utilisateu par Xavier",
+        commentaire_demande="changer nom de l'utilisateu par Xavier",
     )
 
     ServiceDemande(demande_dao).creer_demande(
@@ -31,7 +31,7 @@ try:
         type_demande="Passer administrateur",
         attribut_modifie="role",
         attribut_corrige="Administrateur",
-        commentaire_demande=f"changer nom de l'utilisateurpar Xavier",
+        commentaire_demande="changer nom de l'utilisateurpar Xavier",
     )
 
     ServiceDemande(demande_dao).creer_demande(
@@ -39,7 +39,7 @@ try:
         type_demande="Abandonner le role de professionnel",
         attribut_modifie="role",
         attribut_corrige="Connecté",
-        commentaire_demande=f"changer nom de l'utilisat par Xavier",
+        commentaire_demande="changer nom de l'utilisat par Xavier",
     )
 
     # Les demandes pour les recettes
@@ -49,7 +49,7 @@ try:
         type_demande="Suppression recette",
         attribut_modifie=2,
         attribut_corrige=None,
-        commentaire_demande=f"Supprime la recette 2",
+        commentaire_demande="Supprime la recette 2",
     )
 
     # Les avis
@@ -72,7 +72,8 @@ try:
         titre_avis="Attention à la cuisson",
         nom_auteur="Flo",
         date_publication=datetime.now(),
-        commentaire="Je penses qu'il faudrait diminuer le temps de cuisson, sinon ren à repprocher.",
+        commentaire="Je penses qu'il faudrait diminuer le temps de cuisson,"
+        + "sinon ren à reprocher.",
         note=4,
     )
 
@@ -82,7 +83,7 @@ try:
         titre_avis="Classique",
         nom_auteur="Paul_Bocuse",
         date_publication=datetime.now(),
-        commentaire="Une recommande cette recette Classique de la gastronomie Française",
+        commentaire="Une recommande cette recette Classique" + " de la gastronomie Française",
         note=4,
     )
 

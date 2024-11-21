@@ -1,4 +1,5 @@
 from InquirerPy import inquirer
+
 from InquirerPy.validator import PasswordValidator
 from view.vue_abstraite import VueAbstraite
 from service.service_utilisateur import ServiceUtilisateur
