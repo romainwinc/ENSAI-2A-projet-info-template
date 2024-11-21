@@ -14,15 +14,15 @@ try:
         id_utilisateur=1,
         type_demande="Passer professionnel",
         attribut_modifie="role",
-        attribut_corrige="Xavier",
-        commentaire_demande=f"changer nom de l'utilisateurpar Xavier",
+        attribut_corrige="Professionnel",
+        commentaire_demande=f"changer nom de l'utilisateurpar Professionnel",
     )
 
     ServiceDemande(demande_dao).creer_demande(
         id_utilisateur=2,
         type_demande="Passer Administrateur",
         attribut_modifie="role",
-        attribut_corrige="Xavier",
+        attribut_corrige="Administrateur",
         commentaire_demande=f"changer nom de l'utilisateu par Xavier",
     )
 
@@ -30,16 +30,26 @@ try:
         id_utilisateur=3,
         type_demande="Passer administrateur",
         attribut_modifie="role",
-        attribut_corrige="Xavier",
+        attribut_corrige="Administrateur",
         commentaire_demande=f"changer nom de l'utilisateurpar Xavier",
     )
 
     ServiceDemande(demande_dao).creer_demande(
         id_utilisateur=4,
-        type_demande="Passer administrateur",
+        type_demande="Abandonner le role de professionnel",
         attribut_modifie="role",
-        attribut_corrige="Xavier",
+        attribut_corrige="Connecté",
         commentaire_demande=f"changer nom de l'utilisat par Xavier",
+    )
+
+    # Les demandes pour les recettes
+
+    ServiceDemande(demande_dao).creer_demande(
+        id_utilisateur=4,
+        type_demande="Suppression recette",
+        attribut_modifie=2,
+        attribut_corrige=None,
+        commentaire_demande=f"Supprime la recette 2",
     )
 
     # Les avis

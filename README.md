@@ -19,29 +19,40 @@ The Recipe Maker application includes :
 
 ---
 
-## :arrow_forward: Open VSCode
+## :arrow_forward: Opening the file and VScode
 
 - [ ] Download the zipped folder from moodle
 - [ ] After unzipping it, open **Visual Studio Code**
 - [ ] File > Open Folder
+- [ ] Click once on the unzipped folder *ENSAI-2A-projet-info-template* and click on `Sélectionner un dossier`
 
-### Paramètres VScode
+### VScode parameters
 
-Ce dépôt contient un fichier `.vscode/settings.xml` qui définit des paramètres pour ce projet. Par exemple :
+# Project Settings
 
-- **Black formatter** permet de mettre en forme automatiquement un fichier python
-  - `editor.formatOnSave` : à chaque savegarde de fichier, le code est automatiquement mis en forme
-- **Flake** est un Linter
-  - il vérifie que le code est propre et affiche un message si ce n'est pas le cas
-- **Path** : indique les dossiers dans lesquels sont les modules python 
-  - `"PYTHONPATH": "${workspaceFolder}/src"` : src est le dossier racine des imports
+This repository contains a `.vscode/settings.json` file that defines settings for this project. For example:
+
+## Black Formatter
+
+- Automatically formats a Python file
+- **Setting**: `editor.formatOnSave`  
+  On every file save, the code is automatically formatted
+
+## Flake
+
+- A linter that ensures the code is clean
+- Displays a message if the code does not meet the standards
+
+## Path
+
+- Specifies the folders where the Python modules are located
+- **Setting**: `"PYTHONPATH": "${workspaceFolder}/src"`  
+  `src` is the root folder for imports
 
 
-### Fichiers de configuration
+### Configuration files
 
 Ce dépôt contient de nombreux fichiers de configuration pour paramètrer les différents outils utilisés.
-
-Normalement dans le cadre de votre projet, vous n'aurez pas besoin de modifier ces fichiers, exceptés `.env` et `requirements.txt`. Vous trouverez des explications plus détaillées par la suite.
 
 | Fichier                      | Description                                                         |
 |------------------------------|---------------------------------------------------------------------|

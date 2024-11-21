@@ -4,38 +4,22 @@ from datetime import datetime
 
 
 class Recette:
-    """Une recette est caractérisée par son id, elle possède un nom,
-    une catégorie, une origine, des instructions, des ingrédients, des avis
-    une note et la date de sa dernière modification.
+    """
+    Représente une recette avec ses détails, ses ingrédients, ses avis et sa note.
 
-    Parameters
-    ----------
-    id_recette: int
-        identifiant de la recette
-    nom_recette: str
-        nom de la recette
-    categorie: str
-        categorie de la recette (entrée, plat, dessert, végétarien, type de
-        viande, ...)
-    origine: str
-        pays d'origine de la recette
-    instruction: str
-        Instructions sur les étapes de la recette
-    mots_cles: str | None
-        mots clés de la recette
-    url_image: str | None
-        URL vers l'image représenatnt la recette
-    liste_ingredient: list[dict]
-        Liste des ingrédients de la recette avec pour chaque ingrédient,
-        la quantité nécéssaire pour la recette
-    liste_avis: list[Avis] | None
-        liste des avis laissés pour cette recette par les utilisateurs
-    nombre_avis: int
-        nombre d'avis de la recette
-    note_moyenne: float | None
-        moyenne des notes laissé par les utilisateurs
-    date_derniere_modif: date
-        date de la dernière modification de la recette
+    Attributs :
+        id_recette (int): L'identifiant unique de la recette.
+        nom_recette (str): Le nom de la recette.
+        categorie (str): La catégorie de la recette (entrée, plat, dessert, végétarien, etc.).
+        origine (str): Le pays d'origine de la recette.
+        instructions (str): Les instructions détaillées sur les étapes de la recette.
+        mots_cles (str ou None): Les mots-clés associés à la recette (optionnel).
+        url_image (str ou None): L'URL de l'image représentant la recette (optionnel).
+        liste_ingredients (list[Ingredient]): Liste des ingrédients nécessaires à la recette.
+        liste_avis (list[Avis] ou None): Liste des avis laissés par les utilisateurs pour cette recette (optionnel).
+        nombre_avis (int): Le nombre d'avis de la recette.
+        note_moyenne (float ou None): La moyenne des notes données à la recette (optionnel).
+        date_derniere_modif (datetime): La date de la dernière modification de la recette.
     """
 
     def __init__(
@@ -53,7 +37,24 @@ class Recette:
         note_moyenne: float = None,
         liste_avis: list[Avis] = None,
     ) -> None:
+        """
+        Initialise une nouvelle recette.
 
+        Paramètres :
+            id_recette (int): L'identifiant unique de la recette.
+            nom_recette (str): Le nom de la recette.
+            categorie (str): La catégorie de la recette (entrée, plat, dessert, végétarien, etc.).
+            origine (str): Le pays d'origine de la recette.
+            instructions (str): Les instructions détaillées sur les étapes de la recette.
+            liste_ingredients (list[Ingredient]): Liste des ingrédients nécessaires à la recette.
+            nombre_avis (int): Le nombre d'avis de la recette.
+            date_derniere_modif (datetime, optionnel): La date de la dernière modification de la recette.
+                          Par défaut, c'est la date et l'heure actuelles.
+            mots_cles (str, optionnel): Les mots-clés associés à la recette. Par défaut, c'est None.
+            url_image (str, optionnel): L'URL de l'image représentant la recette. Par défaut, c'est None.
+            note_moyenne (float, optionnel): La moyenne des notes données à la recette. Par défaut, c'est None.
+            liste_avis (list[Avis], optionnel): Liste des avis laissés pour la recette. Par défaut, c'est None.
+        """
         self.id_recette = id_recette
         self.nom_recette = nom_recette
         self.categorie = categorie
@@ -68,16 +69,14 @@ class Recette:
         self.date_derniere_modif = date_derniere_modif
 
     def __repr__(self) -> str:
-        # ingredients = []
+        """
+        Retourne une représentation sous forme de chaîne de la recette.
 
-        # ingredients_str = ", ".join(
-        #     [f"{ingredient[0]}: {ingredient[1]}" for ingredient in self.liste_ingredients]
-        # )
-
-        # avis_str = ", ".join(
-        #     [f"{avis.auteur}: {avis.note}/5 - {avis.commentaire}" for avis in self.liste_avis]
-        # )
-
+        Retourne :
+            str: Une chaîne de caractères contenant les détails de la recette, incluant
+                 son nom, sa catégorie, son origine, ses instructions, ses ingrédients,
+                 sa note moyenne et la date de la dernière modification.
+        """
         return (
             f"Recette: {self.nom_recette}\n"
             f"Catégorie: {self.categorie}\n"
@@ -85,8 +84,6 @@ class Recette:
             f"Instructions: {self.instructions}\n"
             f'Mots-clés: {self.mots_cles if self.mots_cles else "Aucun"}\n'
             f"Ingrédients:{self.liste_ingredients}\n"
-            # f"Ingrédients:\n{ingredients_str}\n"
             f"Note:{self.note_moyenne}/5\n"
-            # f"Avis: [{avis_str}]\n"
             f"Date de la dernière modification:{self.date_derniere_modif.strftime('%d-%m-%Y')}"
         )

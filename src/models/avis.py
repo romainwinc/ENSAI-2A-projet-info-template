@@ -3,9 +3,9 @@ from datetime import datetime
 
 class Avis:
     """
-    Classe représentant un avis d'utilisateur.
+    Représente un avis laissé par un utilisateur pour une recette.
 
-    Attributes:
+    Attributs :
         id_avis (int): L'identifiant unique de l'avis.
         titre_avis (str): Le titre de l'avis.
         id_utilisateur (int): L'identifiant de l'utilisateur qui a publié l'avis.
@@ -28,25 +28,24 @@ class Avis:
         note: int = None,
     ):
         """
-        Initialise un nouvel avis.
+        Initialise un nouvel avis pour une recette.
 
-        Parameters:
+        Paramètres :
             id_avis (int): L'identifiant unique de l'avis.
             titre_avis (str): Le titre de l'avis.
-            id_utilisateur (int): L'identifiant de l'utilisateur.
+            id_utilisateur (int): L'identifiant de l'utilisateur ayant laissé l'avis.
             nom_auteur (str): Le nom de l'auteur de l'avis.
             id_recette (int): L'identifiant de la recette à laquelle l'avis est associé.
-            date_publication (datetime, optional): La date de publication. Par défaut,
-                         c'est la date et l'heure actuelles.
-            commentaire (str, optional): Le commentaire de l'avis. Par défaut,
-                        c'est une chaîne vide.
-            note (int or None, optional): La note donnée à l'avis. Par défaut, c'est None.
+            date_publication (datetime, optionnel): La date de publication de l'avis.
+                          Par défaut, c'est la date et l'heure actuelles.
+            commentaire (str, optionnel): Le commentaire de l'avis. Par défaut, c'est une chaîne vide.
+            note (int ou None, optionnel): La note donnée à l'avis. Par défaut, c'est None (non noté).
         """
         self.id_avis = id_avis
         self.titre_avis = titre_avis
         self.id_utilisateur = id_utilisateur
         self.nom_auteur = nom_auteur
-        self.id_recette = id_recette  # Ajout de l'ID de la recette
+        self.id_recette = id_recette
         self.date_publication = date_publication
         self.commentaire = commentaire
         self.note = note
@@ -55,17 +54,18 @@ class Avis:
         """
         Retourne une représentation sous forme de chaîne de l'avis.
 
-        Returns:
-            str: Une chaîne contenant les détails de l'avis.
+        Retourne :
+            str: Une chaîne de caractères contenant les détails de l'avis, incluant l'ID,
+                 le titre, l'auteur, le commentaire, la note, la date de publication et
+                 l'ID de la recette associée.
         """
         return (
-            f"ID Avis: {self.id_avis}\n"  # Affichage de l'ID de l'avis
-            f"Titre: {self.titre_avis}\n"  # Affichage du titre de l'avis
-            f"Auteur: {self.nom_auteur}\n"  # Affichage du nom de l'auteur
-            f"Commentaire: {self.commentaire}\n"  # Affichage du commentaire
-            f"Note: {self.note or 'Non noté'}\n"  # Affichage de la note
+            f"ID Avis: {self.id_avis}\n"
+            f"Titre: {self.titre_avis}\n"
+            f"Auteur: {self.nom_auteur}\n"
+            f"Commentaire: {self.commentaire}\n"
+            f"Note: {self.note or 'Non noté'}\n"
             f"Date de publication: {self.date_publication.strftime('%d/%m/%Y')}\n"
-            # Affichage de la date
-            f"ID Utilisateur: {self.id_utilisateur}\n"  # Affichage de l'ID de l'utilisateur
-            f"ID Recette: {self.id_recette}"  # Affichage de l'ID de la recette
+            f"ID Utilisateur: {self.id_utilisateur}\n"
+            f"ID Recette: {self.id_recette}"
         )
