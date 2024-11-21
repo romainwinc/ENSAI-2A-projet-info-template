@@ -30,7 +30,9 @@ The Recipe Maker application includes :
 
 # Project Settings
 
-This repository contains a `.vscode/settings.json` file that defines settings for this project. For example:
+This repository contains a `.vscode/settings.json` file that defines settings for this project. 
+
+For example:
 
 ## Black Formatter
 
@@ -52,26 +54,25 @@ This repository contains a `.vscode/settings.json` file that defines settings fo
 
 ### Configuration files
 
-Ce dépôt contient de nombreux fichiers de configuration pour paramètrer les différents outils utilisés.
+This repository contains various configuration files to set up the different tools used.
 
-| Fichier                      | Description                                                         |
-|------------------------------|---------------------------------------------------------------------|
-| `.env`                       | Définir les variables d'environnement                               |
-| `.vscode/settings.json`      | Configuration spécifique à Visual Studio Code                       |
-| `.github/workflows/ci.yml`   | Définition des workflows GitHub Actions                             |
-| `logging_config.yml`         | Configuration du système de journalisation (logging)                |
-| `.gitignore`                 | Liste des fichiers et répertoires à ignorer lors des opérations Git |
-| `.coveragerc`                | Configuration de l'outil de couverture de code (coverage)           |
-| `requirements.txt`           | Liste des dépendances Python requises pour le projet                |
-
+| File                          | Description                                                         |
+|-------------------------------|---------------------------------------------------------------------|
+| `.env`                         | Defines the environment variables                                   |
+| `.vscode/settings.json`        | Visual Studio Code specific configuration                           |
+| `.github/workflows/ci.yml`     | Definition of GitHub Actions workflows                              |
+| `logging_config.yml`           | Configuration of the logging system                                 |
+| `.gitignore`                   | List of files and directories to ignore during Git operations      |
+| `.coveragerc`                  | Configuration of the code coverage tool                             |
+| `requirements.txt`             | List of required Python dependencies for the project                |
 ---
 
-## :arrow_forward: Installez les packages nécessaires
+## :arrow_forward: Install the necessary packages
 
-Dans VSCode :
+In VSCode:
 
-- [ ] Ouvrez un terminal *Git Bash*
-- [ ] Exécutez les commandes suivantes
+- [ ] Open a *Git Bash* terminal
+- [ ] Run the following commands
 
 ```bash
 pip install -r requirements.txt
@@ -82,12 +83,12 @@ pip list
 
 ## :arrow_forward: Variables d'environnement
 
-Vous allez maintenant définir des variables d'environnement pour déclarer la base de données et le webservice auquels vous allez connecter votre application python.
+You will now define environment variables to declare the database and the web service your Python application will connect to.
 
-À la racine du projet le fichier :
+At the root of the project, the file:
 
-- [ ] Créez un fichier nommé `.env` 
-- [ ] Collez-y et complétez les éléments ci-dessous
+- [ ] Create a file named `.env`
+- [ ] Paste and complete the following items
 
 ```default
 WEBSERVICE_HOST=https://pokeapi.co/api/v2
@@ -97,81 +98,42 @@ POSTGRES_PORT=5432
 POSTGRES_DATABASE=idxxxx
 POSTGRES_USER=idxxxx
 POSTGRES_PASSWORD=idxxxx
-POSTGRES_SCHEMA=projet
+POSTGRES_SCHEMA=projet_informatique
 ```
 
 ---
 
-## :arrow_forward: Lancer les tests unitaires
+## :arrow_forward: Launch unit tests
 
-- [ ] Dans Git Bash : `pytest -v` 
-  - ou `python -m pytest -v` si *pytest* n'a pas été ajouté au *PATH*
+All services are tested:
 
-### TU DAO
+- [ ] In Git Bash : 
+`python -m pytest` 
 
-Les tests unitaires de la DAO utilisent les données du fichier `data/pop_db_test.sql`.
+### Tests coverage
 
-Ces données sont chargées dans un schéma à part (projet_test_dao) pour ne pas polluer les autres données.
+It is also possible to generate test coverage with [Coverage](https://coverage.readthedocs.io/en/7.4.0/index.html)
 
-### Couverture de tests
-
-Il est également possible de générer la couverture de tests avec [Coverage](https://coverage.readthedocs.io/en/7.4.0/index.html)
-
-:bulb: Le fichier `.coveragerc` permet de modifier le paramétrage
+:bulb: The `.coveragerc` file allows you to modify the configuration
 
 - [ ] `coverage run -m pytest`
 - [ ] `coverage html`
-- [ ] Ouvrir le fichier coverage_report/index.html
+- [ ] Open the file coverage_report/index.html
 
 ---
 
-## :arrow_forward: Lancer le programme
+## :arrow_forward: Launch program
 
-Cette application propose une interface graphique très basique pour naviguer entre différents menus.
+This application provides a very basic graphical interface to navigate between different menus in the terminal.
 
-- [ ] Dans Git Bash : `python src/__main__.py`
-- [ ] Au premier lancement, choisissez **Ré-initialiser la base de données**
-  - cela appelle le programme `src/utils/reset_database.py`
-  - qui lui même va exécuter les scripts SQL du dossier `data`
-
----
-
-## :arrow_forward: Lancer le webservice
-
-Cette application permet également de créer un webservice.
-
-- [ ] `python src/app.py`
-- Exemples de endpoints (à tester par exemple avec *Insomnia* ou éventuellement un navigateur):
-  - `GET http://localhost/docs` (swagger)
-  - `GET http://localhost/hello/you`
-  - `GET http://localhost/joueur`
-  - `GET http://localhost/joueur/3`
-  - ```
-    POST http://localhost/joueur/
-    JSON body :
-      {
-        "pseudo": "patapouf",
-        "mdp": "9999",
-        "age": "95",
-        "mail": "patapouf@mail.fr",
-        "fan_pokemon": true
-      }
-    ```
-  - ```
-    PUT http://localhost/joueur/3
-    JSON body :
-      {
-         "pseudo": "maurice_new",
-         "mdp": null,
-         "age": 20,
-         "mail": "maurice@ensai.fr",
-         "fan_pokemon": true
-      }
-    ```
-  - `DELETE http://localhost/joueur/5`
+- [ ] In Git Bash: `python src/__main__.py`
+- [ ] On the first run, execute in Git Bash: `python src/__init__db.py`
+  - This program will run the scripts in the `data` folder
+  - These scripts load all the data from the API
+  - As well as add fake users, requests, reviews, and associated preferences
 
 ---
-
+<!-- 
 ## :arrow_forward: Les logs
 
 L'initalisation se fait dans le module `src/utils/log_init.py` :
@@ -200,109 +162,31 @@ Exemple de logs :
 07/08/2024 09:07:08 - INFO     -     JoueurService.se_connecter('a', '*****') - FIN
 07/08/2024 09:07:08 - INFO     -        └─> Sortie : Joueur(a, 20 ans)
 07/08/2024 09:07:08 - INFO     - MenuJoueurVue
-```
+``` -->
 
 ---
 
-## :arrow_forward: Intégration continue
+### Connect your application to the database
 
-Le dépôt contient un fichier `.github/workflow/main.yml`.
+You will connect your application to the database.
 
-Lorsque vous faîtes un *push* sur GitHub, cela déclanche un pipeline qui va effectuer les les étapes suivantes :
+You will use a `.env` file for this, as described in the [Environment Variables](##:arrow_forward:-Environment-Variables) section above. In your VSCode:
 
-- Création d'un conteneur à partir d'une image Ubuntu (Linux)
-  - Autrement dit, cela crée une machine virtuelle avec simplement un noyau Linux
-- Installation de Python
-- Installation des packages requis
-- Lancement des tests unitaires (uniquement les tests de service car plus compliqué de lancer les tests dao)
-- Analyse du code avec *pylint*
-  - Si la note est inférieure à 7.5, l'étape sera en échec
+- [ ] Create a `.env` file at the root of `ENSAI-2A-projet-info-template`
+- [ ] Paste the template (see the *Environment Variables* section)
+- [ ] Fill in the `HOSTNAME`, `DATABASE`, `USERNAME`, and `PASSWORD` fields with those of your *PostgreSQL* service
+- [ ] Save this file
 
-Vous pouvez consulter le bon déroulement de ce pipeline sur la page GitHub de votre dépôt, onglet *Actions*.
+### Install the packages
 
----
-
-## :construction: Lancer le projet sur le Datalab
-
-Il est également possible de développer sur le Datalab.
-
-:warning: Pensez bien à *push* régulièrement votre code, car les services du Datalab ne sont pas éternels.
-
-
-### Paramétrage Git
-
-Dans un premier temps, il faut autoriser de *push* du code depuis le Datalab vers GitHub.
-
-Générez un jeton dans GitHub :
-
-- [ ] Connectez-vous à [GitHub](https://github.com/)
-- [ ] [Générez un nouveau token (classic)](https://github.com/settings/tokens/new)
-  - si le lien direct ne fonctionne pas : allez dans *Settings* > *Developer Settings* > *Personal access tokens (classic)*
-  - Note : Datalab
-  - Date d'expiration : 90j (minimum)
-  - Cochez repo
-  - `Generate token`
-- [ ] Copiez le token et collez le dans Notepad
-  - :warning: Celui-ci ne sera visible qu'une seule fois
-  - si vous le perdez, il faut en générer un nouveau
-
-Ensuite, déclarez ce jeton au Datalab :
-
-- [ ] Connectez-vous au [Datalab](https://datalab.sspcloud.fr/)
-- [ ] Allez dans *Mon Compte*, puis *Services externes*
-- [ ] Collez le token dans *Jeton d'accès personnel GitHub*
-
-### Lancer les services
-
-Pour commencer, vous avez besoin d'une base de données PostgreSQL. Sur la Datalab
-
-- [ ] Allez dans *Catalogue de services* > *Database* > `PostgreSQL`
-- [ ] Lancez le service
-- [ ] Une fois le service lancé, copiez les infos suivantes
-  ```
-  Hostname : ?
-  Port : 5432
-  Database : ?
-  Username : ?
-  Password : ?
-  ```
-Nous allons ensuite lancer un service VSCode avec Python :
-
-- [ ] Dans le catalogue des services, allez sur *Vscode-python*
-- [ ] Cliquez sur *Configuration Vscode-python*
-- [ ] Allez dans l'onglet Git
-  - Repository : `https://github.com/ludo2ne/ENSAI-2A-projet-info-template.git`
-- [ ] Lancez le service
-
-Un nouvel onglet s'ouvre avec VSCode et le dépôt qui a été cloné.
-
-Positionnez-vous dans le bon dossier :
-
-- [ ] File > Open Folder > `/home/onyxia/work/ENSAI-2A-projet-info-template/`
-
-
-### Connectez votre application et votre base de données
-
-Vous avez lancé 2 services, maintenant il va falloir les relier.
-
-Vous allez utiliser pour cela un fichier `.env` comme décrit dans la section [Variables d'environnement](##:arrow_forward:-Variables-d'environnement) plus haut. Dans votre VScode :
-
-- [ ] Créez à la racine de `ENSAI-2A-projet-info-template` un fichier `.env`
-- [ ] Collez le modèle (voir section *Variables d'environnement*)
-- [ ] Renseignez les champs `HOSTNAME`, `DATABASE`, `USERNAME` et `PASSWORD` avec ceux de votre service *PostgreSQL*
-- [ ] Enregistrez ce fichier
-
-### Installez les packages
-
-- [ ] Ouvrez un terminal (CTRL + ù)
-- [ ] Positionnez-vous dans le dépôt : `cd $ROOT_PROJECT_DIRECTORY/ENSAI-2A-projet-info-template`
+- [ ] Open a terminal (CTRL + ù)
+- [ ] Navigate to the repository: `cd $ROOT_PROJECT_DIRECTORY/ENSAI-2A-projet-info-template`
 - [ ] `pip install -r requirements.txt`
 
 
-### Lancez l'application
+### Launch the application
 
-Vous pouvez maintenant lancer l'application, le webservice ou les tests unitaires
+You can now launch the application or run the unit tests
 
-- `python src/__main__.py` (puis commencez par ré-initialiser la bdd)
-- `python src/app.py` (à tester)
+- `python src/__main__.py` (if this is the first time you're launching the database, don't forget to start by re-initializing the DB by running `python src/__init__db.py`)
 - `pytest -v`
