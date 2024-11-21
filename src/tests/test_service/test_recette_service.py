@@ -11,8 +11,8 @@
 #         """
 #         self.recette_dao_mock = MagicMock()
 #         self.recette_favorite_dao_mock = MagicMock()
-#         self.service_recette = ServiceRecette(self.recette_dao_mock, self.recette_favorite_dao_mock)
-
+#         self.service_recette = ServiceRecette(self.recette_dao_mock,
+#                                self.recette_favorite_dao_mock)
 #     def test_rechercher_par_nom_recette(self):
 #         """
 #         Test de la méthode rechercher_par_nom_recette.

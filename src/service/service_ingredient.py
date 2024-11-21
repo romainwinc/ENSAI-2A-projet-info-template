@@ -3,6 +3,7 @@ from dao.ingredients_favoris_dao import IngredientsFavorisDAO
 from dao.ingredients_non_desires_dao import IngredientsNonDesiresDAO
 from dao.liste_de_courses_dao import ListeDeCoursesDAO
 from models.ingredient import Ingredient
+import logging
 
 
 class ServiceIngredient:
@@ -17,11 +18,11 @@ class ServiceIngredient:
         """Affiche un ingrédient spécifique par son ID."""
         ingredient = self.ingredient_dao.get_ingredient_by_id(ingredient_id)
         if ingredient:
-            print(f"\nIngrédient ID: {ingredient['id_ingredient']}")
-            print(f"Nom: {ingredient['nom_ingredient']}")
-            print(f"Description: {ingredient['description_ingredient']}\n")
+            logging.info(f"\nIngrédient ID: {ingredient['id_ingredient']}")
+            logging.info(f"Nom: {ingredient['nom_ingredient']}")
+            logging.info(f"Description: {ingredient['description_ingredient']}\n")
         else:
-            print(f"Aucun ingrédient trouvé avec l'ID: {ingredient_id}")
+            logging.warning(f"Aucun ingrédient trouvé avec l'ID: {ingredient_id}")
 
     def ajouter_ingredient(self, nom_ingredient, description_ingredient):
         """Ajoute un nouvel ingrédient."""
@@ -31,9 +32,9 @@ class ServiceIngredient:
             description_ingredient=description_ingredient,
         )
         if self.ingredient_dao.add_ingredient(ingredient):
-            print(f"L'ingrédient '{nom_ingredient}' a été ajouté avec succès.")
+            logging.info(f"L'ingrédient '{nom_ingredient}' a été ajouté avec succès.")
         else:
-            print("Erreur lors de l'ajout de l'ingrédient.")
+            logging.warning("Erreur lors de l'ajout de l'ingrédient.")
 
     def modifier_ingredient(self, ingredient_id, **kwargs):
         """Modifie un ingrédient existant."""
