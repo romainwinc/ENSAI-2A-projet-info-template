@@ -122,7 +122,20 @@ class ServiceRecette:
         recette = self.recette_dao.update_by_recette_id(recette_id, note_moyenne=note)
         recette = self.recette_dao.get_recette_by_id(recette_id)
         if recette:
-            return recette.__repr__()
+            recette = Recette(
+                id_recette=recette["id_recette"],
+                nom_recette=recette["nom_recette"],
+                categorie=recette["categorie"],
+                origine=recette["origine"],
+                instructions=recette["instructions"],
+                liste_ingredients=recette["liste_ingredients"],
+                nombre_avis=recette["nombre_avis"],
+                date_derniere_modif=recette["date_derniere_modif"],
+                mots_cles=recette["mots_cles"],
+                url_image=recette["url_image"],
+                note_moyenne=recette["note_moyenne"],
+            )
+            return recette.__repr__
         return f"Aucune recette trouvée avec l'ID {recette_id}."
 
     # Section recette favorites
@@ -208,7 +221,7 @@ if __name__ == "__main__":
 
     # # Afficher une recette
     # print(service_recette.afficher_recette(1))  # Marche mais est peut être redondant
-
+    # service_recette.afficher_recettes_favorites(1)
     # ServiceRecette(dao).afficher_recette(1)  # Marche mais est peut être redondant
 
     # Nouvelles fonctionnalitées ici qui marchent
