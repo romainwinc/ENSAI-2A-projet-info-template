@@ -48,20 +48,3 @@ class AccueilVue(VueAbstraite):
             case "Quitter":
                 print("Merci d'avoir utilisé Recipe-Makers. À bientôt !")
                 exit()
-
-        # match choix:
-        #     case "Quitter":
-        #         pass
-
-        #     case "Se connecter":
-        #         from view.accueil.connexion_vue import ConnexionVue
-
-        #         return ConnexionVue("Connexion à l'application")
-
-        #     case "Créer un compte":
-        #         from view.accueil.inscription_vue import InscriptionVue
-
-        #         return InscriptionVue("Création de compte joueur")
-
-        #     case "Infos de session":
-        #         return AccueilVue(Session().afficher())

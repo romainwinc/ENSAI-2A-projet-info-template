@@ -1,7 +1,7 @@
 # ENSAI-2A-projet-info
 
-# modifier les .env
-# excécuter le init_dp.py
+# modify .env
+# execute init_dp.py
 2nd year computer science project at ENSAI.
 
 The Recipe Maker application includes :
@@ -30,14 +30,14 @@ The Recipe Maker application includes :
 
 # Project Settings
 
-This repository contains a `.vscode/settings.json` file that defines settings for this project. 
+This repository contains a `.vscode/settings.json` file that defines settings for this project.
 
 For example:
 
 ## Black Formatter
 
 - Automatically formats a Python file
-- **Setting**: `editor.formatOnSave`  
+- **Setting**: `editor.formatOnSave`
   On every file save, the code is automatically formatted
 
 ## Flake
@@ -48,7 +48,7 @@ For example:
 ## Path
 
 - Specifies the folders where the Python modules are located
-- **Setting**: `"PYTHONPATH": "${workspaceFolder}/src"`  
+- **Setting**: `"PYTHONPATH": "${workspaceFolder}/src"`
   `src` is the root folder for imports
 
 
@@ -107,8 +107,8 @@ POSTGRES_SCHEMA=projet_informatique
 
 All services are tested:
 
-- [ ] In Git Bash : 
-`python -m pytest` 
+- [ ] In Git Bash :
+`python -m pytest`
 
 ### Tests coverage
 
