@@ -82,8 +82,8 @@ try:
         titre_avis="Attention à la cuisson",
         nom_auteur="Flo",
         date_publication=datetime.now(),
-        commentaire="Je penses qu'il faudrait diminuer le temps de cuisson,"
-        + "sinon ren à reprocher.",
+        commentaire="Je pense qu'il faudrait diminuer le temps de cuisson,"
+        + "sinon rien à reprocher.",
         note=4,
     )
 
@@ -93,7 +93,7 @@ try:
         titre_avis="Classique",
         nom_auteur="Paul_Bocuse",
         date_publication=datetime.now(),
-        commentaire="Une recommande cette recette Classique" + " de la gastronomie Française",
+        commentaire="Je recommande cette recette Classique" + " de la gastronomie Française",
         note=4,
     )
 
