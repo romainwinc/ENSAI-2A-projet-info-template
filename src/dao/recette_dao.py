@@ -253,10 +253,13 @@ class RecetteDAO(metaclass=Singleton):
         n = len(notes)
         self.update_by_recette_id(recette_id, nombre_avis=n)
         somme = 0
-        for note in notes:
-            somme += note
-        somme = somme / len(notes)
-        return somme
+        if n == 0:
+            return None
+        else:
+            for note in notes:
+                somme += note
+            somme = somme / len(notes)
+            return somme
 
 
 if __name__ == "__main__":

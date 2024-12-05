@@ -18,8 +18,14 @@ class VueDetailRecette(VueAbstraite):
     def afficher(self):
         """Affiche les détails de la recette."""
         recette = Session().recette
+        utilisateur_id = Session().utilisateur.id_utilisateur
+        recette_fav_dao = RecetteFavoriteDAO()
+        recette_dao = RecetteDAO()
+        recette_service = ServiceRecette(recette_dao, recette_fav_dao)
+
         print("\n" + "-" * 50 + "\nDétails de la Recette\n" + "-" * 50 + "\n")
-        print(f"{recette}")
+        # print(f"{recette}")
+        print(recette_service.afficher_recette(recette.id_recette))
 
         # Permet de revenir au menu principal ou à la recherche
         from view.secondaire_connecte.recherche_recette import RechercheRecetteConnecte
@@ -34,11 +40,6 @@ class VueDetailRecette(VueAbstraite):
             ],
             max_height=10,
         ).execute()
-
-        utilisateur_id = Session().utilisateur.id_utilisateur
-        recette_fav_dao = RecetteFavoriteDAO()
-        recette_dao = RecetteDAO()
-        recette_service = ServiceRecette(recette_dao, recette_fav_dao)
 
         match choix:
             case "Ajouter la recette à mes favoris":
