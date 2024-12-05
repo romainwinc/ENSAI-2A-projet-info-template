@@ -29,7 +29,11 @@ class ServiceUtilisateur:
 
     def supprimer_utilisateur(self, id_utilisateur):
         """Supprime un compte utilisateur"""
-        self.utilisateur_dao.delete_user(id_utilisateur)
+        utilisateurs = UtilisateurDao().lister_tous()
+        if id_utilisateur in [u.id_utilisateur for u in utilisateurs]:
+            self.utilisateur_dao.delete_user(id_utilisateur)
+        else:
+            print("L'utilisateur que vous voulez supprimer n'existe pas")
 
     def se_connecter(self, pseudo, mdp) -> Utilisateur:
         """Se connecter à partir de pseudo et mdp"""

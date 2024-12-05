@@ -24,7 +24,7 @@ class DetailRecetteFav(VueAbstraite):
         recette = recette_service.rechercher_par_nom_recette(nom_recette)[0]
 
         print("\n" + "-" * 50 + "\nDétails de la Recette\n" + "-" * 50 + "\n")
-        print(f"{recette}")
+        print(recette_service.afficher_recette(recette.id_recette))
 
         from view.menus_principaux.menu_connecte import MenuUtilisateurConnecte
 

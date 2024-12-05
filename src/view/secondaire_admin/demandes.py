@@ -29,6 +29,7 @@ class Demandes(VueAbstraite):
             choices=[
                 "Demandes de changement de rôle",
                 "Demandes de suppression de recette",
+                "Suppression de comptes",
                 "Retour au menu principal",
             ],
             max_height=10,
@@ -37,6 +38,10 @@ class Demandes(VueAbstraite):
         match choix:
             case "Demandes de changement de rôle":
                 self.traiter_demande_role()
+                return self
+
+            case "Suppression de comptes":
+                self.supprimer_compte()
                 return self
 
             case "Demandes de suppression de recette":
@@ -154,3 +159,14 @@ class Demandes(VueAbstraite):
                 message="",
                 choices=["Retour au menu principal"],
             ).execute()
+
+    def supprimer_compte(self):
+        id_selectionne = inquirer.text(
+            message="Sélectionnez l'id de l'utilisateur que vous souhaitez supprimer :"
+        ).execute()
+        id = int(id_selectionne)
+
+        dao_utilisateur = UtilisateurDao()
+        utilisateur_service = ServiceUtilisateur(dao_utilisateur)
+
+        utilisateur_service.supprimer_utilisateur(id)

@@ -24,7 +24,6 @@ class VueDetailRecette(VueAbstraite):
         recette_service = ServiceRecette(recette_dao, recette_fav_dao)
 
         print("\n" + "-" * 50 + "\nDétails de la Recette\n" + "-" * 50 + "\n")
-        # print(f"{recette}")
         print(recette_service.afficher_recette(recette.id_recette))
 
         # Permet de revenir au menu principal ou à la recherche
